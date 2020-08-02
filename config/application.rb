@@ -25,13 +25,13 @@ module RepAni
     config.load_defaults 6.0
 
     config.generators do |g|
-      g.helper     false
+      g.helper false
       g.skip_routes false
       g.test_framework :rspec,
-        controller_specs: false,
-        view_specs: false,
-        helper_specs: false,
-        routing_specs: false
+                       controller_specs: false,
+                       view_specs: false,
+                       helper_specs: false,
+                       routing_specs: false
     end
   end
 end
