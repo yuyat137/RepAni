@@ -40,8 +40,8 @@ jobs:
       - run: bundle exec rails db:create
       - run: bundle exec rails db:schema:load
       - run:
- +      name: yarn Install
- +      command: yarn install
+ +        name: yarn Install
+ +        command: yarn install
       - run: bundle exec bin/webpack
       # run tests!
       - run:
