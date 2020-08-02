@@ -81,6 +81,11 @@ GEM
     diff-lcs (1.4.4)
     erubi (1.9.0)
     erubis (2.7.0)
+    factory_bot (6.1.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.1.0)
+      factory_bot (~> 6.1.0)
+      railties (>= 5.0.0)
     ffi (1.13.1)
     foreman (0.87.1)
     globalid (0.4.2)
@@ -189,6 +194,8 @@ GEM
       rspec-mocks (~> 3.9)
       rspec-support (~> 3.9)
     rspec-support (3.9.3)
+    rspec_junit_formatter (0.4.1)
+      rspec-core (>= 2, < 4, != 2.12.0)
     rubocop (0.88.0)
       parallel (~> 1.10)
       parser (>= 2.7.1.1)
@@ -271,6 +278,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   capybara (>= 2.15)
+  factory_bot_rails
   foreman
   html2slim
   jbuilder (~> 2.7)
@@ -281,6 +289,7 @@ DEPENDENCIES
   rails (~> 6.0.3)
   rails_best_practices
   rspec-rails
+  rspec_junit_formatter
   rubocop
   sass-rails (>= 6)
   selenium-webdriver

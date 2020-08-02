@@ -1,0 +1,69 @@
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/ruby:2.7.1-node-browsers
+        environment:
+          TZ: /usr/share/zoneinfo/Asia/Tokyo
+          DB_HOST: 127.0.0.1
+          RAILS_ENV: test
+      - image: circleci/mysql:5.7
+        environment:
+          TZ: /usr/share/zoneinfo/Asia/Tokyo
+          MYSQL_USER: root
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    working_directory: ~/circleci_setting
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run:
+          name: install bundler
+          command: |
+            sudo gem install bundler
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      # Database setup
+      - run: rm config/database.yml
+      - run: cp -v config/database.ci.yml config/database.yml
+      - run: bundle exec rails db:create
+      - run: bundle exec rails db:schema:load
+      # run tests!
+      - run:
+          name: run tests
+          command: |
+            mkdir /tmp/test-results
+            cd ~/circleci_setting
+            bundle exec rspec \
+              --format progress \
+              --format RspecJunitFormatter \
+              --out /tmp/test-results/rspec.xml \
+              --format html \
+              --out /tmp/test-results/rspec.html \
+              --format progress \
+              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      # run rubocop!
+      - run:
+          name: run rubocop
+          command: bundle exec rubocop
+      # run rails_best_practice!
+      - run:
+          name: run rails_best_practices
+          command: bundle exec rails_best_practices
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
