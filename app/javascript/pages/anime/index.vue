@@ -1,7 +1,9 @@
 <template>
   <div>
     <p>Anime</p>
-    <router-link :to="{ name: 'TopIndex' }" >Topへ</router-link>
+    <router-link :to="{ name: 'TopIndex' }">
+      Topへ
+    </router-link>
   </div>
 </template>
 
