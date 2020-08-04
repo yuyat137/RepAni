@@ -55,6 +55,10 @@ jobs:
               --out /tmp/test-results/rspec.html \
               --format progress \
               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      # run lint!
+      - run:
+          name: run lint
+          command: yarn run lint
       # run rubocop!
       - run:
           name: run rubocop
