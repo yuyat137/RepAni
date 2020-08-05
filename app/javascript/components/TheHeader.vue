@@ -1,6 +1,9 @@
 <template>
   <div>
-    <v-app-bar color="primary" dark app>
+    <v-app-bar
+      color="primary"
+      dark
+    >
       <v-toolbar-title>リプアニ</v-toolbar-title>
     </v-app-bar>
   </div>
