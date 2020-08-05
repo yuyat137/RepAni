@@ -4,6 +4,7 @@
     <router-link :to="{ name: 'TopIndex' }">
       Topへ
     </router-link>
+    <v-btn color="success">ボタンのラベル</v-btn>
   </div>
 </template>
 
