@@ -9,7 +9,7 @@ class Anime < ApplicationRecord
     return if response.code != "200"
 
     results = JSON.parse(response.body, symbolize_names: :true)
-    results.map!{ |anime| anime.slice(:title, :public_url, :twitter_account, :twitter_hash_tag, :sex, :sequel)}
+    results.map!{ |anime| anime.slice(:title, :public_url, :twitter_account, :twitter_hash_tag)}
     return if results.blank?
 
     Anime.import results, validate: true
