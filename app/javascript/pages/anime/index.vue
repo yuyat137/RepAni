@@ -4,7 +4,10 @@
     <router-link :to="{ name: 'TopIndex' }">
       Topへ
     </router-link>
-    <div v-for="anime in animes">
+    <div
+      v-for="anime in animes"
+      :key="anime.id"
+    >
       <span>{{ anime.title }}</span>
     </div>
   </div>
