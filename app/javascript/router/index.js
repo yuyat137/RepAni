@@ -14,6 +14,8 @@ const router = new Router({
       name: 'TopIndex'
     },
     {
+      // NOTE: Animeに関しては、ここだけ複数形でない
+      //      (「animes」が不自然なため、ユーザーに見える箇所は「anime」に統一)
       path: '/anime',
       component: AnimeIndex,
       name: 'AnimeIndex'
