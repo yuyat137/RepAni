@@ -4,12 +4,35 @@
     <router-link :to="{ name: 'TopIndex' }">
       Topへ
     </router-link>
-    <div
-      v-for="anime in animes"
-      :key="anime.id"
+    <v-container
+      v-for="align in alignments"
+      :key="align"
+      class="grey lighten-5"
     >
-      <span>{{ anime.title }}</span>
-    </div>
+      <v-row :align="align">
+        <v-col
+          v-for="anime in animes"
+          :key="anime.id"
+          cols="sm"
+        >
+          <v-card
+            class=""
+            outlined
+          >
+            <v-list-item three-line>
+              <v-list-item-content>
+                <div class="overline mb-4">OVERLINE</div>
+                <v-list-item-title class="headline mb-1">
+                  {{ anime.title }}
+                </v-list-item-title>
+              </v-list-item-content>
+              <v-card-actions>
+              </v-card-actions>
+            </v-list-item>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -18,7 +41,12 @@ export default {
   name: "AnimeIndex",
   data() {
     return {
-      animes: []
+      animes: [],
+      alignments: [
+        'start',
+        'center',
+        'end',
+      ],
     }
   },
   created() {
