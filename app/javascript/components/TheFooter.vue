@@ -3,6 +3,7 @@
     color="primary lighten-1"
     padless
     absolute
+    height=$footer-height
   >
     <v-row
       justify="center"
@@ -27,3 +28,7 @@ export default({
   },
 })
 </script>
+
+<style>
+@import "./../css/_dimensions.scss";
+</style>
