@@ -1,5 +1,5 @@
 require 'rails_helper'
-RSpec.describe 'アニメ', type: :system do
+RSpec.describe 'Anime', type: :system do
   let!(:anime) { create(:anime) }
   it 'アニメ情報が画面に表示されている' do
     visit '/anime'
