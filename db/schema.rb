@@ -14,8 +14,8 @@ ActiveRecord::Schema.define(version: 2020_08_05_131730) do
 
   create_table "animes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "title", null: false
-    t.integer "broadcast_day　"
-    t.datetime "air_time"
+    t.datetime "broadcast_datetime"
+    t.integer "air_time"
     t.string "public_url"
     t.string "twitter_account"
     t.string "twitter_hash_tag"

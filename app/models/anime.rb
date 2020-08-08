@@ -1,4 +1,5 @@
 class Anime < ApplicationRecord
+  validates :title, presence: true
 
   def self.import_by_api(year=nil, season=nil)
     year =  Date.today.year unless year
