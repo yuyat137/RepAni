@@ -3,7 +3,7 @@
     color="primary lighten-1"
     padless
     absolute
-    height=$footer-height
+    height="$footer-height"
   >
     <v-row
       justify="center"
