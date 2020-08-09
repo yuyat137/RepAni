@@ -10,12 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_05_131730) do
+ActiveRecord::Schema.define(version: 2020_08_09_042912) do
+
+  create_table "anime_terms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "anime_id"
+    t.bigint "term_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["anime_id"], name: "index_anime_terms_on_anime_id"
+    t.index ["term_id"], name: "index_anime_terms_on_term_id"
+  end
 
   create_table "animes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "title", null: false
-    t.integer "year"
-    t.integer "season"
     t.datetime "broadcast_datetime"
     t.integer "air_time"
     t.string "public_url"
@@ -23,6 +30,15 @@ ActiveRecord::Schema.define(version: 2020_08_05_131730) do
     t.string "twitter_hash_tag"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "terms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "anime_id"
+    t.integer "year", null: false
+    t.integer "season", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["anime_id"], name: "index_terms_on_anime_id"
   end
 
 end
