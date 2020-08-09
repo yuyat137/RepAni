@@ -41,9 +41,6 @@ export default {
       animes: [],
     }
   },
-  created() {
-    this.fetchAnimes();
-  },
   computed: {
     nowYearSeason() {
       const date = new Date();
@@ -56,11 +53,14 @@ export default {
       return nowYearSeason
     }
   },
+  created() {
+    this.fetchAnimes();
+  },
   methods: {
     fetchAnimes() {
       //TODO: yearを数値として送っても、受け取る側で文字列になってしまう
       const nowYearSeason = this.nowYearSeason
-      this.$axios.get("animes", {params: nowYearSeason})
+      this.$axios.get("animes", { params: nowYearSeason })
         .then(res => this.animes = res.data)
         .catch(err => console.log(err.status));
     }
