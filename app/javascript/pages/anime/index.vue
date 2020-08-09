@@ -1,9 +1,9 @@
 <template>
   <div>
-    <p>Anime</p>
     <router-link :to="{ name: 'TopIndex' }">
       Topへ
     </router-link>
+    <h2>今期アニメ</h2>
     <v-container class="grey lighten-5">
       <v-row>
         <v-col
@@ -30,6 +30,30 @@
         </v-col>
       </v-row>
     </v-container>
+    <h2>シーズン一覧</h2>
+    <v-container class="grey lighten-5">
+      <v-row>
+        <v-col
+          v-for="term in terms"
+          :key="term.id"
+          cols="sm"
+        >
+          <v-card
+            class=""
+            outlined
+          >
+            <v-list-item three-line>
+              <v-list-item-content>
+                <v-list-item-title class="headline mb-1">
+                  {{ term.year }}年{{ term.season }}
+                </v-list-item-title>
+              </v-list-item-content>
+              <v-card-actions />
+            </v-list-item>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -39,6 +63,7 @@ export default {
   data() {
     return {
       animes: [],
+      terms: [],
     }
   },
   computed: {
@@ -55,6 +80,7 @@ export default {
   },
   created() {
     this.fetchAnimes();
+    this.fetchTerms();
   },
   methods: {
     fetchAnimes() {
@@ -62,6 +88,11 @@ export default {
       const nowYearSeason = this.nowYearSeason
       this.$axios.get("animes", { params: nowYearSeason })
         .then(res => this.animes = res.data)
+        .catch(err => console.log(err.status));
+    },
+    fetchTerms() {
+      this.$axios.get("terms")
+        .then(res => this.terms = res.data)
         .catch(err => console.log(err.status));
     }
   }
