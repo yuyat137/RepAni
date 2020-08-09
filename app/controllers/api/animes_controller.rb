@@ -8,8 +8,9 @@ class Api::AnimesController < ApplicationController
   private
 
   def set_term
-    year = params['year'].to_i if params['year']
-    season = params['season'].to_i if params['season']
+    # TODO: pages/anime/index.vueにも書いたが、ここに渡ってくるパラメーターがenumの数字なのか文字列なのか統一していない
+    year = params[:year].to_i if params[:year]
+    season = params[:season] if params[:season]
     @term = Term.get(year, season)
   end
 end
