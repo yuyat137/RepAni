@@ -3,7 +3,7 @@ class Anime < ApplicationRecord
   has_many :terms, through: :anime_terms
   validates :title, presence: true
 
-  def self.import_by_api(year = nil, season = nil)
+  def self.import_by_api
     term = Term.now
     url = 'http://api.moemoe.tokyo/anime/v1/master/' + term.year.to_s + '/' + term.season_before_type_cast.to_s
     response = Net::HTTP.get_response URI.parse(url)

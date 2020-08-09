@@ -9,9 +9,7 @@ class Term < ApplicationRecord
     year ||= Date.today.year
     season ||= (Date.today.month - 1) / 3 + 1
     now_term = Term.find_by(year: year, season: season)
-    unless now_term
-      now_term = Term.create(year: year, season: season)
-    end
+    now_term ||= Term.create(year: year, season: season)
     now_term
   end
 end
