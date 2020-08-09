@@ -10,6 +10,7 @@ class Anime < ApplicationRecord
     return if response.code != '200'
 
     json = JSON.parse(response.body, symbolize_names: true)
+    #TODO: 以下の箇所、リファクタリングする余地あり。サービスオブジェクト？
     json.each do |anime|
       anime.slice!(:title, :public_url, :twitter_account, :twitter_hash_tag)
       created_anime = Anime.create(anime)
