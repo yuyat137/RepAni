@@ -1,6 +1,6 @@
 class Anime < ApplicationRecord
   validates :title, presence: true
-  enum season: {winter: 1, spring: 2, summer: 3, autumn: 4}
+  enum season: { winter: 1, spring: 2, summer: 3, autumn: 4 }
 
   def self.import_by_api(year = nil, season = nil)
     year ||= Date.today.year
