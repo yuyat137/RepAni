@@ -9,11 +9,12 @@
         <v-col
           v-for="anime in animes"
           :key="anime.id"
-          cols="sm"
+          cols="4"
         >
           <v-card
             class=""
             outlined
+            @click="handleStartTweetReplay(anime)"
           >
             <v-list-item three-line>
               <v-list-item-content>
@@ -94,6 +95,9 @@ export default {
       this.$axios.get("terms")
         .then(res => this.terms = res.data)
         .catch(err => console.log(err.status));
+    },
+    handleStartTweetReplay(anime) {
+      this.$router.push({name: 'ReplayIndex'})
     }
   }
 }
