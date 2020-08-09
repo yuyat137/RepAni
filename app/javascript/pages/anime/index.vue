@@ -44,18 +44,32 @@ export default {
     return {
       animes: [],
       alignments: [
-        'start',
-        'center',
-        'end',
+        "start",
+        "center",
+        "end",
       ],
     }
   },
   created() {
     this.fetchAnimes();
   },
+  computed: {
+    nowYearSeason() {
+      const date = new Date();
+      const now_year = date.getFullYear()
+      const now_season = (date.getMonth - 1) / 3 + 1
+      const nowYearSeason = {
+        year: now_year,
+        season: now_season
+      }
+      return nowYearSeason
+    }
+  },
   methods: {
     fetchAnimes() {
-      this.$axios.get("animes")
+      //TODO: yearを数値として送っても、受け取る側で文字列になってしまう
+      const nowYearSeason = this.nowYearSeason
+      this.$axios.get("animes", {params: nowYearSeason})
         .then(res => this.animes = res.data)
         .catch(err => console.log(err.status));
     }
