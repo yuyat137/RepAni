@@ -13,10 +13,11 @@
 ActiveRecord::Schema.define(version: 2020_08_09_042912) do
 
   create_table "anime_terms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.bigint "anime_id"
-    t.bigint "term_id"
+    t.bigint "anime_id", null: false
+    t.bigint "term_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["anime_id", "term_id"], name: "index_anime_terms_on_anime_id_and_term_id", unique: true
     t.index ["anime_id"], name: "index_anime_terms_on_anime_id"
     t.index ["term_id"], name: "index_anime_terms_on_term_id"
   end
@@ -30,6 +31,7 @@ ActiveRecord::Schema.define(version: 2020_08_09_042912) do
     t.string "twitter_hash_tag"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["title"], name: "index_animes_on_title", unique: true
   end
 
   create_table "terms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -40,6 +42,7 @@ ActiveRecord::Schema.define(version: 2020_08_09_042912) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["anime_id"], name: "index_terms_on_anime_id"
+    t.index ["year", "season"], name: "index_terms_on_year_and_season", unique: true
   end
 
 end

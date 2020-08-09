@@ -7,5 +7,7 @@ class CreateTerms < ActiveRecord::Migration[6.0]
       t.string :season_ja, null: false
       t.timestamps
     end
+
+    add_index :terms, [:year, :season], unique: true
   end
 end

@@ -9,5 +9,7 @@ class CreateAnimes < ActiveRecord::Migration[6.0]
       t.string :twitter_hash_tag
       t.timestamps
     end
+
+    add_index :animes, :title, unique: true
   end
 end

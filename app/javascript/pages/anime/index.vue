@@ -42,6 +42,7 @@
           <v-card
             class="rounded-xl"
             outlined
+            @click="handleShowSelectTerm(term)"
           >
             <v-list-item three-line>
               <v-list-item-content>
@@ -71,7 +72,7 @@ export default {
     nowYearSeason() {
       const date = new Date();
       const now_year = date.getFullYear()
-      const now_season = (date.getMonth - 1) / 3 + 1
+      const now_season = (date.getMonth() - 1) / 3 + 1
       const nowYearSeason = {
         year: now_year,
         season: now_season
@@ -87,9 +88,7 @@ export default {
     fetchAnimes() {
       //TODO: yearを数値として送っても、受け取る側で文字列になってしまう
       const nowYearSeason = this.nowYearSeason
-      this.$axios.get("animes", { params: nowYearSeason })
-        .then(res => this.animes = res.data)
-        .catch(err => console.log(err.status));
+      this.handleShowSelectTerm(nowYearSeason)
     },
     fetchTerms() {
       this.$axios.get("terms")
@@ -98,6 +97,11 @@ export default {
     },
     handleStartTweetReplay(anime) {
       this.$router.push({name: 'ReplayIndex'})
+    },
+    handleShowSelectTerm(term) {
+      this.$axios.get("animes", { params: term })
+        .then(res => this.animes = res.data)
+        .catch(err => console.log(err.status));
     }
   }
 }

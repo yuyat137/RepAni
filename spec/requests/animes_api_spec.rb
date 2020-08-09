@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Api::Animes", type: :request do
-  let!(:anime) { create(:anime) }
+  let!(:anime) { create(:anime, :associate_term) }
   it 'index' do
     get api_animes_path
     json = JSON.parse(response.body)
