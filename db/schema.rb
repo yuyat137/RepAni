@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2020_08_09_042912) do
     t.bigint "anime_id"
     t.integer "year", null: false
     t.integer "season", null: false
+    t.string "season_ja", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["anime_id"], name: "index_terms_on_anime_id"

@@ -36,16 +36,16 @@
         <v-col
           v-for="term in terms"
           :key="term.id"
-          cols="sm"
+          cols="3"
         >
           <v-card
-            class=""
+            class="rounded-xl"
             outlined
           >
             <v-list-item three-line>
               <v-list-item-content>
                 <v-list-item-title class="headline mb-1">
-                  {{ term.year }}年{{ term.season }}
+                  {{ term.year }}年{{ term.season_ja }}アニメ
                 </v-list-item-title>
               </v-list-item-content>
               <v-card-actions />
@@ -76,7 +76,7 @@ export default {
         season: now_season
       }
       return nowYearSeason
-    }
+    },
   },
   created() {
     this.fetchAnimes();
