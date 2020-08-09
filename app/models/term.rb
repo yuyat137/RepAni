@@ -18,13 +18,13 @@ class Term < ApplicationRecord
 
   def set_season_ja
     case season
-    when "winter" then
+    when 'winter'
       season_ja = '冬'
-    when "spring" then
+    when 'spring'
       season_ja = '春'
-    when 'summer' then
+    when 'summer'
       season_ja = '夏'
-    when 'autumn' then
+    when 'autumn'
       season_ja = '秋'
     end
     self.season_ja = season_ja
