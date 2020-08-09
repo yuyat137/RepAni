@@ -4,12 +4,8 @@
     <router-link :to="{ name: 'TopIndex' }">
       Topへ
     </router-link>
-    <v-container
-      v-for="align in alignments"
-      :key="align"
-      class="grey lighten-5"
-    >
-      <v-row :align="align">
+    <v-container class="grey lighten-5">
+      <v-row>
         <v-col
           v-for="anime in animes"
           :key="anime.id"
@@ -43,11 +39,6 @@ export default {
   data() {
     return {
       animes: [],
-      alignments: [
-        "start",
-        "center",
-        "end",
-      ],
     }
   },
   created() {
