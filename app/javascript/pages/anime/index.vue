@@ -28,15 +28,10 @@ export default {
     AnimeList,
     TermList,
   },
-  data() {
-    return {
-      selectTerm: "",
-    }
-  },
   /* mixins: [Mixin], */
   computed: {
     ...mapGetters("animes", ["animes"]),
-    ...mapGetters("terms", ["terms"])
+    ...mapGetters("terms", ["terms", "selectTerm"])
   },
   async created() {
     await this.fetchTerms()
@@ -45,20 +40,20 @@ export default {
   },
   methods: {
     ...mapActions("animes", ["fetchAnimes"]),
-    ...mapActions("terms", ["fetchTerms"]),
+    ...mapActions("terms", ["fetchTerms", "setSelectTerm"]),
     handleStartTweetReplay(anime) {
       this.$router.push({name: 'ReplayIndex'})
     },
     handleSetSelectTerm() {
       for(let i=0; i<this.terms.length; i++) {
         if(this.terms[i].now == true) {
-          this.selectTerm = this.terms[i]
+          this.setSelectTerm(this.terms[i]);
           break;
         }
       }
     },
     handleShowSelectTerm(term) {
-      this.selectTerm = term;
+      this.setSelectTerm(term);
       this.fetchAnimes(term);
       window.scrollTo({
         top: 0,
