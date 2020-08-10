@@ -8,9 +8,9 @@
           cols="3"
         >
           <v-card
+            :id="'term_' + term.id"
             class="rounded-xl"
             outlined
-            :id="'term_' + term.id"
             @click="handleSelectTerm(term)"
           >
             <v-list-item three-line>

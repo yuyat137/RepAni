@@ -8,9 +8,9 @@
           cols="4"
         >
           <v-card
+            :id="'anime_' + anime.id"
             class=""
             outlined
-            :id="'anime_' + anime.id"
             @click="handleSelectAnime(anime)"
           >
             <v-list-item three-line>
