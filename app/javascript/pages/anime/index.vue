@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import Mixin from '../../packs/mixins/mixin'
+
 export default {
   name: "AnimeIndex",
   data() {
@@ -68,12 +70,12 @@ export default {
       terms: [],
     }
   },
+  mixins: [Mixin],
   computed: {
     nowYearSeason() {
       const date = new Date();
       const now_year = date.getFullYear()
-      //TODO: anime_cnotrollerにリクエスト送る際、enumの数字なのか文字列なのか統一していない
-      const now_season = ((date.getMonth() - 1) / 3 + 1)
+      const now_season = this.ConvertSeasonNumberToEnglish(date.getMonth())
       const nowYearSeason = {
         year: now_year,
         season: now_season

@@ -5,6 +5,7 @@ class Term < ApplicationRecord
   validates :year, presence: true
   validates :season, presence: true, uniqueness: { scope: :year, case_sensitive: false }
   validates :season_ja, presence: true
+  # NOTE: vue.js側に値を送る際、"winter"など文字列になるので、vue.js側では統一して文字列を使用する
   enum season: { winter: 1, spring: 2, summer: 3, autumn: 4 }
 
   def self.get(year = nil, season = nil)
