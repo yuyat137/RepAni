@@ -10,6 +10,7 @@
           <v-card
             class="rounded-xl"
             outlined
+            :id="'term_' + term.id"
             @click="handleSelectTerm(term)"
           >
             <v-list-item three-line>
