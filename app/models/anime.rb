@@ -15,6 +15,7 @@ class Anime < ApplicationRecord
       anime.slice!(:title, :public_url, :twitter_account, :twitter_hash_tag)
       created_anime = Anime.new(anime)
       next unless created_anime.valid?
+
       created_anime.save
       created_anime.anime_terms.create(term: term)
     end
