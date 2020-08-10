@@ -30,32 +30,26 @@ export default {
   },
   data() {
     return {
-      terms: [],
       selectTerm: null,
     }
   },
   /* mixins: [Mixin], */
   computed: {
-    ...mapGetters("animes", ["animes"])
+    ...mapGetters("animes", ["animes"]),
+    ...mapGetters("terms", ["terms"])
   },
   async created() {
-    await this.fetchTerms();
+    await this.fetchTerms()
     await this.handleSetSelectTerm()
     this.handleShowSelectTerm(this.selectTerm) 
   },
   methods: {
-    ...mapActions("animes", [
-      "fetchAnimes",
-    ]),
-    async fetchTerms() {
-      await this.$axios.get("terms")
-        .then(res => this.terms = res.data)
-        .catch(err => console.log(err.status));
-    },
+    ...mapActions("animes", ["fetchAnimes"]),
+    ...mapActions("terms", ["fetchTerms"]),
     handleStartTweetReplay(anime) {
       this.$router.push({name: 'ReplayIndex'})
     },
-    handleSetSelectTerm(term) {
+    handleSetSelectTerm() {
       for(let i=0; i<this.terms.length; i++) {
         if(this.terms[i].now == true) {
           this.selectTerm = this.terms[i]

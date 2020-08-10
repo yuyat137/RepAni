@@ -1,24 +1,24 @@
 import axios from '../../plugins/axios'
 
 const state = {
-  animes: []
+  terms: []
 }
 
 const getters = {
-  animes: state => state.animes
+  terms: state => state.terms
 }
 
 const mutations = {
-  setAnimes: (state, animes) => {
-    state.animes = animes
+  setTerms: (state, terms) => {
+    state.terms = terms
   },
 }
 
 const actions = {
-  fetchAnimes({ commit }, term) {
-    axios.get("animes", { params: term })
+  async fetchTerms({ commit }) {
+    await axios.get("terms")
       .then(res => {
-        commit("setAnimes", res.data)
+        commit("setTerms", res.data)
       })
       .catch(err => console.log(err.response));
   },
