@@ -5,15 +5,22 @@ class Term < ApplicationRecord
   validates :year, presence: true
   validates :season, presence: true, uniqueness: { scope: :year, case_sensitive: false }
   validates :season_ja, presence: true
+  validates :now, inclusion: [true, false]
   # NOTE: vue.js側に値を送る際、"winter"など文字列になるので、vue.js側では統一して文字列を使用する
   enum season: { winter: 1, spring: 2, summer: 3, autumn: 4 }
 
   def self.get(year = nil, season = nil)
     year ||= Date.today.year
     season ||= (Date.today.month - 1) / 3 + 1
-    now_term = Term.find_by(year: year, season: season)
-    now_term ||= Term.create(year: year, season: season)
-    now_term
+    term = Term.find_by(year: year, season: season)
+    term ||= Term.create(year: year, season: season, now: false)
+    term
+  end
+
+  def self.set_now
+    Term.update_all(now: false)
+    now_term = Term.get
+    now_term.update(now: true)
   end
 
   private

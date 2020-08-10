@@ -18,5 +18,6 @@ class Anime < ApplicationRecord
       created_anime.save
       created_anime.anime_terms.create(term: term)
     end
+    Term.set_now
   end
 end

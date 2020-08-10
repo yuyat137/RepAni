@@ -3,7 +3,7 @@
     <router-link :to="{ name: 'TopIndex' }">
       Topへ
     </router-link>
-    <h2>今期アニメ</h2>
+    <h2>{{ selectTerm.year }}年{{ selectTerm.season_ja }}</h2>
     <v-container class="grey lighten-5">
       <v-row>
         <v-col
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import Mixin from '../../packs/mixins/mixin'
+/* import Mixin from '../../packs/mixins/mixin' */
 
 export default {
   name: "AnimeIndex",
@@ -68,44 +68,43 @@ export default {
     return {
       animes: [],
       terms: [],
+      selectTerm: null,
     }
   },
-  mixins: [Mixin],
+  /* mixins: [Mixin], */
   computed: {
-    nowYearSeason() {
-      const date = new Date();
-      const now_year = date.getFullYear()
-      const now_season = this.ConvertSeasonNumberToEnglish(date.getMonth())
-      const nowYearSeason = {
-        year: now_year,
-        season: now_season
-      }
-
-      return nowYearSeason
-    },
   },
-  created() {
-    this.fetchAnimes();
-    this.fetchTerms();
+  async created() {
+    await this.fetchTerms();
+    await this.handleSetSelectTerm()
+    this.handleShowSelectTerm(this.selectTerm) 
   },
   methods: {
-    fetchAnimes() {
-      //TODO: yearを数値として送っても、受け取る側で文字列になってしまう
-      const nowYearSeason = this.nowYearSeason
-      this.handleShowSelectTerm(nowYearSeason)
-    },
-    fetchTerms() {
-      this.$axios.get("terms")
+    async fetchTerms() {
+      await this.$axios.get("terms")
         .then(res => this.terms = res.data)
         .catch(err => console.log(err.status));
     },
     handleStartTweetReplay(anime) {
       this.$router.push({name: 'ReplayIndex'})
     },
+    handleSetSelectTerm(term) {
+      for(let i=0; i<this.terms.length; i++) {
+        if(this.terms[i].now == true) {
+          this.selectTerm = this.terms[i]
+          break;
+        }
+      }
+    },
     handleShowSelectTerm(term) {
+      this.selectTerm = term;
       this.$axios.get("animes", { params: term })
         .then(res => this.animes = res.data)
         .catch(err => console.log(err.status));
+      window.scrollTo({
+        top: 0,
+        behavior: "instant"
+      });
     }
   }
 }
