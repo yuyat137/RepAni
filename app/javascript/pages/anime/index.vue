@@ -60,8 +60,6 @@ export default {
       }
     },
     handleShowSelectTerm(term) {
-      console.log("term")
-      console.log(term)
       this.selectTerm = term;
       this.$axios.get("animes", { params: term })
         .then(res => this.animes = res.data)
