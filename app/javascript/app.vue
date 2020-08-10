@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <div style="position: relative; min-height: 100%;">
+    <div id="app">
       <TheHeader />
-      <router-view id="main" />
+      <router-view id="router_view" />
       <TheFooter />
     </div>
   </v-app>
@@ -21,7 +21,12 @@ export default {
 </script>
 <style lang="scss">
 @import "./css/_dimensions.scss";
-#main {
+#router_view {
   padding-bottom: $footer-height;
+}
+
+#app {
+  position: relative;
+  min-height: 100%;
 }
 </style>
