@@ -7,4 +7,10 @@ FactoryBot.define do
     sequence(:twitter_account) { |n| "test_screen_name_#{n}" }
     sequence(:twitter_hash_tag) { |n| "test_hash_tag_#{n}" }
   end
+  trait :associate_term do
+    after(:create) do |anime|
+      term = create(:term)
+      create(:anime_term, anime_id: anime.id, term_id: term.id)
+    end
+  end
 end

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import TopIndex from '../pages/top/index'
 import AnimeIndex from '../pages/anime/index'
+import ReplayIndex from '../pages/replay/index'
 
 Vue.use(Router)
 
@@ -19,7 +20,12 @@ const router = new Router({
       path: '/anime',
       component: AnimeIndex,
       name: 'AnimeIndex'
-    }
+    },
+    {
+      path: '/replay',
+      component: ReplayIndex,
+      name: 'ReplayIndex'
+    },
   ],
 })
 

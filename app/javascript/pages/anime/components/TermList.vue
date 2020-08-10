@@ -1,0 +1,46 @@
+<template>
+  <div>
+    <v-container class="grey lighten-5">
+      <v-row>
+        <v-col
+          v-for="term in terms"
+          :key="term.id"
+          cols="3"
+        >
+          <v-card
+            :id="'term_' + term.id"
+            class="rounded-xl"
+            outlined
+            @click="handleSelectTerm(term)"
+          >
+            <v-list-item three-line>
+              <v-list-item-content>
+                <v-list-item-title class="headline mb-1">
+                  {{ term.year }}年{{ term.season_ja }}アニメ
+                </v-list-item-title>
+              </v-list-item-content>
+              <v-card-actions />
+            </v-list-item>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "TermList",
+  props: {
+    terms: {
+      type: Array,
+      required: true
+    },
+  },
+  methods: {
+    handleSelectTerm(term) {
+      this.$emit('select-term', term)
+    }
+  },
+}
+</script>
