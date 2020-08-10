@@ -9,6 +9,7 @@ import Vue from 'vue'
 import App from '../app.vue'
 import router from '../router/index.js'
 import axios from '../plugins/axios'
+import store from '../store'
 import vuetify from '../plugins/vuetify'
 
 Vue.prototype.$axios = axios
@@ -16,6 +17,7 @@ Vue.prototype.$axios = axios
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
     router,
+    store,
     vuetify,
     render: h => h(App)
   }).$mount()

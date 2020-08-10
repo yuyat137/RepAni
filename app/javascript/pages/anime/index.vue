@@ -17,9 +17,10 @@
 </template>
 
 <script>
-/* import Mixin from '../../packs/mixins/mixin' */
+import { mapGetters, mapActions } from "vuex"
 import AnimeList from './components/AnimeList'
 import TermList from './components/TermList'
+/* import Mixin from '../../packs/mixins/mixin' */
 
 export default {
   name: "AnimeIndex",
@@ -29,13 +30,13 @@ export default {
   },
   data() {
     return {
-      animes: [],
       terms: [],
       selectTerm: null,
     }
   },
   /* mixins: [Mixin], */
   computed: {
+    ...mapGetters("animes", ["animes"])
   },
   async created() {
     await this.fetchTerms();
@@ -43,6 +44,9 @@ export default {
     this.handleShowSelectTerm(this.selectTerm) 
   },
   methods: {
+    ...mapActions("animes", [
+      "fetchAnimes",
+    ]),
     async fetchTerms() {
       await this.$axios.get("terms")
         .then(res => this.terms = res.data)
@@ -61,9 +65,7 @@ export default {
     },
     handleShowSelectTerm(term) {
       this.selectTerm = term;
-      this.$axios.get("animes", { params: term })
-        .then(res => this.animes = res.data)
-        .catch(err => console.log(err.status));
+      this.fetchAnimes(term);
       window.scrollTo({
         top: 0,
         behavior: "instant"
