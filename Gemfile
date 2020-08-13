@@ -17,6 +17,8 @@ gem 'webpacker', '~> 4.0'
 gem 'slim-rails'
 gem 'html2slim'
 gem 'rails-i18n'
+gem 'twitter'
+gem 'config'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
