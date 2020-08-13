@@ -10,6 +10,6 @@ class TwitterLimitService
       config.consumer_key        = Settings.dig(:twitter, :consumer_key)
       config.consumer_secret     = Settings.dig(:twitter, :consumer_secret)
     end
-    Twitter::REST::Request.new(client, :get, '/1.1/application/rate_limit_status.json').perform
+    Twitter::REST::Request.new(client, :get, '/1.1/application/rate_limit_status.json').perform[:resources]
   end
 end
