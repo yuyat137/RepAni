@@ -7,6 +7,7 @@ class Api::AnimesController < ApplicationController
 
   private
 
+  # TODO: set_*のbeforeアクションは不要なのかも、とのこと
   def set_term
     year = params[:year].to_i if params[:year]
     season = params[:season] if params[:season]
