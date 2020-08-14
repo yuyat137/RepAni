@@ -11,16 +11,16 @@ class TwitterSearchService
 
   def fetch_tweets(hashtag, max_tweet_id, air_time_min)
     hashtag = '#' + hashtag unless hashtag.include?('#')
-    client = Twitter::REST::Client.new do |config|
+    twitter = Twitter::REST::Client.new do |config|
       config.consumer_key        = Settings.dig(:twitter, :consumer_key)
       config.consumer_secret     = Settings.dig(:twitter, :consumer_secret)
     end
 
     fetched_tweets = []
-    fetched_tweets.concat(client.search(hashtag, max_id: max_tweet_id).attrs[:statuses])
+    fetched_tweets.concat(twitter.search(hashtag, max_id: max_tweet_id).attrs[:statuses])
 
     while calculate_sub_tweeted_sec(fetched_tweets) < (air_time_min * 60) do
-      fetched_tweets.concat(client.search(hashtag, max_id: fetched_tweets.last[:id]).attrs[:statuses])
+      fetched_tweets.concat(twitter.search(hashtag, max_id: fetched_tweets.last[:id]).attrs[:statuses])
     end
     fetched_tweets
   end
