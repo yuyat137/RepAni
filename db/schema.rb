@@ -48,8 +48,6 @@ ActiveRecord::Schema.define(version: 2020_08_14_052242) do
 
   create_table "tweets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "tweet_id"
-    t.boolean "protected"
-    t.string "tweet_url"
     t.string "name"
     t.string "screen_name"
     t.text "text"
@@ -57,6 +55,7 @@ ActiveRecord::Schema.define(version: 2020_08_14_052242) do
     t.string "image_url2"
     t.string "image_url3"
     t.string "image_url4"
+    t.datetime "tweeted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

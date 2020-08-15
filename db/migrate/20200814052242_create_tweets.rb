@@ -2,8 +2,6 @@ class CreateTweets < ActiveRecord::Migration[6.0]
   def change
     create_table :tweets do |t|
       t.bigint :tweet_id
-      t.boolean :protected
-      t.string :tweet_url
       t.string :name
       t.string :screen_name
       t.text :text
@@ -11,6 +9,7 @@ class CreateTweets < ActiveRecord::Migration[6.0]
       t.string :image_url2
       t.string :image_url3
       t.string :image_url4
+      t.datetime :tweeted_at
       t.timestamps
     end
   end
