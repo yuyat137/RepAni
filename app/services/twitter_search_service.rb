@@ -22,7 +22,24 @@ class TwitterSearchService
     while calculate_sub_tweeted_sec(fetched_tweets) < (air_time_min * 60) do
       fetched_tweets.concat(twitter.search(hashtag, max_id: fetched_tweets.last[:id]).attrs[:statuses])
     end
-    fetched_tweets
+
+    tweets = []
+    fetched_tweets.each do |tweet|
+      if (tweet[:retweeted_status].nil? && tweet.dig(:user, :protected) == false && tweet[:in_reply_to_user_id].nil?)
+        tweets << Tweet.new(
+          tweet_id: tweet[:id],
+          name: tweet.dig(:user, :name),
+          screen_name: tweet.dig(:user, :screen_name),
+          text: tweet[:text],
+          image_url1: tweet.dig(:extended_entities, :media, 0, :media_url_https),
+          image_url2: tweet.dig(:extended_entities, :media, 1, :media_url_https),
+          image_url3: tweet.dig(:extended_entities, :media, 2, :media_url_https),
+          image_url4: tweet.dig(:extended_entities, :media, 3, :media_url_https),
+          tweeted_at: tweet[:created_at].in_time_zone('Tokyo')
+        )
+      end
+    end
+    Tweet.import tweets, on_duplicate_key_ignore: true
   end
 
   private
