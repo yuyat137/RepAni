@@ -47,17 +47,19 @@ ActiveRecord::Schema.define(version: 2020_08_14_052242) do
   end
 
   create_table "tweets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.bigint "tweet_id"
-    t.string "name"
-    t.string "screen_name"
-    t.text "text"
+    t.bigint "tweet_id", null: false
+    t.string "name", null: false
+    t.string "screen_name", null: false
+    t.text "text", null: false
     t.string "image_url1"
     t.string "image_url2"
     t.string "image_url3"
     t.string "image_url4"
-    t.datetime "tweeted_at"
+    t.datetime "tweeted_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["tweet_id"], name: "index_tweets_on_tweet_id", unique: true
+    t.index ["tweeted_at"], name: "index_tweets_on_tweeted_at"
   end
 
 end
