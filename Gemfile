@@ -19,6 +19,7 @@ gem 'html2slim'
 gem 'rails-i18n'
 gem 'twitter'
 gem 'config'
+gem 'activerecord-import'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
