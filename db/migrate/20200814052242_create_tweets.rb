@@ -1,6 +1,7 @@
 class CreateTweets < ActiveRecord::Migration[6.0]
   def change
     create_table :tweets do |t|
+      t.references :episode
       t.bigint :tweet_id, null: false
       t.string :name, null: false
       t.string :screen_name, null: false
