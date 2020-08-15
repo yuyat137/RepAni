@@ -1,4 +1,12 @@
 class Tweet < ApplicationRecord
+  belongs_to :episode
+  validates :episode_id, presence: true
+  validates :tweet_id, presence: true, uniqueness: true
+  validates :name, presence: true
+  validates :screen_name, presence: true
+  validates :text, presence: true
+  validates :tweeted_at, presence: true
+
   def self.import_tweets(tweets)
     new_tweets = []
     tweets.each do |tweet|

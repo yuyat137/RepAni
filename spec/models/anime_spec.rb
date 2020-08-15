@@ -6,6 +6,11 @@ RSpec.describe Anime, type: :model do
     anime.valid?
     expect(anime.errors[:title]).to include('を入力してください')
   end
+  it '状態がないと無効' do
+    anime = build(:anime, state:'')
+    anime.valid?
+    expect(anime.errors[:state]).to include('を入力してください')
+  end
   it 'タイトルが重複していると無効' do
     create(:anime, title:'test')
     anime = build(:anime, title:'test')

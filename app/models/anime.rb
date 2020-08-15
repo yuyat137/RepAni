@@ -1,7 +1,10 @@
 class Anime < ApplicationRecord
   has_many :anime_terms
   has_many :terms, through: :anime_terms
+  has_many :episodes
   validates :title, presence: true, uniqueness: { case_sensitive: false }
+  validates :state, presence: true
+  enum state: %i[close open]
 
   def self.import_by_api(year = nil, season = nil)
     term = Term.get(year, season)

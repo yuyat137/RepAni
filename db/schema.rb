@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2020_08_15_063706) do
     t.integer "default_air_time"
     t.string "twitter_account"
     t.string "twitter_hash_tag"
-    t.integer "state", default: 1, null: false
+    t.boolean "state", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["title"], name: "index_animes_on_title", unique: true
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2020_08_15_063706) do
     t.string "subtitle"
     t.datetime "broadcast_datetime"
     t.integer "exceptional_air_time"
-    t.integer "state", default: 1, null: false
+    t.boolean "active", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["anime_id", "num"], name: "index_episodes_on_anime_id_and_num", unique: true
