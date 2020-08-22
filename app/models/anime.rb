@@ -10,8 +10,8 @@ class Anime < ApplicationRecord
   SHANGRILA_API_URI = 'http://api.moemoe.tokyo/anime/v1/master/'.freeze
 
   # TODO: サービスオブジェクトにするか検討
-  def self.import_this_term(year = nil, season = nil)
-    term = (year && season)? Term.find_or_create_by(year: year, season: season) : Term.now
+  def self.import_this_term_from_api(year = nil, season = nil)
+    term = (year && season)? Term.find_or_create_by(year: year, season: season) : Term.get_now
 
     api_end_point = SHANGRILA_API_URI + term.year.to_s + '/' + term.season_before_type_cast.to_s
     response = Net::HTTP.get_response URI.parse(api_end_point)
@@ -26,7 +26,7 @@ class Anime < ApplicationRecord
       new_anime.save
       new_anime.anime_terms.create(term: term)
     end
-    Term.update_now
+    Term.update_all_now_attribute
   end
 
   def set_episodes(episode_num)
