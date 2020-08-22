@@ -5,10 +5,18 @@ class Episode < ApplicationRecord
   validates :num, presence: true, uniqueness: { scope: :anime_id, case_sensitive: false }
   validates :active, inclusion: [true, false]
 
-  def import_tweets(max_tweet_id)
-    # hashtagは親から取得
-    # air_time_minは親から取得
-    
-    # TwitterSearchService.fetch_tweets
+  def import_associate_tweets(max_tweet_id)
+    fetched_tweets = SearchTweetsService.fetch_tweets(anime.twitter_hash_tag, max_tweet_id, air_time)
+    Tweet.import_tweets(fetched_tweets, id)
+  end
+
+  private
+
+  def air_time
+    if exceptional_air_time
+      exceptional_air_time
+    else
+      anime.default_air_time
+    end
   end
 end

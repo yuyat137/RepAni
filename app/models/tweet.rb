@@ -7,12 +7,14 @@ class Tweet < ApplicationRecord
   validates :text, presence: true
   validates :tweeted_at, presence: true
 
-  def self.import_tweets(tweets)
+  def self.import_tweets(tweets, episode_id)
     new_tweets = []
+    binding.pry
     tweets.each do |tweet|
       next unless tweet[:retweeted_status].nil? && tweet.dig(:user, :protected) == false && tweet[:in_reply_to_user_id].nil?
 
       new_tweets << Tweet.new(
+        episode_id: episode_id,
         tweet_id: tweet[:id],
         name: tweet.dig(:user, :name),
         screen_name: tweet.dig(:user, :screen_name),

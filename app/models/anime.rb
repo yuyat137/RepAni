@@ -1,5 +1,6 @@
 class Anime < ApplicationRecord
   before_validation :set_state
+  before_save :set_default_air_time
   has_many :anime_terms
   has_many :terms, through: :anime_terms
   has_many :episodes
@@ -29,7 +30,7 @@ class Anime < ApplicationRecord
     Term.update_all_now_attribute
   end
 
-  def set_episodes(episode_num)
+  def import_associate_episodes(episode_num)
     new_episodes = []
     episode_num.times do |num|
       new_episodes << self.episodes.new(num: num + 1)
@@ -41,5 +42,9 @@ class Anime < ApplicationRecord
 
   def set_state
     self.state = :open if state.nil?
+  end
+
+  def set_default_air_time
+    self.default_air_time = 30 if default_air_time.nil?
   end
 end
