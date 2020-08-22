@@ -26,6 +26,8 @@ class SearchTweetsService
     end
   end
 
+  # TODO: 原因不明だが、たまに画像を取得できないツイートがあることを確認済み
+  # 　　　ほとんどは取得できているので、後で確認
   def fetch_tweets_at_anime_broadcast(twitter, hashtag, max_tweet_id, air_time_min)
     fetch_tweets = []
     fetch_tweets.concat(twitter.search(hashtag, max_id: max_tweet_id).attrs[:statuses])
