@@ -12,7 +12,7 @@ class Anime < ApplicationRecord
 
   # TODO: サービスオブジェクトにするか検討
   def self.import_this_term_from_api(year = nil, season = nil)
-    term = (year && season)? Term.find_or_create_by(year: year, season: season) : Term.get_now
+    term = year && season ? Term.find_or_create_by(year: year, season: season) : Term.now_term
 
     api_end_point = SHANGRILA_API_URI + term.year.to_s + '/' + term.season_before_type_cast.to_s
     response = Net::HTTP.get_response URI.parse(api_end_point)
@@ -33,7 +33,7 @@ class Anime < ApplicationRecord
   def import_associate_episodes(episode_num)
     new_episodes = []
     episode_num.times do |num|
-      new_episodes << self.episodes.new(num: num + 1)
+      new_episodes << episodes.new(num: num + 1)
     end
     Episode.import new_episodes, on_duplicate_key_ignore: true
   end

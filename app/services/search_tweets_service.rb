@@ -14,7 +14,7 @@ class SearchTweetsService
     hashtag = '#' + hashtag unless hashtag.include?('#')
     twitter = twitter_rest_client
 
-    test = fetch_tweets_at_anime_broadcast(twitter, hashtag, max_tweet_id, air_time_min)
+    fetch_tweets_at_anime_broadcast(twitter, hashtag, max_tweet_id, air_time_min)
   end
 
   private

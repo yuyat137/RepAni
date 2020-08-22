@@ -13,10 +13,6 @@ class Episode < ApplicationRecord
   private
 
   def air_time
-    if exceptional_air_time
-      exceptional_air_time
-    else
-      anime.default_air_time
-    end
+    exceptional_air_time || anime.default_air_time
   end
 end

@@ -9,7 +9,6 @@ class Tweet < ApplicationRecord
 
   def self.import_tweets(tweets, episode_id)
     new_tweets = []
-    binding.pry
     tweets.each do |tweet|
       next unless tweet[:retweeted_status].nil? && tweet.dig(:user, :protected) == false && tweet[:in_reply_to_user_id].nil?
 
