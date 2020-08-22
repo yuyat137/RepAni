@@ -9,10 +9,6 @@ class Api::AnimesController < ApplicationController
 
   # TODO: set_*のbeforeアクションは不要なのかも、とのこと
   def set_term
-    @term = if params[:year] && params[:season]
-              Term.fetch_term(params[:year], params[:season])
-            else
-              Term.now_term
-            end
+    @term = Term.fetch_now_or_select_term(params[:year], params[:season])
   end
 end

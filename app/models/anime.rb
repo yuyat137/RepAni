@@ -12,7 +12,7 @@ class Anime < ApplicationRecord
 
   # TODO: サービスオブジェクトにするか検討
   def self.import_this_term_from_api(year = nil, season = nil)
-    term = year && season ? Term.find_or_create_by(year: year, season: season) : Term.now_term
+    term = Term.fetch_now_or_select_term(year, season)
 
     api_end_point = SHANGRILA_API_URI + term.year.to_s + '/' + term.season_before_type_cast.to_s
     response = Net::HTTP.get_response URI.parse(api_end_point)
