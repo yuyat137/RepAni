@@ -12,7 +12,17 @@ export default {
   name: "ReplayIndex",
   data() {
     return {
-
+      tweets: [],
     }
   },
+  created() {
+    this.fetchTweets();
+  },
+  methods: {
+    fetchTweets() {
+      this.$axios.get("tweets")
+        .then(res => this.tweets = res.data)
+        .catch(err => console.log(err.status));
+    },
+  }
 }
