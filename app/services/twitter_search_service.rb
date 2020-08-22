@@ -37,7 +37,7 @@ class TwitterSearchService
     fetch_tweets
   end
 
-  def calculate_sub_tweeted_sec(fetch_tweets)
+  def calculate_diff_tweeted_sec(fetch_tweets)
     (Time.parse(fetch_tweets.first[:created_at]) - Time.parse(fetch_tweets.last[:created_at])).abs
   end
 end
