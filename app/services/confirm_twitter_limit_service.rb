@@ -1,4 +1,4 @@
-class TwitterLimitService
+class ConfirmTwitterLimitService
   private_class_method :new
 
   def self.confirm_limit

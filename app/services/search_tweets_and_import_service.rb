@@ -1,4 +1,4 @@
-class TwitterSearchService
+class SearchTweetsAndImportService
   private_class_method :new
 
   def self.fetch_tweets(hashtag, max_tweet_id, air_time_min)
