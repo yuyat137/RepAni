@@ -29,6 +29,7 @@ module RepAni
     config.active_record.default_timezone = :local
 
     config.generators do |g|
+      g.assets false
       g.helper false
       g.skip_routes false
       g.test_framework :rspec,
