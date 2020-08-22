@@ -11,3 +11,4 @@ class Episode < ApplicationRecord
     
     # TwitterSearchService.fetch_tweets
   end
+end
