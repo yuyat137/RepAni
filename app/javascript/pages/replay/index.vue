@@ -4,6 +4,12 @@
       Topへ
     </router-link>
     <h2>ツイートのリプレイ</h2>
+    <div
+      v-for="tweet in tweets"
+      :key="tweet.id"
+    >
+      {{ tweet.text }}
+    </div>
   </div>
 </template>
 
@@ -26,3 +32,4 @@ export default {
     },
   }
 }
+</script>
