@@ -6,7 +6,12 @@
     <h2>{{ selectTerm.year }}年{{ selectTerm.season_ja }}</h2>
     <AnimeList
       :animes="animes"
-      @select-anime="handleStartTweetReplay"
+      @select-anime="handleShowAnimeEpisodesDialog"
+    />
+    <AnimeEpisodesDialog
+      :anime="selectAnime"
+      :episodes="episodes"
+      ref="dialog"
     />
     <h2>シーズン一覧</h2>
     <TermList
@@ -17,21 +22,24 @@
 </template>
 
 <script>
-/* import Mixin from '../../packs/mixins/mixin' */
 import AnimeList from './components/AnimeList'
 import TermList from './components/TermList'
+import AnimeEpisodesDialog from "./components/AnimeEpisodesDialog"
 
 export default {
   name: "AnimeIndex",
   components: {
     AnimeList,
     TermList,
+    AnimeEpisodesDialog,
   },
   data() {
     return {
       animes: [],
       terms: [],
-      selectTerm: null,
+      selectTerm: "",
+      selectAnime: "",
+      episodes: []
     }
   },
   /* mixins: [Mixin], */
@@ -48,8 +56,15 @@ export default {
         .then(res => this.terms = res.data)
         .catch(err => console.log(err.status));
     },
-    handleStartTweetReplay(anime) {
-      this.$router.push({name: 'ReplayIndex'})
+    async handleShowAnimeEpisodesDialog(anime) {
+      this.selectAnime = anime;
+      this.fetchEpisodes();
+      this.$refs.dialog.open();
+    },
+    fetchEpisodes() {
+      this.$axios.get("episodes", { params: this.selectAnime })
+        .then(res => this.episodes = res.data)
+        .catch(err => console.log(err.status));
     },
     handleSetSelectTerm(term) {
       for(let i=0; i<this.terms.length; i++) {
@@ -68,7 +83,7 @@ export default {
         top: 0,
         behavior: "instant"
       });
-    }
+    },
   }
 }
 </script>
