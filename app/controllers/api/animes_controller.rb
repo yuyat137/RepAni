@@ -7,9 +7,8 @@ class Api::AnimesController < ApplicationController
 
   private
 
+  # TODO: set_*のbeforeアクションは不要なのかも、とのこと
   def set_term
-    year = params[:year].to_i if params[:year]
-    season = params[:season] if params[:season]
-    @term = Term.get(year, season)
+    @term = Term.fetch_now_or_select_term(params[:year], params[:season])
   end
 end

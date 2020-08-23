@@ -27,3 +27,10 @@ Twitterのアニメ実況再現アプリ
 - アニメをリアタイできなかった人
 - Twitterでの実況を見ながらアニメを楽しみたい人
 
+## 使い方(ローカル：今後管理画面と結びつけたい)
+- `Anime.import_this_term_from_api`クラスメソッドで今期アニメを取得する(取得アニメの年、月を指定可能)
+- `Anime.first.import_associate_episodes(12)`メソッドで、そのアニメに紐づく12話分のEpisodeレコードを作成
+- `Anime.first.episodes[0].import_associate_tweets(max_tweet_id)`メソッドでAPIからツイートを取得　8/22現在のid("リゼロ")：1296099593675923456
+
+
+

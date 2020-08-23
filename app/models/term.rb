@@ -9,18 +9,15 @@ class Term < ApplicationRecord
   # NOTE: vue.js側に値を送る際、"winter"など文字列になるので、vue.js側では統一して文字列を使用する
   enum season: { winter: 1, spring: 2, summer: 3, autumn: 4 }
 
-  def self.get(year = nil, season = nil)
+  def self.fetch_now_or_select_term(year = nil, season = nil)
     year ||= Date.today.year
     season ||= (Date.today.month - 1) / 3 + 1
-    term = Term.find_by(year: year, season: season)
-    term ||= Term.create(year: year, season: season, now: false)
-    term
+    Term.find_or_create_by({ year: year, season: season })
   end
 
-  def self.set_now
+  def self.update_all_now_attribute
     Term.update_all(now: false)
-    now_term = Term.get
-    now_term.update(now: true)
+    Term.fetch_now_or_select_term.update(now: true)
   end
 
   private
