@@ -1,6 +1,7 @@
 class Api::TweetsController < ApplicationController
   def index
-    tweets = Tweet.all
+    # first(5)は一時的な対処
+    tweets = Tweet.first(5)
     render json: tweets
   end
 end

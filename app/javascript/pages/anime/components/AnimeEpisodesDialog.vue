@@ -1,7 +1,10 @@
 <template>
   <div :id="'anime-episodes-dialog-' + anime.id">
     <v-row justify="center">
-      <v-dialog v-model="dialog" width="600px">
+      <v-dialog
+        v-model="dialog"
+        width="600px"
+      >
         <v-card>
           <v-card-title>
             <span class="headline">
@@ -14,7 +17,9 @@
               v-for="episode in episodes"
               :key="episode.id"
             >
-              {{ episode.num }}
+              <router-link :to="{ name: 'ReplayIndex', params: { episodeId: episode.id }}">
+                {{ episode.num }}
+              </router-link>
             </div>
           </v-card-text>
         </v-card>
@@ -25,11 +30,6 @@
 <script>
 export default({
   name: 'AnimeEpisodesDialog',
-  data() {
-    return {
-      dialog: false,
-    }
-  },
   props: {
     anime: {
       required: true,
@@ -37,6 +37,11 @@ export default({
     episodes: {
       required: true,
     },
+  },
+  data() {
+    return {
+      dialog: false,
+    }
   },
   methods: {
     open() {

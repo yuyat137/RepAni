@@ -9,9 +9,9 @@
       @select-anime="handleShowAnimeEpisodesDialog"
     />
     <AnimeEpisodesDialog
+      ref="dialog"
       :anime="selectAnime"
       :episodes="episodes"
-      ref="dialog"
     />
     <h2>シーズン一覧</h2>
     <TermList
@@ -42,13 +42,10 @@ export default {
       episodes: []
     }
   },
-  /* mixins: [Mixin], */
-  computed: {
-  },
   async created() {
     await this.fetchTerms();
     await this.handleSetSelectTerm()
-    this.handleShowSelectTerm(this.selectTerm) 
+    this.handleShowSelectTerm(this.selectTerm)
   },
   methods: {
     async fetchTerms() {
