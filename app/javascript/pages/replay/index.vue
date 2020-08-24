@@ -16,10 +16,10 @@
     >
       <div width="60%">
         <vue-slider v-model="value" :tooltip="'none'" />
+        <p>{{ value }}%</p>
       </div>
     </v-col>
-
-    <p>{{ value }}</p>
+    <p>現在時刻：{{ progressTime }}</p>
     <div
       v-for="tweet in tweets"
       :key="tweet.id"
@@ -48,12 +48,12 @@ export default {
       selectAnime: "",
       selectEpisode: "",
       tweets: [],
+      progressTime: moment(),
     }
   },
   created() {
     this.fetchTweets();
     this.fetchAnimeAndEpisode();
-    this.momentTest()
   },
   methods: {
     fetchTweets() {
@@ -70,10 +70,6 @@ export default {
         })
         .catch(err => console.log(err.status));
     },
-    momentTest() {
-      var now = moment();
-      console.log(now.toDate());
-    }
   }
 }
 </script>
