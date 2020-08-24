@@ -3,12 +3,27 @@
     <router-link :to="{ name: 'TopIndex' }">
       Topへ
     </router-link>
-    <h2>ツイートのリプレイ</h2>
-    <h2>{{ selectAnime }}</h2>
-    <h2>{{ selectEpisode }}</h2>
+    <h2>{{ selectAnime.title }}</h2>
+    <h2>
+      {{ selectEpisode.num }}話
+      <span v-if="selectEpisode.subtitle">
+        『{{ selectEpisode.subtitle }}』
+      </span>
+    </h2>
+    <v-col
+      md="6"
+      offset-md="3"
+    >
+      <div width="60%">
+        <vue-slider v-model="value" :tooltip="'none'" />
+      </div>
+    </v-col>
+
+    <p>{{ value }}</p>
     <div
       v-for="tweet in tweets"
       :key="tweet.id"
+      class="my-5"
     >
       {{ tweet.text }}
     </div>
@@ -16,10 +31,18 @@
 </template>
 
 <script>
+import moment from 'moment';
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/antd.css'
+
 export default {
   name: "ReplayIndex",
+  components: {
+    VueSlider
+  },
   data() {
     return {
+      value: 0,
       episodeId: this.$route.params.episodeId,
       episode: "",
       selectAnime: "",
@@ -30,9 +53,11 @@ export default {
   created() {
     this.fetchTweets();
     this.fetchAnimeAndEpisode();
+    this.momentTest()
   },
   methods: {
     fetchTweets() {
+      //this.$axios.get("tweets", { params:  })
       this.$axios.get("tweets")
         .then(res => this.tweets = res.data)
         .catch(err => console.log(err.status));
@@ -44,6 +69,10 @@ export default {
           this.selectEpisode = res.data.episode
         })
         .catch(err => console.log(err.status));
+    },
+    momentTest() {
+      var now = moment();
+      console.log(now.toDate());
     }
   }
 }
