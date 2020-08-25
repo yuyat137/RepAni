@@ -15,7 +15,13 @@
       offset-md="3"
     >
       <div width="60%">
-        <vue-slider v-model="value" :tooltip="'none'" />
+        <vue-slider
+          v-model="value"
+          :tooltip="'none'"
+          :min="0"
+          :max="100"
+          :interval="0.1"
+        />
         <p>{{ value }}%</p>
       </div>
     </v-col>
