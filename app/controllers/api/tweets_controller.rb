@@ -1,7 +1,13 @@
 class Api::TweetsController < ApplicationController
+  before_action :set_tweets
+
   def index
-    # first(5)は一時的な対処
-    tweets = Tweet.first(5)
-    render json: tweets
+    render json: @tweets
+  end
+
+  private
+
+  def set_tweets
+    @tweets = Episode.find(params[:episode_id]).tweets.first(300)
   end
 end

@@ -57,23 +57,22 @@ export default {
       progressTime: moment(),
     }
   },
-  created() {
+  async created() {
+    await this.fetchAnimeAndEpisode();
     this.fetchTweets();
-    this.fetchAnimeAndEpisode();
   },
   methods: {
-    fetchTweets() {
-      //this.$axios.get("tweets", { params:  })
-      this.$axios.get("tweets")
-        .then(res => this.tweets = res.data)
-        .catch(err => console.log(err.status));
-    },
-    fetchAnimeAndEpisode() {
-      this.$axios.get("episodes/info", {params: {episode_id: this.$route.params.episodeId }})
+    async fetchAnimeAndEpisode() {
+      await this.$axios.get("episodes/info", {params: {episode_id: this.$route.params.episodeId }})
         .then(res => {
           this.selectAnime = res.data.anime
           this.selectEpisode = res.data.episode
         })
+        .catch(err => console.log(err.status));
+    },
+    fetchTweets() {
+      this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id}})
+        .then(res => this.tweets = res.data)
         .catch(err => console.log(err.status));
     },
   }
