@@ -73,6 +73,7 @@ export default {
         .catch(err => console.log(err.status));
     },
     fetchTweets() {
+      // 実際の実装では=とせずstackTweetsに追加するようにする
       this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id}})
         .then(res => this.stackTweets = res.data)
         .catch(err => console.log(err.status));
@@ -82,12 +83,17 @@ export default {
       if(tweet) {
         this.showTweets.unshift(tweet);
       }
-    }
+    },
   },
   watch: {
     progressTime() {
       this.stackToShowTweets()
-    }
+    },
+    stackTweets() {
+      if(this.stackTweets.length <= 10){
+        this.fetchTweets();
+      }
+    },
   },
 }
 </script>
