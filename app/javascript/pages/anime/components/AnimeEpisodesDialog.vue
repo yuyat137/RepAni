@@ -33,9 +33,11 @@ export default({
   props: {
     anime: {
       required: true,
+      type: Object,
     },
     episodes: {
       required: true,
+      type: Object,
     },
   },
   data() {

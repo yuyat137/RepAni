@@ -58,6 +58,16 @@ export default {
       progressTime: moment(),
     }
   },
+  watch: {
+    progressTime() {
+      this.stackToShowTweets()
+    },
+    stackTweets() {
+      if(this.stackTweets.length <= 10){
+        this.fetchTweets();
+      }
+    },
+  },
   async created() {
     await this.fetchAnimeAndEpisode();
     this.fetchTweets();
@@ -82,16 +92,6 @@ export default {
       let tweet = this.stackTweets.shift()
       if(tweet) {
         this.showTweets.unshift(tweet);
-      }
-    },
-  },
-  watch: {
-    progressTime() {
-      this.stackToShowTweets()
-    },
-    stackTweets() {
-      if(this.stackTweets.length <= 10){
-        this.fetchTweets();
       }
     },
   },
