@@ -27,7 +27,7 @@
     </v-col>
     <p>現在時刻：{{ progressTime }}</p>
     <div
-      v-for="tweet in tweets"
+      v-for="tweet in showTweets"
       :key="tweet.id"
       class="my-5"
     >
@@ -53,13 +53,15 @@ export default {
       episode: "",
       selectAnime: "",
       selectEpisode: "",
-      tweets: [],
+      stackTweets: [],
+      showTweets: [],
       progressTime: moment(),
     }
   },
   async created() {
     await this.fetchAnimeAndEpisode();
     this.fetchTweets();
+    this.progressTime = setInterval(()=>{this.progressTime = moment()},1000)
   },
   methods: {
     async fetchAnimeAndEpisode() {
@@ -72,9 +74,20 @@ export default {
     },
     fetchTweets() {
       this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id}})
-        .then(res => this.tweets = res.data)
+        .then(res => this.stackTweets = res.data)
         .catch(err => console.log(err.status));
     },
-  }
+    stackToShowTweets(){
+      let tweet = this.stackTweets.shift()
+      if(tweet) {
+        this.showTweets.unshift(tweet);
+      }
+    }
+  },
+  watch: {
+    progressTime() {
+      this.stackToShowTweets()
+    }
+  },
 }
 </script>
