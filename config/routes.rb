@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     resources :animes, only: %w[index]
     resources :terms, only: %w[index]
     resources :tweets, only: %w[index]
-    resources :episodes, only: %w[index show] do
+    resources :episodes, only: %w[index] do
       collection do
         get 'info'
       end
