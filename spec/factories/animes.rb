@@ -21,7 +21,7 @@ FactoryBot.define do
   end
   trait :episodes do
     after(:create) do |anime|
-      anime.import_associate_episodes(12)
+      create_list(:episode, 12, anime_id: anime.id)
     end
   end
 end
