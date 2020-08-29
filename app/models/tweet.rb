@@ -24,7 +24,7 @@ class Tweet < ApplicationRecord
         image_url4: tweet.dig(:extended_entities, :media, 3, :media_url_https),
         tweeted_at: tweet[:created_at].in_time_zone('Tokyo'),
         created_at: Time.zone.now,
-        updated_at: Time.zone.now,
+        updated_at: Time.zone.now
       }
     end
     Tweet.insert_all(new_tweets)
