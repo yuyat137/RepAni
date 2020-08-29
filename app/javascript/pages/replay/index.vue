@@ -40,6 +40,7 @@
 import moment from 'moment';
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
+require("moment-duration-format");
 
 export default {
   name: "ReplayIndex",
@@ -55,7 +56,8 @@ export default {
       selectEpisode: "",
       stackTweets: [],
       showTweets: [],
-      progressTime: moment(),
+      progressTime: "",
+      timerStart: moment(),
     }
   },
   watch: {
@@ -69,9 +71,9 @@ export default {
     },
   },
   async created() {
-    await this.fetchAnimeAndEpisode();
-    this.fetchTweets();
-    this.progressTime = setInterval(()=>{this.progressTime = moment()},1000)
+    await this.fetchAnimeAndEpisode()
+    this.fetchTweets()
+    this.progressTime = setInterval(()=>{this.timer()},1000)
   },
   methods: {
     async fetchAnimeAndEpisode() {
@@ -93,6 +95,11 @@ export default {
       if(tweet) {
         this.showTweets.unshift(tweet);
       }
+    },
+    timer() {
+      let moment = require('moment')
+      let diffTime = moment.duration(moment().diff(this.timerStart))
+      this.progressTime = diffTime.format("hh:mm:ss", { trim: false })
     },
   },
 }
