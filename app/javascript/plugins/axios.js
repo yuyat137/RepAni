@@ -1,8 +1,7 @@
 import axios from 'axios'
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/api'
-  //baseURL: 'api'
+  baseURL:  window.location.protocol + "//" + window.location.host + "/api"
 })
 
 export default axiosInstance

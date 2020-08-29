@@ -7,7 +7,10 @@ FactoryBot.define do
   end
   trait :now_true do
     after(:create) do |term|
-      term.update(now: true)
+      year ||= Date.today.year
+      season ||= (Date.today.month - 1) / 3 + 1
+      Term.find_by(year: year, season: season)&.destroy
+      term.update(year: year, season: season, now: true)
     end
   end
 end

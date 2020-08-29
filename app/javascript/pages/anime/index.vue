@@ -72,7 +72,6 @@ export default {
       }
     },
     handleShowSelectTerm(term) {
-      this.selectTerm = term;
       this.$axios.get("animes", { params: term })
         .then(res => this.animes = res.data)
         .catch(err => console.log(err.status));

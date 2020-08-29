@@ -13,4 +13,10 @@ FactoryBot.define do
       create(:anime_term, anime_id: anime.id, term_id: term.id)
     end
   end
+  trait :associate_now_term do
+    after(:create) do |anime|
+      term = create(:term, :now_true)
+      create(:anime_term, anime_id: anime.id, term_id: term.id)
+    end
+  end
 end
