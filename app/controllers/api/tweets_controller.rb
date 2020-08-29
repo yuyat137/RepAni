@@ -8,6 +8,6 @@ class Api::TweetsController < ApplicationController
   private
 
   def set_tweets
-    @tweets = Episode.find(params[:episode_id]).tweets.first(20)
+    @tweets = Episode.find(params[:episode_id]).tweets.first(200)
   end
 end

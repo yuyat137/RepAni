@@ -25,7 +25,11 @@
         <p>{{ value }}%</p>
       </div>
     </v-col>
-    <p>現在時刻：{{ progressTime }}</p>
+    <p>現在時刻：{{ formatStorageTime }}</p>
+    <div class="ml-2">
+      <v-btn v-on:click="start" v-if="!timerOn" small color="primary">Start</v-btn>
+      <v-btn v-on:click="stop" v-if="timerOn" small color="error">Stop</v-btn>
+    </div>
     <div
       v-for="tweet in showTweets"
       :key="tweet.id"
@@ -56,12 +60,16 @@ export default {
       selectEpisode: "",
       stackTweets: [],
       showTweets: [],
-      progressTime: "",
-      timerStart: moment(),
+      startTime: "",
+      countTimeMsec: 0,
+      storageTimeMsec: 0,
+      formatStorageTime: "",
+      timerOn: false,
+      timerObj: ""
     }
   },
   watch: {
-    progressTime: function() {
+    formatStorageTime: function() {
       this.stackToShowTweets()
     },
     stackTweets: function() {
@@ -73,7 +81,11 @@ export default {
   async created() {
     await this.fetchAnimeAndEpisode()
     this.fetchTweets()
-    this.progressTime = setInterval(()=>{this.timer()},1000)
+    this.timerObj = setInterval(()=>{
+      if(this.timerOn){
+        this.timer()
+      }
+    }, 100)
   },
   methods: {
     async fetchAnimeAndEpisode() {
@@ -98,8 +110,20 @@ export default {
     },
     timer() {
       let moment = require('moment')
-      let diffTime = moment.duration(moment().diff(this.timerStart))
-      this.progressTime = diffTime.format("hh:mm:ss", { trim: false })
+      this.countTimeMsec = this.storageTimeMsec
+      // NOTE: milliseconds()メソッドもあったが、それはhh:mm:ss:SSのミリ秒の部分を取得するメソッドでほぼ不変だったため、下記のような少し複雑なロジックになっている
+      this.countTimeMsec += Number(moment.duration(moment().diff(this.startTime)).format("S", { useGrouping: false }))
+      this.formatStorageTime = moment.duration(this.countTimeMsec).format("hh:mm:ss", { trim: false })
+    },
+    start() {
+      this.startTime = moment()
+      this.timerOn = true
+    },
+    stop() {
+      this.storageTimeMsec = this.countTimeMsec
+      console.log(this.countTimeMsec)
+      console.log(this.storageTimeMsec)
+      this.timerOn = false
     },
   },
 }
