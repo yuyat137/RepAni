@@ -12,7 +12,7 @@ class Tweet < ApplicationRecord
     tweets.each do |tweet|
       next unless tweet[:retweeted_status].nil? && tweet.dig(:user, :protected) == false && tweet[:in_reply_to_user_id].nil?
 
-      new_tweets << Tweet.new(
+      new_tweets << {
         episode_id: episode_id,
         tweet_id: tweet[:id],
         name: tweet.dig(:user, :name),
@@ -22,9 +22,11 @@ class Tweet < ApplicationRecord
         image_url2: tweet.dig(:extended_entities, :media, 1, :media_url_https),
         image_url3: tweet.dig(:extended_entities, :media, 2, :media_url_https),
         image_url4: tweet.dig(:extended_entities, :media, 3, :media_url_https),
-        tweeted_at: tweet[:created_at].in_time_zone('Tokyo')
-      )
+        tweeted_at: tweet[:created_at].in_time_zone('Tokyo'),
+        created_at: Time.zone.now,
+        updated_at: Time.zone.now,
+      }
     end
-    Tweet.import new_tweets, on_duplicate_key_ignore: true
+    Tweet.insert_all(new_tweets)
   end
 end

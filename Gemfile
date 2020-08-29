@@ -19,7 +19,6 @@ gem 'html2slim'
 gem 'rails-i18n'
 gem 'twitter'
 gem 'config'
-gem 'activerecord-import'
 gem 'pry-rails'
 gem 'rails-erd'
 

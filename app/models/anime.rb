@@ -33,9 +33,9 @@ class Anime < ApplicationRecord
   def import_associate_episodes(episode_num)
     new_episodes = []
     episode_num.times do |num|
-      new_episodes << episodes.new(num: num + 1)
+      new_episodes << { anime_id: id, num: num + 1, created_at: Time.zone.now, updated_at: Time.zone.now }
     end
-    Episode.import new_episodes, on_duplicate_key_ignore: true
+    Episode.insert_all(new_episodes)
   end
 
   private
