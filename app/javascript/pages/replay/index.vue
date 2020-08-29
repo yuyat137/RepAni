@@ -59,10 +59,10 @@ export default {
     }
   },
   watch: {
-    progressTime() {
+    progressTime: function() {
       this.stackToShowTweets()
     },
-    stackTweets() {
+    stackTweets: function() {
       if(this.stackTweets.length <= 10){
         this.fetchTweets();
       }
