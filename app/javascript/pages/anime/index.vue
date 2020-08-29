@@ -6,7 +6,12 @@
     <h2>{{ selectTerm.year }}年{{ selectTerm.season_ja }}</h2>
     <AnimeList
       :animes="animes"
-      @select-anime="handleStartTweetReplay"
+      @select-anime="handleShowAnimeEpisodesDialog"
+    />
+    <AnimeEpisodesDialog
+      ref="dialog"
+      :anime="selectAnime"
+      :episodes="episodes"
     />
     <h2>シーズン一覧</h2>
     <TermList
@@ -17,30 +22,30 @@
 </template>
 
 <script>
-/* import Mixin from '../../packs/mixins/mixin' */
 import AnimeList from './components/AnimeList'
 import TermList from './components/TermList'
+import AnimeEpisodesDialog from "./components/AnimeEpisodesDialog"
 
 export default {
   name: "AnimeIndex",
   components: {
     AnimeList,
     TermList,
+    AnimeEpisodesDialog,
   },
   data() {
     return {
       animes: [],
       terms: [],
-      selectTerm: null,
+      selectTerm: "",
+      selectAnime: "",
+      episodes: []
     }
-  },
-  /* mixins: [Mixin], */
-  computed: {
   },
   async created() {
     await this.fetchTerms();
     await this.handleSetSelectTerm()
-    this.handleShowSelectTerm(this.selectTerm) 
+    this.handleShowSelectTerm(this.selectTerm)
   },
   methods: {
     async fetchTerms() {
@@ -48,8 +53,15 @@ export default {
         .then(res => this.terms = res.data)
         .catch(err => console.log(err.status));
     },
-    handleStartTweetReplay(anime) {
-      this.$router.push({name: 'ReplayIndex'})
+    async handleShowAnimeEpisodesDialog(anime) {
+      this.selectAnime = anime;
+      this.fetchEpisodes();
+      this.$refs.dialog.open();
+    },
+    fetchEpisodes() {
+      this.$axios.get("episodes", { params: this.selectAnime })
+        .then(res => this.episodes = res.data)
+        .catch(err => console.log(err.status));
     },
     handleSetSelectTerm(term) {
       for(let i=0; i<this.terms.length; i++) {
@@ -60,7 +72,6 @@ export default {
       }
     },
     handleShowSelectTerm(term) {
-      this.selectTerm = term;
       this.$axios.get("animes", { params: term })
         .then(res => this.animes = res.data)
         .catch(err => console.log(err.status));
@@ -68,7 +79,7 @@ export default {
         top: 0,
         behavior: "instant"
       });
-    }
+    },
   }
 }
 </script>

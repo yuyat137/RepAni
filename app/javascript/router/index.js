@@ -22,7 +22,7 @@ const router = new Router({
       name: 'AnimeIndex'
     },
     {
-      path: '/replay',
+      path: '/replay/:episodeId',
       component: ReplayIndex,
       name: 'ReplayIndex'
     },
