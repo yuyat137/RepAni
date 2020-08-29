@@ -19,4 +19,9 @@ FactoryBot.define do
       create(:anime_term, anime_id: anime.id, term_id: term.id)
     end
   end
+  trait :episodes do
+    after(:create) do |anime|
+      anime.import_associate_episodes(12)
+    end
+  end
 end
