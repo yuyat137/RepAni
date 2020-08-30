@@ -26,8 +26,22 @@
       </div>
     </v-col>
     <div class="ml-2">
-      <v-btn v-on:click="timerStart" v-if="!timerOn" small color="primary">Start</v-btn>
-      <v-btn v-on:click="timerStop" v-if="timerOn" small color="error">Stop</v-btn>
+      <v-btn
+        v-if="!timerOn"
+        small
+        color="primary"
+        @click="timerStart"
+      >
+        Start
+      </v-btn>
+      <v-btn
+        v-if="timerOn"
+        small
+        color="error"
+        @click="timerStop"
+      >
+        Stop
+      </v-btn>
     </div>
     <div
       v-for="tweet in showTweets"
@@ -93,18 +107,13 @@ export default {
   },
   async created() {
     await this.fetchAnimeAndEpisode()
-    this.broadcastMaxTime
+    this.formatMaxTime = moment.duration(this.selectEpisode.air_time * 60 * 1000).format("hh:mm:ss", { trim: false, trunc: true })
     this.fetchTweets()
     this.timerObj = setInterval(()=>{
       if(this.timerOn){
         this.timer()
       }
     }, 100)
-  },
-  computed: {
-    broadcastMaxTime() {
-      this.formatMaxTime = moment.duration(this.selectEpisode.air_time * 60 * 1000).format("hh:mm:ss", { trim: false, trunc: true })
-    },
   },
   methods: {
     async fetchAnimeAndEpisode() {
