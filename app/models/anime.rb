@@ -1,6 +1,5 @@
 class Anime < ApplicationRecord
   before_validation :set_state
-  before_save :set_default_air_time
   has_many :anime_terms
   has_many :terms, through: :anime_terms
   has_many :episodes
@@ -33,7 +32,7 @@ class Anime < ApplicationRecord
   def import_associate_episodes(episode_num)
     new_episodes = []
     episode_num.times do |num|
-      new_episodes << { anime_id: id, num: num + 1, created_at: Time.zone.now, updated_at: Time.zone.now }
+      new_episodes << { anime_id: id, num: num + 1, air_time: default_air_time, created_at: Time.zone.now, updated_at: Time.zone.now }
     end
     Episode.insert_all(new_episodes)
   end
@@ -42,9 +41,5 @@ class Anime < ApplicationRecord
 
   def set_state
     self.state = :open if state.nil?
-  end
-
-  def set_default_air_time
-    self.default_air_time = 30 if default_air_time.nil?
   end
 end

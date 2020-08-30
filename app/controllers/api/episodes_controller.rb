@@ -7,8 +7,6 @@ class Api::EpisodesController < ApplicationController
   def info
     episode = Episode.find(params[:episode_id])
     anime = episode.anime
-    # ここ後で変える
-    episode.exceptional_air_time = 30
     render json: { episode: episode, anime: anime }
   end
 end

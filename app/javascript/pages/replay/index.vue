@@ -103,7 +103,7 @@ export default {
   },
   computed: {
     broadcastMaxTime() {
-      this.formatMaxTime = moment.duration(this.selectEpisode.exceptional_air_time * 60 * 1000).format("hh:mm:ss", { trim: false, trunc: true })
+      this.formatMaxTime = moment.duration(this.selectEpisode.air_time * 60 * 1000).format("hh:mm:ss", { trim: false, trunc: true })
     },
   },
   methods: {
@@ -143,7 +143,7 @@ export default {
     },
     moveProgressBar() {
       //一度storageTimeMsecで初期化しているからその辺問題ないか不安
-      this.value = (this.countTimeMsec / (this.selectEpisode.exceptional_air_time * 60 * 1000) * 100)
+      this.value = (this.countTimeMsec / (this.selectEpisode.air_time * 60 * 1000) * 100)
     },
     userOperateProgressBar() {
       if(Math.abs(this.momentBeforeValue - this.value) > ONE_PERCENT){
@@ -153,7 +153,7 @@ export default {
       }
     },
     convertValueToMsec() {
-      return (this.selectEpisode.exceptional_air_time * 60 * 1000 * this.value / 100)
+      return (this.selectEpisode.air_time * 60 * 1000 * this.value / 100)
     },
   },
 }
