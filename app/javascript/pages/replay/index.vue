@@ -113,17 +113,15 @@ export default {
       this.countTimeMsec = this.storageTimeMsec
       // NOTE: milliseconds()メソッドもあったが、それはhh:mm:ss:SSのミリ秒の部分を取得するメソッドでほぼ不変だったため、下記のような少し複雑なロジックになっている
       this.countTimeMsec += Number(moment.duration(moment().diff(this.startTime)).format("S", { useGrouping: false }))
-      this.formatStorageTime = moment.duration(this.countTimeMsec).format("hh:mm:ss", { trim: false })
+      this.formatStorageTime = moment.duration(this.countTimeMsec).format("hh:mm:ss", { trim: false, trunc: true })
     },
     start() {
       this.startTime = moment()
       this.timerOn = true
     },
     stop() {
-      this.storageTimeMsec = this.countTimeMsec
-      console.log(this.countTimeMsec)
-      console.log(this.storageTimeMsec)
       this.timerOn = false
+      this.storageTimeMsec = this.countTimeMsec
     },
   },
 }
