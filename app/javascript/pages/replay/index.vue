@@ -22,13 +22,12 @@
           :max="100"
           :interval="0.1"
         />
-        <p>{{ value }}%</p>
+        <p>{{ formatStorageTime }}/{{ formatMaxTime }}</p>
       </div>
     </v-col>
-    <p>現在時刻：{{ formatStorageTime }}</p>
     <div class="ml-2">
-      <v-btn v-on:click="start" v-if="!timerOn" small color="primary">Start</v-btn>
-      <v-btn v-on:click="stop" v-if="timerOn" small color="error">Stop</v-btn>
+      <v-btn v-on:click="timerStart" v-if="!timerOn" small color="primary">Start</v-btn>
+      <v-btn v-on:click="timerStop" v-if="timerOn" small color="error">Stop</v-btn>
     </div>
     <div
       v-for="tweet in showTweets"
@@ -46,6 +45,8 @@ import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 require("moment-duration-format");
 
+const ONE_PERCENT = 1
+
 export default {
   name: "ReplayIndex",
   components: {
@@ -54,6 +55,7 @@ export default {
   data() {
     return {
       value: 0,
+      momentBeforeValue: 0,
       episodeId: this.$route.params.episodeId,
       episode: "",
       selectAnime: "",
@@ -65,7 +67,8 @@ export default {
       storageTimeMsec: 0,
       formatStorageTime: "",
       timerOn: false,
-      timerObj: ""
+      timerObj: "",
+      formatMaxTime: "",
     }
   },
   watch: {
@@ -77,15 +80,31 @@ export default {
         this.fetchTweets();
       }
     },
+    value: function() {
+      if(this.userOperateProgressBar()) {
+        this.timerStop()
+      }
+      if(!this.timerOn) {
+        this.formatStorageTime = moment.duration(this.convertValueToMsec()).format("hh:mm:ss", { trim: false, trunc: true })
+        this.storageTimeMsec = this.convertValueToMsec()
+      }
+      this.momentBeforeValue = this.value
+    }
   },
   async created() {
     await this.fetchAnimeAndEpisode()
+    this.broadcastMaxTime
     this.fetchTweets()
     this.timerObj = setInterval(()=>{
       if(this.timerOn){
         this.timer()
       }
     }, 100)
+  },
+  computed: {
+    broadcastMaxTime() {
+      this.formatMaxTime = moment.duration(this.selectEpisode.exceptional_air_time * 60 * 1000).format("hh:mm:ss", { trim: false, trunc: true })
+    },
   },
   methods: {
     async fetchAnimeAndEpisode() {
@@ -110,18 +129,31 @@ export default {
     },
     timer() {
       let moment = require('moment')
-      this.countTimeMsec = this.storageTimeMsec
-      // NOTE: milliseconds()メソッドもあったが、それはhh:mm:ss:SSのミリ秒の部分を取得するメソッドでほぼ不変だったため、下記のような少し複雑なロジックになっている
-      this.countTimeMsec += Number(moment.duration(moment().diff(this.startTime)).format("S", { useGrouping: false }))
+      this.countTimeMsec = this.storageTimeMsec + Number(moment.duration(moment().diff(this.startTime)).format("S", { useGrouping: false }))
       this.formatStorageTime = moment.duration(this.countTimeMsec).format("hh:mm:ss", { trim: false, trunc: true })
+      this.moveProgressBar()
     },
-    start() {
-      this.startTime = moment()
+    timerStart() {
       this.timerOn = true
+      this.startTime = moment()
     },
-    stop() {
+    timerStop() {
       this.timerOn = false
       this.storageTimeMsec = this.countTimeMsec
+    },
+    moveProgressBar() {
+      //一度storageTimeMsecで初期化しているからその辺問題ないか不安
+      this.value = (this.countTimeMsec / (this.selectEpisode.exceptional_air_time * 60 * 1000) * 100)
+    },
+    userOperateProgressBar() {
+      if(Math.abs(this.momentBeforeValue - this.value) > ONE_PERCENT){
+        return true
+      } else {
+        return false
+      }
+    },
+    convertValueToMsec() {
+      return (this.selectEpisode.exceptional_air_time * 60 * 1000 * this.value / 100)
     },
   },
 }
