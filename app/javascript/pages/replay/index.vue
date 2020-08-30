@@ -102,6 +102,7 @@ export default {
       formatMaxTime: "",
       timerOn: false,
       timerObj: "",
+      maxAirTimeMsec: ""
     }
   },
   watch: {
@@ -119,14 +120,15 @@ export default {
       }
       if(!this.timerOn) {
         this.formatProgressTime = moment.duration(this.convertValueToMsec()).format("hh:mm:ss", { trim: false, trunc: true })
-        this.accumulatedTimeMsecByTimerStart = this.convertValueToMsec()
+        this.accumulatedTimeMsecByTimerStart = this.progressTimeMsec = this.convertValueToMsec()
       }
       this.momentBeforeValue = this.value
     }
   },
   async created() {
     await this.fetchAnimeAndEpisode()
-    this.formatMaxTime = moment.duration(this.selectEpisode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC).format("hh:mm:ss", { trim: false, trunc: true })
+    this.maxAirTimeMsec = this.selectEpisode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC
+    this.formatMaxTime = moment.duration().format("hh:mm:ss", { trim: false, trunc: true })
     this.fetchTweets()
     this.timerObj = setInterval(()=>{
       if(this.timerOn){
@@ -156,10 +158,14 @@ export default {
       }
     },
     timer() {
-      let moment = require('moment')
-      this.progressTimeMsec = this.accumulatedTimeMsecByTimerStart + Number(moment.duration(moment().diff(this.startTimerTime)).format("S", { useGrouping: false }))
-      this.formatProgressTime = moment.duration(this.progressTimeMsec).format("hh:mm:ss", { trim: false, trunc: true })
-      this.moveProgressBar()
+      if(this.progressTimeMsec < this.selectEpisode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC) {
+        let moment = require('moment')
+        this.progressTimeMsec = this.accumulatedTimeMsecByTimerStart + Number(moment.duration(moment().diff(this.startTimerTime)).format("S", { useGrouping: false }))
+        this.formatProgressTime = moment.duration(this.progressTimeMsec).format("hh:mm:ss", { trim: false, trunc: true })
+        this.moveProgressBar()
+      } else {
+        this.timerStop()
+      }
     },
     timerStart() {
       this.timerOn = true
@@ -170,7 +176,7 @@ export default {
       this.accumulatedTimeMsecByTimerStart = this.progressTimeMsec
     },
     moveProgressBar() {
-      this.value = (this.progressTimeMsec / (this.selectEpisode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC) * CONVERTING_PERCENT_AND_PROPORTION)
+      this.value = (this.progressTimeMsec / this.maxAirTimeMsec * CONVERTING_PERCENT_AND_PROPORTION)
     },
     userOperateProgressBar() {
       if(Math.abs(this.momentBeforeValue - this.value) > ONE_PERCENT){
@@ -180,12 +186,12 @@ export default {
       }
     },
     convertValueToMsec() {
-      return (this.selectEpisode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC * this.value / CONVERTING_PERCENT_AND_PROPORTION)
+      return (this.maxAirTimeMsec * (this.value / CONVERTING_PERCENT_AND_PROPORTION))
     },
     moveFewSeconds(fewSeconds) {
       this.timerOn = false
       let minTime = 0
-      let maxTime = this.selectEpisode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC
+      let maxTime = this.maxAirTimeMsec
       let timeAfterMoveMsec = this.progressTimeMsec + fewSeconds * SECONDS_TO_MSEC
       if(timeAfterMoveMsec < minTime) {
         timeAfterMoveMsec = minTime
