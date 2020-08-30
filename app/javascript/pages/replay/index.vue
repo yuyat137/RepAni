@@ -22,7 +22,7 @@
           :max="100"
           :interval="0.1"
         />
-        <p>{{ formatStorageTime }}/{{ formatMaxTime }}</p>
+        <p>{{ formatProgressTime }}/{{ formatMaxTime }}</p>
       </div>
     </v-col>
     <div class="ml-2">
@@ -42,6 +42,22 @@
       >
         Stop
       </v-btn>
+      <div class="ml-2 mt-2">
+        <v-btn
+          small
+          color="primary"
+          @click="moveFewSeconds(-10)"
+        >
+          10秒戻る
+        </v-btn>
+        <v-btn
+          small
+          color="error"
+          @click="moveFewSeconds(10)"
+        >
+          10秒進む
+        </v-btn>
+      </div>
     </div>
     <div
       v-for="tweet in showTweets"
@@ -60,6 +76,9 @@ import 'vue-slider-component/theme/antd.css'
 require("moment-duration-format");
 
 const ONE_PERCENT = 1
+const MINUTES_TO_SECONDS = 60
+const SECONDS_TO_MSEC = 1000
+const CONVERTING_PERCENT_AND_PROPORTION = 100
 
 export default {
   name: "ReplayIndex",
@@ -76,17 +95,17 @@ export default {
       selectEpisode: "",
       stackTweets: [],
       showTweets: [],
-      startTime: "",
-      countTimeMsec: 0,
-      storageTimeMsec: 0,
-      formatStorageTime: "",
+      startTimerTime: "",
+      progressTimeMsec: 0,
+      accumulatedTimeMsecByTimerStart: 0,
+      formatProgressTime: "00:00:00",
+      formatMaxTime: "",
       timerOn: false,
       timerObj: "",
-      formatMaxTime: "",
     }
   },
   watch: {
-    formatStorageTime: function() {
+    formatProgressTime: function() {
       this.stackToShowTweets()
     },
     stackTweets: function() {
@@ -99,15 +118,15 @@ export default {
         this.timerStop()
       }
       if(!this.timerOn) {
-        this.formatStorageTime = moment.duration(this.convertValueToMsec()).format("hh:mm:ss", { trim: false, trunc: true })
-        this.storageTimeMsec = this.convertValueToMsec()
+        this.formatProgressTime = moment.duration(this.convertValueToMsec()).format("hh:mm:ss", { trim: false, trunc: true })
+        this.accumulatedTimeMsecByTimerStart = this.convertValueToMsec()
       }
       this.momentBeforeValue = this.value
     }
   },
   async created() {
     await this.fetchAnimeAndEpisode()
-    this.formatMaxTime = moment.duration(this.selectEpisode.air_time * 60 * 1000).format("hh:mm:ss", { trim: false, trunc: true })
+    this.formatMaxTime = moment.duration(this.selectEpisode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC).format("hh:mm:ss", { trim: false, trunc: true })
     this.fetchTweets()
     this.timerObj = setInterval(()=>{
       if(this.timerOn){
@@ -138,21 +157,20 @@ export default {
     },
     timer() {
       let moment = require('moment')
-      this.countTimeMsec = this.storageTimeMsec + Number(moment.duration(moment().diff(this.startTime)).format("S", { useGrouping: false }))
-      this.formatStorageTime = moment.duration(this.countTimeMsec).format("hh:mm:ss", { trim: false, trunc: true })
+      this.progressTimeMsec = this.accumulatedTimeMsecByTimerStart + Number(moment.duration(moment().diff(this.startTimerTime)).format("S", { useGrouping: false }))
+      this.formatProgressTime = moment.duration(this.progressTimeMsec).format("hh:mm:ss", { trim: false, trunc: true })
       this.moveProgressBar()
     },
     timerStart() {
       this.timerOn = true
-      this.startTime = moment()
+      this.startTimerTime = moment()
     },
     timerStop() {
       this.timerOn = false
-      this.storageTimeMsec = this.countTimeMsec
+      this.accumulatedTimeMsecByTimerStart = this.progressTimeMsec
     },
     moveProgressBar() {
-      //一度storageTimeMsecで初期化しているからその辺問題ないか不安
-      this.value = (this.countTimeMsec / (this.selectEpisode.air_time * 60 * 1000) * 100)
+      this.value = (this.progressTimeMsec / (this.selectEpisode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC) * CONVERTING_PERCENT_AND_PROPORTION)
     },
     userOperateProgressBar() {
       if(Math.abs(this.momentBeforeValue - this.value) > ONE_PERCENT){
@@ -162,7 +180,21 @@ export default {
       }
     },
     convertValueToMsec() {
-      return (this.selectEpisode.air_time * 60 * 1000 * this.value / 100)
+      return (this.selectEpisode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC * this.value / CONVERTING_PERCENT_AND_PROPORTION)
+    },
+    moveFewSeconds(fewSeconds) {
+      this.timerOn = false
+      let minTime = 0
+      let maxTime = this.selectEpisode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC
+      let timeAfterMoveMsec = this.progressTimeMsec + fewSeconds * SECONDS_TO_MSEC
+      if(timeAfterMoveMsec < minTime) {
+        timeAfterMoveMsec = minTime
+      } else if(timeAfterMoveMsec > maxTime) {
+        timeAfterMoveMsec = maxTime
+      }
+      this.accumulatedTimeMsecByTimerStart = this.progressTimeMsec = timeAfterMoveMsec
+      this.formatProgressTime = moment.duration(this.progressTimeMsec).format("hh:mm:ss", { trim: false, trunc: true })
+      this.moveProgressBar()
     },
   },
 }
