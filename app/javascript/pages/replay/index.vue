@@ -129,7 +129,7 @@ export default {
   async created() {
     await this.fetchAnimeAndEpisode()
     this.maxAirTimeMsec = this.selectEpisode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC
-    this.formatMaxTime = moment.duration().format("hh:mm:ss", { trim: false, trunc: true })
+    this.formatMaxTime = moment.duration(this.maxAirTimeMsec).format("hh:mm:ss", { trim: false, trunc: true })
     this.fetchTweets()
     this.timerObj = setInterval(()=>{
       if(this.timerOn){
