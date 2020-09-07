@@ -28,9 +28,9 @@
     <div class="ml-2">
       <v-btn
         v-if="!timerOn"
+        id="timer_start"
         small
         color="primary"
-        id="timer_start"
         @click="timerStart"
       >
         Start
