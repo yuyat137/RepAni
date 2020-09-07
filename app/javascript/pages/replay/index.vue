@@ -30,6 +30,7 @@
         v-if="!timerOn"
         small
         color="primary"
+        id="timer_start"
         @click="timerStart"
       >
         Start

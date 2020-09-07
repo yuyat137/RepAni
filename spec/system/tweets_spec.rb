@@ -10,12 +10,10 @@ RSpec.describe 'Anime', type: :system do
       expect(page).to have_content("#{episode.num}話")
     end
     it 'ツイートが表示される' do
-      # TODO: 現状あまり良くないコードだと思われる。
-      #       また、このコードは本番とは動きが異なる。
+      # TODO: このコードは本番とは動きが異なる。
       visit "/replay/#{episode.id}"
+      find("#timer_start").click
       expect(page).to have_content(tweets[0].text)
-      expect(page).not_to have_content(tweets[1].text)
-      sleep(1)
       expect(page).to have_content(tweets[1].text)
     end
   end
