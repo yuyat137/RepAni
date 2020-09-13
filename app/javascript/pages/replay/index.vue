@@ -17,8 +17,8 @@
           </span>
         </h2>
         <Timer
-          :episode="selectEpisode"
           ref="timer"
+          :episode="selectEpisode"
         />
       </v-col>
       <v-col

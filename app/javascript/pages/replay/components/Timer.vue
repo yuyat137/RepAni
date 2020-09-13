@@ -65,6 +65,9 @@ const CONVERTING_PERCENT_AND_PROPORTION = 100
 
 export default {
   name: "Timer",
+  components: {
+    VueSlider,
+  },
   props: {
     episode: {
       type: Object,
@@ -85,18 +88,6 @@ export default {
       timerObj: "",
     }
   },
-  async created() {
-    this.maxAirTimeMsec = this.episode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC
-    this.formatMaxTime = moment.duration(this.maxAirTimeMsec).format("hh:mm:ss", { trim: false, trunc: true })
-    this.timerObj = setInterval(()=>{
-      if(this.timerOn){
-        this.timer()
-      }
-    }, 100)
-  },
-  components: {
-    VueSlider,
-  },
   watch: {
     value: function() {
       if(this.userOperateProgressBar()) {
@@ -109,12 +100,18 @@ export default {
       this.momentBeforeValue = this.value
     }
   },
+  async created() {
+    this.maxAirTimeMsec = this.episode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC
+    this.formatMaxTime = moment.duration(this.maxAirTimeMsec).format("hh:mm:ss", { trim: false, trunc: true })
+    this.timerObj = setInterval(()=>{
+      if(this.timerOn){
+        this.timer()
+      }
+    }, 100)
+  },
   methods: {
     getProgressTimeMsec() {
       return this.getProgressTimeMsec
-    },
-    handleSelectTerm(term) {
-      this.$emit('select-term', term)
     },
     timer() {
       if(this.progressTimeMsec < this.episode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC) {
