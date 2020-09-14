@@ -1,7 +1,7 @@
 require 'rails_helper'
 RSpec.describe 'Anime', type: :system do
-  let!(:anime1) { create(:anime, :associate_now_term) }
-  let!(:anime2) { create(:anime, :associate_term) }
+  let!(:anime1) { create(:anime, :associate_now_term, :episodes) }
+  let!(:anime2) { create(:anime, :associate_term, :episodes) }
   context 'ページを開いた直後' do
     it '今期アニメ情報が画面に表示されている' do
       visit '/anime'
@@ -16,6 +16,14 @@ RSpec.describe 'Anime', type: :system do
       find("#term_#{anime2.terms.first.id}").click
       expect(page).to have_content(anime2.title)
       expect(page).not_to have_content(anime1.title)
+    end
+  end
+  context 'アニメを選択する' do
+    it 'エピソード選択画面が表示される' do
+      visit '/anime'
+      find("#anime_#{anime1.id}").click
+      expect(page).to have_content("サブタイトルを選んでください")
+      expect(page).to have_link '1'
     end
   end
 end

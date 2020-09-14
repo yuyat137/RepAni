@@ -5,7 +5,7 @@ class CreateEpisodes < ActiveRecord::Migration[6.0]
       t.integer :num, null: false
       t.string :subtitle
       t.datetime :broadcast_datetime
-      t.integer :exceptional_air_time, default: nil
+      t.integer :air_time, default: nil, null: false
       # 本番環境ではdefault: false
       t.boolean :active, default: true
       t.timestamps

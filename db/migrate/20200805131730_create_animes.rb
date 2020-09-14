@@ -3,7 +3,7 @@ class CreateAnimes < ActiveRecord::Migration[6.0]
     create_table :animes do |t|
       t.string :title, null: false
       t.string :public_url
-      t.integer :default_air_time
+      t.integer :default_air_time, default: 30, null: false
       t.string :twitter_account
       t.string :twitter_hash_tag
       # 開発時の対応でdefault: 1としている。本番ではdeafult: 0

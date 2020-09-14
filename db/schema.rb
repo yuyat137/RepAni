@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2020_08_15_063706) do
   create_table "animes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "title", null: false
     t.string "public_url"
-    t.integer "default_air_time"
+    t.integer "default_air_time", default: 30, null: false
     t.string "twitter_account"
     t.string "twitter_hash_tag"
     t.boolean "state", default: true, null: false
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2020_08_15_063706) do
     t.integer "num", null: false
     t.string "subtitle"
     t.datetime "broadcast_datetime"
-    t.integer "exceptional_air_time"
+    t.integer "air_time", null: false
     t.boolean "active", default: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

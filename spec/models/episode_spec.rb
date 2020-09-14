@@ -6,6 +6,11 @@ RSpec.describe Episode, type: :model do
     episode.valid?
     expect(episode.errors[:num]).to include('を入力してください')
   end
+  it '放送時間がないと無効' do
+    episode = build(:episode, air_time:'')
+    episode.valid?
+    expect(episode.errors[:air_time]).to include('を入力してください')
+  end
   it 'activeがないと無効' do
     episode = build(:episode, active:'')
     episode.valid?

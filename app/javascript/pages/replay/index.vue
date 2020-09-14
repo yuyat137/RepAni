@@ -1,77 +1,77 @@
 <template>
   <div>
-    <router-link :to="{ name: 'TopIndex' }">
-      Topへ
-    </router-link>
-    <h2>{{ selectAnime.title }}</h2>
-    <h2>
-      {{ selectEpisode.num }}話
-      <span v-if="selectEpisode.subtitle">
-        『{{ selectEpisode.subtitle }}』
-      </span>
-    </h2>
-    <v-col
-      md="6"
-      offset-md="3"
-    >
-      <div width="60%">
-        <vue-slider
-          v-model="value"
-          :tooltip="'none'"
-          :min="0"
-          :max="100"
-          :interval="0.1"
+    <v-row>
+      <v-col
+        v-if="selectEpisode"
+        cols="5"
+        offset="1"
+      >
+        <router-link :to="{ name: 'TopIndex' }">
+          Topへ
+        </router-link>
+        <h2>{{ selectAnime.title }}</h2>
+        <h2>
+          {{ selectEpisode.num }}話
+          <span v-if="selectEpisode.subtitle">
+            『{{ selectEpisode.subtitle }}』
+          </span>
+        </h2>
+        <Timer
+          ref="timer"
+          :episode="selectEpisode"
         />
-        <p>{{ value }}%</p>
-      </div>
-    </v-col>
-    <p>現在時刻：{{ progressTime }}</p>
-    <div
-      v-for="tweet in showTweets"
-      :key="tweet.id"
-      class="my-5"
-    >
-      {{ tweet.text }}
-    </div>
+      </v-col>
+      <v-col
+        cols="5"
+      >
+        <div
+          v-for="tweet in showTweets"
+          :key="tweet.id"
+          class="my-5"
+        >
+          {{ tweet.text }}
+        </div>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
-import moment from 'moment';
-import VueSlider from 'vue-slider-component'
-import 'vue-slider-component/theme/antd.css'
+import Timer from './components/Timer'
 
 export default {
   name: "ReplayIndex",
   components: {
-    VueSlider
+    Timer,
   },
   data() {
     return {
-      value: 0,
       episodeId: this.$route.params.episodeId,
       episode: "",
       selectAnime: "",
       selectEpisode: "",
       stackTweets: [],
       showTweets: [],
-      progressTime: moment(),
     }
   },
   watch: {
-    progressTime() {
-      this.stackToShowTweets()
-    },
-    stackTweets() {
+    stackTweets: function() {
       if(this.stackTweets.length <= 10){
         this.fetchTweets();
       }
     },
   },
   async created() {
-    await this.fetchAnimeAndEpisode();
-    this.fetchTweets();
-    this.progressTime = setInterval(()=>{this.progressTime = moment()},1000)
+    await this.fetchAnimeAndEpisode()
+    this.fetchTweets()
+    this.$watch(
+      function () {
+        return this.$refs.timer.$data.progressTimeMsec
+      },
+      function() {
+        this.stackToShowTweets()
+      }
+    )
   },
   methods: {
     async fetchAnimeAndEpisode() {

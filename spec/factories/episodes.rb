@@ -4,7 +4,7 @@ FactoryBot.define do
     sequence(:num) { |n| n }
     sequence(:subtitle) { |n| "サブタイトル#{n}" }
     sequence(:broadcast_datetime) { DateTime.now -1 }
-    exceptional_air_time { nil }
+    air_time { 30 }
     active { true }
   end
 end
