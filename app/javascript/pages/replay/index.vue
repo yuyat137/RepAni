@@ -52,6 +52,7 @@ export default {
       selectEpisode: "",
       stackTweets: [],
       showTweets: [],
+      fetchLastTweet: false,
     }
   },
   watch: {
@@ -69,7 +70,11 @@ export default {
         return this.$refs.timer.$data.progressTimeMsec
       },
       function() {
+        // TODO: 9/15以降やること
         this.stackToShowTweets()
+        if(this.stackTweets.length < 100 && !this.fetchLastTweet) {
+          fetchTweets()
+        }
       }
     )
   },
@@ -84,11 +89,16 @@ export default {
     },
     fetchTweets() {
       // 実際の実装では=とせずstackTweetsに追加するようにする
-      this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id}})
-        .then(res => this.stackTweets = res.data)
+      this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, progress_time_msec: this.$refs.timer.$data.progressTimeMsec}})
+        .then(res => {
+          this.stackTweets = res.data.tweets
+          this.fetchLastTweet = res.data.fetch_last_tweet
+        })
         .catch(err => console.log(err.status));
     },
     stackToShowTweets(){
+      // TODO: 9/15以降やること
+      // TODO: ツイートの時間を見て、対応するツイートを移し替える
       let tweet = this.stackTweets.shift()
       if(tweet) {
         this.showTweets.unshift(tweet);

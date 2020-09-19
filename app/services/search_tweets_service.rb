@@ -3,6 +3,7 @@ class SearchTweetsService
 
   # NOTE: Episode#import_associate_tweetsから実行されること想定
   # NOTE: ここで使用するmax_tweet_idは自力で取ってくることとします
+  #       (時間指定でツイートを取得できなかったため)
   #       検索例『#rezero until:2020-09-09_23:59:59_JST』
   #       検索例『#rezero until:2020-09-10_00:00:00_JST』
   #       https://twitter.com/millef_168/status/1293562877488427009

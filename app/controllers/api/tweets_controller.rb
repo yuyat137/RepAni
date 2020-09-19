@@ -1,13 +1,7 @@
 class Api::TweetsController < ApplicationController
-  before_action :set_tweets
-
   def index
-    render json: @tweets
-  end
-
-  private
-
-  def set_tweets
-    @tweets = Episode.find(params[:episode_id]).tweets.first(200)
+    last_tweet = Episode.find(params[:episode_id]).tweets.last
+    tweets = FetchTweetsByProgressTimeService.call(params[:episode_id], params[:progress_time_msec])
+    render json: {tweets: tweets, fetch_last_tweet: tweets.include?(last_tweet)}
   end
 end

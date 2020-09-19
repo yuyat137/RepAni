@@ -6,6 +6,7 @@ class Tweet < ApplicationRecord
   validates :screen_name, presence: true
   validates :text, presence: true
   validates :tweeted_at, presence: true
+  GET_TWEETS_NUM = 300
 
   def self.import_tweets(tweets, broadcast_datetime, episode_id)
     new_tweets = []
