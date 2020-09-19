@@ -7,11 +7,12 @@ class Tweet < ApplicationRecord
   validates :text, presence: true
   validates :tweeted_at, presence: true
 
-  def self.import_tweets(tweets, episode_id)
+  def self.import_tweets(tweets, broadcast_datetime, episode_id)
     new_tweets = []
     tweets.each do |tweet|
       next unless tweet[:retweeted_status].nil? && tweet.dig(:user, :protected) == false && tweet[:in_reply_to_user_id].nil?
 
+      tweeted_at = tweet[:created_at].in_time_zone('Tokyo')
       new_tweets << {
         episode_id: episode_id,
         tweet_id: tweet[:id],
@@ -22,7 +23,8 @@ class Tweet < ApplicationRecord
         image_url2: tweet.dig(:extended_entities, :media, 1, :media_url_https),
         image_url3: tweet.dig(:extended_entities, :media, 2, :media_url_https),
         image_url4: tweet.dig(:extended_entities, :media, 3, :media_url_https),
-        tweeted_at: tweet[:created_at].in_time_zone('Tokyo'),
+        tweeted_at: tweeted_at,
+        progress_time_msec: (tweeted_at - broadcast_datetime).to_i * 1000,
         created_at: Time.zone.now,
         updated_at: Time.zone.now
       }

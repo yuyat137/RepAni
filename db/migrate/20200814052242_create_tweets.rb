@@ -11,6 +11,7 @@ class CreateTweets < ActiveRecord::Migration[6.0]
       t.string :image_url3
       t.string :image_url4
       t.datetime :tweeted_at, null: false
+      t.bigint :progress_time_msec, null: false
       t.timestamps
     end
     add_index :tweets, :tweet_id, unique: true

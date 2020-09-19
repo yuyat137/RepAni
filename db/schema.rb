@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 2020_08_15_063706) do
     t.string "image_url3"
     t.string "image_url4"
     t.datetime "tweeted_at", null: false
+    t.bigint "progress_time_msec", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["episode_id"], name: "index_tweets_on_episode_id"
