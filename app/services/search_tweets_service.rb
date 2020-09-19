@@ -8,11 +8,11 @@ class SearchTweetsService
   #       検索例『#rezero until:2020-09-10_00:00:00_JST』
   #       https://twitter.com/millef_168/status/1293562877488427009
   #       id=>1293562877488427009
-  def self.fetch_tweets(hashtag, max_tweet_id, air_time_min)
-    new.fetch_tweets(hashtag, max_tweet_id, air_time_min)
+  def self.call(hashtag, max_tweet_id, air_time_min)
+    new.call(hashtag, max_tweet_id, air_time_min)
   end
 
-  def fetch_tweets(hashtag, max_tweet_id, air_time_min)
+  def call(hashtag, max_tweet_id, air_time_min)
     hashtag = '#' + hashtag unless hashtag.include?('#')
     twitter = twitter_rest_client
 

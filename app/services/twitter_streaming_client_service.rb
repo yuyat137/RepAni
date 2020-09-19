@@ -1,11 +1,11 @@
 class TwitterStreamingClientService
   private_class_method :new
 
-  def self.filter_tweets(hashtag)
-    new.filter_tweets(hashtag)
+  def self.call(hashtag)
+    new.call(hashtag)
   end
 
-  def filter_tweets(hashtag)
+  def call(hashtag)
     hashtag = '#' + hashtag unless hashtag.include?('#')
 
     twitter = Twitter::Streaming::Client.new do |config|
