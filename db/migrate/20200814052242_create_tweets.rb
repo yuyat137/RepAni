@@ -3,6 +3,7 @@ class CreateTweets < ActiveRecord::Migration[6.0]
     create_table :tweets do |t|
       t.references :episode
       t.bigint :tweet_id, null: false
+      t.bigint :serial_number, null: false
       t.string :name, null: false
       t.string :screen_name, null: false
       t.text :text, null: false

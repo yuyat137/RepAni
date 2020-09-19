@@ -9,6 +9,7 @@ class Tweet < ApplicationRecord
 
   def self.import_tweets(tweets, broadcast_datetime, episode_id)
     new_tweets = []
+    serial_number = 1
     tweets.each do |tweet|
       next unless tweet[:retweeted_status].nil? && tweet.dig(:user, :protected) == false && tweet[:in_reply_to_user_id].nil?
 
@@ -16,6 +17,7 @@ class Tweet < ApplicationRecord
       new_tweets << {
         episode_id: episode_id,
         tweet_id: tweet[:id],
+        serial_number: serial_number,
         name: tweet.dig(:user, :name),
         screen_name: tweet.dig(:user, :screen_name),
         text: tweet[:text],
@@ -28,6 +30,7 @@ class Tweet < ApplicationRecord
         created_at: Time.zone.now,
         updated_at: Time.zone.now
       }
+      serial_number += 1
     end
     Tweet.insert_all(new_tweets)
   end
