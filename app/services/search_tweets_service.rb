@@ -36,7 +36,7 @@ class SearchTweetsService
     fetch_tweets.concat(twitter.search(hashtag, max_id: max_tweet_id).attrs[:statuses])
 
     while calculate_diff_tweeted_sec(fetch_tweets) < (air_time_min * 60)
-      fetch_tweets.concat(twitter.search(hashtag, max_id: fetch_tweets.last[:id]).attrs[:statuses])
+      fetch_tweets.concat(twitter.search(hashtag, max_id: fetch_tweets.last[:id] - 1).attrs[:statuses])
     end
 
     fetch_tweets.reverse!
