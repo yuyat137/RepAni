@@ -38,6 +38,7 @@
 
 <script>
 import Timer from './components/Timer'
+const CHECK_INTERVAL_TIME_MSEC = 300
 
 export default {
   name: "ReplayIndex",
@@ -53,26 +54,48 @@ export default {
       stackTweets: [],
       showTweets: [],
       fetchLastTweet: false,
+      processTimeJustBeforeMsec: 0,
     }
-  },
-  watch: {
-    stackTweets: function() {
-      if(this.stackTweets.length <= 10){
-        this.fetchTweets();
-      }
-    },
   },
   async created() {
     await this.fetchAnimeAndEpisode()
     this.fetchTweets()
     this.$watch(
+      // 時間が進むにつれツイートを表示
       function () {
         return this.$refs.timer.$data.progressTimeMsec
       },
       function() {
-        this.stackToShowTweets()
-        if(this.stackTweets.length < 100 && !this.fetchLastTweet) {
-          fetchTweets()
+        if(this.$refs.timer.$data.timerOn && (this.$refs.timer.$data.progressTimeMsec - this.processTimeJustBeforeMsec) > CHECK_INTERVAL_TIME_MSEC) {
+          this.stackToShowTweets()
+          this.processTimeJustBeforeMsec = this.$refs.timer.$data.progressTimeMsec
+        }
+      }
+    )
+    this.$watch(
+      // タイマーが止まったらstackTweetsを空にする
+      // タイマーが始めったらshowTweetsを空にする
+      function () {
+        return this.$refs.timer.$data.timerOn
+      },
+      function() {
+        if (this.$refs.timer.$data.timerOn) {
+          this.showTweets = []
+          this.processTimeJustBeforeMsec = this.$refs.timer.$data.progressTimeMsec
+        } else {
+          this.stackTweets = []
+        }
+      }
+    )
+    this.$watch(
+      // タイマースタート時、もしくはstackTweetsが少なくなったら補充
+      function () {
+        /* return this.$refs.timer.$data.timerOn || this.$refs.timer.$data.stackTweets < 100 */
+        return this.$refs.timer.$data.timerOn
+      },
+      function() {
+        if(!this.fetchLastTweet) {
+          this.fetchTweets()
         }
       }
     )
