@@ -37,9 +37,9 @@ export default {
     return {
       animes: [],
       terms: [],
-      selectTerm: "",
-      selectAnime: "",
-      episodes: []
+      selectTerm: new Object,
+      selectAnime: new Object,
+      episodes: new Array,
     }
   },
   async created() {

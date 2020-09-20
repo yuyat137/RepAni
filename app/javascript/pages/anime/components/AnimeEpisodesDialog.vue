@@ -37,7 +37,7 @@ export default({
     },
     episodes: {
       required: true,
-      type: Object,
+      type: Array,
     },
   },
   data() {
