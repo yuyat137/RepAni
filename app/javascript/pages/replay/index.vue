@@ -70,7 +70,6 @@ export default {
         return this.$refs.timer.$data.progressTimeMsec
       },
       function() {
-        // TODO: 9/15以降やること
         this.stackToShowTweets()
         if(this.stackTweets.length < 100 && !this.fetchLastTweet) {
           fetchTweets()
@@ -97,11 +96,8 @@ export default {
         .catch(err => console.log(err.status));
     },
     stackToShowTweets(){
-      // TODO: 9/15以降やること
-      // TODO: ツイートの時間を見て、対応するツイートを移し替える
-      let tweet = this.stackTweets.shift()
-      if(tweet) {
-        this.showTweets.unshift(tweet);
+      while (this.stackTweets[0].progress_time_msec <= this.$refs.timer.$data.progressTimeMsec) {
+        this.showTweets.unshift(this.stackTweets.shift());
       }
     },
   },
