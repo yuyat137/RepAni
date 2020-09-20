@@ -59,7 +59,7 @@ export default {
   },
   async created() {
     await this.fetchAnimeAndEpisode()
-    this.fetchTweets()
+    await this.fetchTweets()
     this.$watch(
       // 時間が進むにつれツイートを表示
       function () {
@@ -109,9 +109,9 @@ export default {
         })
         .catch(err => console.log(err.status));
     },
-    fetchTweets() {
+    async fetchTweets() {
       // 実際の実装では=とせずstackTweetsに追加するようにする
-      this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, progress_time_msec: this.$refs.timer.$data.progressTimeMsec}})
+      await this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, progress_time_msec: this.$refs.timer.$data.progressTimeMsec}})
         .then(res => {
           this.stackTweets = res.data.tweets
           this.fetchLastTweet = res.data.fetch_last_tweet
@@ -119,7 +119,7 @@ export default {
         .catch(err => console.log(err.status));
     },
     stackToShowTweets(){
-      while (this.stackTweets[0].progress_time_msec <= this.$refs.timer.$data.progressTimeMsec) {
+      while (this.stackTweets[0].progress_time_msec <= this.$refs.timer.$data.progressTimeMsec && !this.showTweets.includes(this.stackTweets[0])) {
         this.showTweets.unshift(this.stackTweets.shift());
       }
     },
