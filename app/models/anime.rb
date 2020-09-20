@@ -32,11 +32,11 @@ class Anime < ApplicationRecord
   def import_associate_episodes(episode_num, first_broadcast_date = nil)
     new_episodes = []
     episode_num.times do |num|
-      if(first_broadcast_date)
-        new_episodes << { anime_id: id, num: num + 1, air_time: default_air_time, created_at: Time.zone.now, updated_at: Time.zone.now, broadcast_datetime: first_broadcast_date + 7*num}
-      else
-        new_episodes << { anime_id: id, num: num + 1, air_time: default_air_time, created_at: Time.zone.now, updated_at: Time.zone.now }
-      end
+      new_episodes << if first_broadcast_date
+                        { anime_id: id, num: num + 1, air_time: default_air_time, created_at: Time.zone.now, updated_at: Time.zone.now, broadcast_datetime: first_broadcast_date + 7 * num }
+                      else
+                        { anime_id: id, num: num + 1, air_time: default_air_time, created_at: Time.zone.now, updated_at: Time.zone.now }
+                      end
     end
     Episode.insert_all(new_episodes)
   end

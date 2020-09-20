@@ -9,6 +9,6 @@ class FetchTweetsByProgressTimeService
   def call(episode_id, progress_time_msec)
     episode = Episode.find(episode_id)
     serial_number = episode.tweets.find_by(progress_time_msec: Range.new(progress_time_msec, nil)).serial_number
-    tweets = episode.tweets.limit(GET_TWEETS_NUM).offset(serial_number - 1)
+    episode.tweets.limit(GET_TWEETS_NUM).offset(serial_number - 1)
   end
 end
