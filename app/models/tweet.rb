@@ -2,8 +2,11 @@ class Tweet < ApplicationRecord
   belongs_to :episode
   validates :episode_id, presence: true
   validates :tweet_id, presence: true, uniqueness: true
+  validates :progress_time_msec, presence: true
+  validates :serial_number, presence: true
   validates :name, presence: true
   validates :screen_name, presence: true
+  validates :profile_image_url, presence: true
   validates :text, presence: true
   validates :tweeted_at, presence: true
   GET_TWEETS_NUM = 300
