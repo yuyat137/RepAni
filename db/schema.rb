@@ -62,16 +62,17 @@ ActiveRecord::Schema.define(version: 2020_08_15_063706) do
   create_table "tweets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "episode_id"
     t.bigint "tweet_id", null: false
+    t.bigint "progress_time_msec", null: false
     t.bigint "serial_number", null: false
     t.string "name", null: false
     t.string "screen_name", null: false
+    t.string "profile_image_url", null: false
     t.text "text", null: false
     t.string "image_url1"
     t.string "image_url2"
     t.string "image_url3"
     t.string "image_url4"
     t.datetime "tweeted_at", null: false
-    t.bigint "progress_time_msec", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["episode_id"], name: "index_tweets_on_episode_id"

@@ -29,7 +29,27 @@
           :key="tweet.id"
           class="my-5"
         >
-          {{ tweet.text }}
+          -------------------<br>
+          {{ tweet.text }}<br>
+          {{ tweet.screen_name }}<br>
+          {{ tweet.name }}<br>
+          <img :src="tweet.profile_image_url">
+          <img
+            :src="tweet.image_url1"
+            width="400px"
+          >
+          <img
+            :src="tweet.image_url2"
+            width="400px"
+          >
+          <img
+            :src="tweet.image_url3"
+            width="400px"
+          >
+          <img
+            :src="tweet.image_url4"
+            width="400px"
+          >
         </div>
       </v-col>
     </v-row>

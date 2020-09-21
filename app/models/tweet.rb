@@ -18,16 +18,17 @@ class Tweet < ApplicationRecord
       new_tweets << {
         episode_id: episode_id,
         tweet_id: tweet[:id],
+        progress_time_msec: (tweeted_at - broadcast_datetime).to_i * 1000,
         serial_number: serial_number,
         name: tweet.dig(:user, :name),
         screen_name: tweet.dig(:user, :screen_name),
         text: tweet[:text],
+        profile_image_url: tweet.dig(:user, :profile_image_url_https),
         image_url1: tweet.dig(:extended_entities, :media, 0, :media_url_https),
         image_url2: tweet.dig(:extended_entities, :media, 1, :media_url_https),
         image_url3: tweet.dig(:extended_entities, :media, 2, :media_url_https),
         image_url4: tweet.dig(:extended_entities, :media, 3, :media_url_https),
         tweeted_at: tweeted_at,
-        progress_time_msec: (tweeted_at - broadcast_datetime).to_i * 1000,
         created_at: Time.zone.now,
         updated_at: Time.zone.now
       }
