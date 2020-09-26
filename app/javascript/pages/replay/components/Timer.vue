@@ -27,6 +27,7 @@
       </v-btn>
       <v-btn
         v-if="timerOn"
+        id="timer_stop"
         small
         color="error"
         @click="timerStop"
@@ -35,6 +36,7 @@
       </v-btn>
       <div class="ml-2 mt-2">
         <v-btn
+          id="move_few_back"
           small
           color="primary"
           @click="moveFewSeconds(-10)"
@@ -42,6 +44,7 @@
           10秒戻る
         </v-btn>
         <v-btn
+          id="move_few_front"
           small
           color="error"
           @click="moveFewSeconds(10)"
