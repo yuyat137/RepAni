@@ -29,27 +29,7 @@
           :key="tweet.id"
           class="my-5"
         >
-          -------------------<br>
-          {{ tweet.text }}<br>
-          {{ tweet.screen_name }}<br>
-          {{ tweet.name }}<br>
-          <img :src="tweet.profile_image_url">
-          <img
-            :src="tweet.image_url1"
-            width="400px"
-          >
-          <img
-            :src="tweet.image_url2"
-            width="400px"
-          >
-          <img
-            :src="tweet.image_url3"
-            width="400px"
-          >
-          <img
-            :src="tweet.image_url4"
-            width="400px"
-          >
+          <Tweet :tweet="tweet" />
         </div>
       </v-col>
     </v-row>
@@ -58,12 +38,14 @@
 
 <script>
 import Timer from './components/Timer'
+import Tweet from './components/Tweet'
 const CHECK_INTERVAL_TIME_MSEC = 300
 
 export default {
   name: "ReplayIndex",
   components: {
     Timer,
+    Tweet,
   },
   data() {
     return {
