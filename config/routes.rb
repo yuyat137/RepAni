@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   root 'home#index'
+  namespace :admin do
+    root to: 'dashboards#index'
+  end
   namespace :api do
     resources :animes, only: %w[index]
     resources :terms, only: %w[index]

@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title = "#{Settings.sitename} Admin管理画面"
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'admin/application', media: 'all'
+
+  body
+    .wrapper
+      = render 'admin/layouts/sidebar'
+      .content-wrapper
+        section.content-header
+          / == breadcrumbs style: :ol, class: 'breadcrumb float-sm-right', separator: '　&rsaquo;　'
+        section.content
+          = render 'admin/layouts/flash_messages'
+          = yield
+      #main-menu-bg
+    = javascript_pack_tag 'application-admin'
