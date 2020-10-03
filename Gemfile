@@ -21,6 +21,7 @@ gem 'twitter'
 gem 'config'
 gem 'pry-rails'
 gem 'rails-erd'
+gem 'sorcery'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

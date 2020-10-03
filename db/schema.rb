@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_15_063706) do
+ActiveRecord::Schema.define(version: 2020_10_03_051424) do
 
   create_table "anime_terms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "anime_id", null: false
@@ -78,6 +78,15 @@ ActiveRecord::Schema.define(version: 2020_08_15_063706) do
     t.index ["episode_id"], name: "index_tweets_on_episode_id"
     t.index ["tweet_id"], name: "index_tweets_on_tweet_id", unique: true
     t.index ["tweeted_at"], name: "index_tweets_on_tweeted_at"
+  end
+
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "crypted_password"
+    t.string "salt"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
 end
