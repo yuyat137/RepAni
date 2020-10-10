@@ -5,7 +5,7 @@ FactoryBot.define do
     default_air_time { 30 }
     sequence(:twitter_account) { |n| "test_screen_name_#{n}" }
     sequence(:twitter_hash_tag) { |n| "test_hash_tag_#{n}" }
-    state { :open }
+    public { true }
   end
   trait :associate_term do
     after(:create) do |anime|

@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2020_10_03_051424) do
     t.integer "default_air_time", default: 30, null: false
     t.string "twitter_account"
     t.string "twitter_hash_tag"
-    t.boolean "state", default: true, null: false
+    t.boolean "public", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["title"], name: "index_animes_on_title", unique: true

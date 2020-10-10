@@ -1,11 +1,10 @@
 class Anime < ApplicationRecord
-  before_validation :set_state
+  before_validation :set_public
   has_many :anime_terms
   has_many :terms, through: :anime_terms
   has_many :episodes
   validates :title, presence: true, uniqueness: { case_sensitive: false }
-  validates :state, presence: true
-  enum state: %i[close open]
+  validates :public, inclusion: { in: [true, false]}
   RESPONSE_SUCCESS = '200'.freeze
   SHANGRILA_API_URI = 'http://api.moemoe.tokyo/anime/v1/master/'.freeze
 
@@ -18,14 +17,15 @@ class Anime < ApplicationRecord
     return if response.code != RESPONSE_SUCCESS
 
     json = JSON.parse(response.body, symbolize_names: true)
+    animes = []
     json.each do |anime|
       anime.slice!(:title, :public_url, :twitter_account, :twitter_hash_tag)
       new_anime = Anime.new(anime)
       next unless new_anime.valid?
 
-      new_anime.save
-      new_anime.anime_terms.create(term: term)
+      animes << new_anime
     end
+    Anime.import animes, validate: true
     Term.update_all_now_attribute
   end
 
@@ -43,7 +43,7 @@ class Anime < ApplicationRecord
 
   private
 
-  def set_state
-    self.state = :open if state.nil?
+  def set_public
+    self.public = :open if public.nil?
   end
 end
