@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root 'home#index'
   namespace :admin do
     root to: 'dashboards#index'
+    resources :animes, only: %w[index update destroy]
   end
   namespace :api do
     resources :animes, only: %w[index]

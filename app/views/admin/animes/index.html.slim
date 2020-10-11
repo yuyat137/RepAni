@@ -1,0 +1,19 @@
+.card
+  .card-header.pb-3
+    h4.card-title = 'アニメ一覧'
+  .card-body
+    table.table.table-bordered
+      thead
+        tr
+          th.text-center scope="col" width='40%' タイトル
+          th.text-center scope="col" width='10%' 放送時間(分)
+          th.text-center scope="col" width='10%' 状態
+          th scope="col"
+      tbody
+        - @animes.each do |anime|
+          tr id="anime_#{anime.id}"
+            td = anime.title
+            td = anime.default_air_time
+            td.show-public = anime.public ? '公開' : '非公開'
+            td.text-right
+              = render 'anime_edit', anime: anime

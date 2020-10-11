@@ -1,0 +1,3 @@
+$("#anime_<%= @anime.id %>").find(".anime-edit").replaceWith("<%= j(render('admin/animes/anime_edit', anime: @anime)) %>");
+$("#anime_<%= @anime.id %>").children(".show-public").replaceWith("<td class='show-public'><%= @anime.public ? '公開' : '非公開' %></td>");
+
