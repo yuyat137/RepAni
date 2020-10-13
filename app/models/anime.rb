@@ -18,14 +18,17 @@ class Anime < ApplicationRecord
 
     json = JSON.parse(response.body, symbolize_names: true)
     animes = []
+    anime_terms = []
     json.each do |anime|
       anime.slice!(:title, :public_url, :twitter_account, :twitter_hash_tag)
       new_anime = Anime.new(anime)
       next unless new_anime.valid?
 
       animes << new_anime
+      anime_terms << AnimeTerm.new(anime_id: new_anime.id, term_id: term.id)
     end
     Anime.import animes, validate: true
+    AnimeTerm.import anime_terms, validate: true
     Term.update_all_now_attribute
   end
 
@@ -33,12 +36,12 @@ class Anime < ApplicationRecord
     new_episodes = []
     episode_num.times do |num|
       new_episodes << if first_broadcast_date
-                        { anime_id: id, num: num + 1, air_time: default_air_time, created_at: Time.zone.now, updated_at: Time.zone.now, broadcast_datetime: first_broadcast_date + 7 * num }
+                        Episode.new(anime_id: id, num: num + 1, air_time: default_air_time, broadcast_datetime: first_broadcast_date + 7 * num)
                       else
-                        { anime_id: id, num: num + 1, air_time: default_air_time, created_at: Time.zone.now, updated_at: Time.zone.now }
+                        Episode.new(anime_id: id, num: num + 1, air_time: default_air_time)
                       end
     end
-    Episode.insert_all(new_episodes)
+    Episode.import new_episodes
   end
 
   private
