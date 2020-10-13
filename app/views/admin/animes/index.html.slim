@@ -1,6 +1,10 @@
 .card
   .card-header.pb-3
     h4.card-title = 'アニメ一覧'
+  #search_form
+    = form_with model: @search_form, scope: 'search', url: admin_animes_path, html: { method: :get, class: 'form-inline' }, local: true do |f|
+      = f.text_field :title, class: 'form-control'
+      = f.submit '検索', class: %w[btn btn-default btn-flat]
   .card-body
     table.table.table-bordered
       thead

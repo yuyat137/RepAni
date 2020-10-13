@@ -1,6 +1,7 @@
 class Admin::AnimesController < Admin::BaseController
   def index
-    @animes = Anime.all
+    @search_form = SearchAnimesForm.new(search_params)
+    @animes = @search_form.search
   end
 
   def update
@@ -18,5 +19,9 @@ class Admin::AnimesController < Admin::BaseController
 
   def anime_public_param
     params.require(:public)
+  end
+
+  def search_params
+    params[:search]&.permit(:title)
   end
 end
