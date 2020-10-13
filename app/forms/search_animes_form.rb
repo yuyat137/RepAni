@@ -12,6 +12,6 @@ class SearchAnimesForm
       relation = relation.where('title LIKE ?', "%#{title}%")
     end
 
-    relation.order(:title)
+    relation.order(id: 'desc')
   end
 end
