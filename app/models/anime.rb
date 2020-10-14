@@ -17,17 +17,16 @@ class Anime < ApplicationRecord
     return if response.code != RESPONSE_SUCCESS
 
     json = JSON.parse(response.body, symbolize_names: true)
-    animes = []
     anime_terms = []
     json.each do |anime|
       anime.slice!(:title, :public_url, :twitter_account, :twitter_hash_tag)
       new_anime = Anime.new(anime)
       next unless new_anime.valid?
 
-      animes << new_anime
-      anime_terms << AnimeTerm.new(anime_id: new_anime.id, term_id: term.id)
+      # NOTE: saveしてからでないとidが取得できないため、Animeにbulk insertは使わない
+      new_anime.save
+      anime_terms << new_anime.anime_terms.new(term_id: term.id)
     end
-    Anime.import animes, validate: true
     AnimeTerm.import anime_terms, validate: true
     Term.update_all_now_attribute
   end
