@@ -22,6 +22,6 @@ class Admin::AnimesController < Admin::BaseController
   end
 
   def search_params
-    params[:search]&.permit(:title)
+    params[:search]&.permit(:title, :year, :season)
   end
 end
