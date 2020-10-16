@@ -25,6 +25,7 @@ gem 'sorcery'
 gem 'font-awesome-sass'
 gem 'sorcery'
 gem 'activerecord-import'
+gem 'bullet'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
