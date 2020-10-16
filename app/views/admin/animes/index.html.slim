@@ -9,6 +9,7 @@
       = f.select :public, {公開: true, 非公開: false}, include_blank: '公開非公開: 全て'
       = f.submit '検索', class: %w[btn btn-default btn-flat]
   .card-body
+    = paginate @animes
     table.table.table-bordered
       thead
         tr
@@ -24,3 +25,4 @@
             td.show-public = anime.public ? '公開' : '非公開'
             td.text-right
               = render 'anime_edit', anime: anime
+    = paginate @animes

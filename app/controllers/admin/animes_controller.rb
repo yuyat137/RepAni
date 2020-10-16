@@ -1,7 +1,7 @@
 class Admin::AnimesController < Admin::BaseController
   def index
     @search_form = SearchAnimesForm.new(search_params)
-    @animes = @search_form.search
+    @animes = @search_form.search.page(params[:page])
   end
 
   def update
