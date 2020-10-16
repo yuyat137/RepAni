@@ -4,8 +4,9 @@
   #search_form
     = form_with model: @search_form, scope: 'search', url: admin_animes_path, html: { method: :get, class: 'form-inline' }, local: true do |f|
       = f.text_field :title, class: 'form-control'
-      = f.select :year, Term.pluck(:year).uniq, include_blank: '年：指定なし'
-      = f.select :season, {春: 2, 夏: 3, 秋: 4, 冬: 1}, include_blank: '季節：指定なし'
+      = f.select :year, Term.pluck(:year).uniq, include_blank: '年: 全て'
+      = f.select :season, {春: 2, 夏: 3, 秋: 4, 冬: 1}, include_blank: '季節: 全て'
+      = f.select :public, {公開: true, 非公開: false}, include_blank: '公開非公開: 全て'
       = f.submit '検索', class: %w[btn btn-default btn-flat]
   .card-body
     table.table.table-bordered

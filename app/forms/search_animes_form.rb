@@ -6,6 +6,7 @@ class SearchAnimesForm
   attribute :title, :string
   attribute :year, :string
   attribute :season, :string
+  attribute :public, :string
 
   def search
     relation = Anime
@@ -22,6 +23,16 @@ class SearchAnimesForm
       relation = relation.joins(:terms).where(terms: {season: "#{season}"})
     end
 
+    if public.present?
+      relation = relation.where(public: strToBool(public))
+    end
+
     relation.order(id: 'desc')
+  end
+
+  private
+
+  def strToBool(str)
+    ActiveRecord::Type::Boolean.new.cast(str)
   end
 end
