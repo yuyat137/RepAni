@@ -10,17 +10,21 @@
       = f.submit '検索', class: %w[btn btn-default btn-flat]
   .card-body
     = paginate @animes
-    table.table.table-bordered
+    table.table.table-bordered.my-3
       thead
         tr
-          th.text-center scope="col" width='40%' タイトル
-          th.text-center scope="col" width='10%' 放送時間(分)
-          th.text-center scope="col" width='10%' 状態
-          th scope="col"
+          th.text-center scope='col' width='40%' タイトル
+          th.text-center scope='col' width='5%' 年
+          th.text-center scope='col' width='5%' 時期
+          th.text-center scope='col' width='10%' 放送時間(分)
+          th.text-center scope='col' width='10%' 状態
+          th scope='col' width='20%'
       tbody
         - @animes.each do |anime|
           tr id="anime_#{anime.id}"
             td = anime.title
+            td = anime.terms.first.year
+            td = anime.terms.first.season_ja
             td = anime.default_air_time
             td.show-public = anime.public ? '公開' : '非公開'
             td.text-right
