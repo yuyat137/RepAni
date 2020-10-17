@@ -16,7 +16,7 @@
           th.text-center scope='col' width='40%' タイトル
           th.text-center scope='col' width='5%' 年
           th.text-center scope='col' width='5%' 時期
-          th.text-center scope='col' width='10%' 放送時間(分)
+          th.text-center scope='col' width='8%' 時間(分)
           th.text-center scope='col' width='10%' 状態
           th scope='col' width='20%'
       tbody
@@ -26,7 +26,15 @@
             td = anime.terms.first.year
             td = anime.terms.first.season_ja
             td = anime.default_air_time
-            td.show-public = anime.public ? '公開' : '非公開'
+            td.show-public
+              - if anime.public
+                = icon 'fas', 'plus-circle', class:'green mr-1'
+                |
+                  公開
+              - else
+                = icon 'fas', 'minus-circle', class:'red mr-1'
+                |
+                  非公開
             td.text-right
               = render 'anime_edit', anime: anime
     = paginate @animes
