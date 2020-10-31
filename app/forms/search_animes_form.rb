@@ -1,8 +1,9 @@
+require "nkf"
+
 class SearchAnimesForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  # scope :body_contain, ->(word) { left_joins(:sentences).where('sentences.body LIKE ?', "%#{word}%") }
   attribute :title, :string
   attribute :year, :string
   attribute :season, :string
@@ -12,7 +13,8 @@ class SearchAnimesForm
     relation = Anime
 
     if title.present?
-      relation = relation.where('title LIKE ?', "%#{title}%")
+      relation = relation.where('title LIKE ?', "%" + NKF.nkf("-h1 -w", "#{title}") + "%") \
+        .or(relation.where('title LIKE ?', "%" + NKF.nkf("-h2 -w", "#{title}") + "%"))
     end
 
     if year.present?
