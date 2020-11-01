@@ -1,0 +1,26 @@
+section.content
+  .container-fluid
+    .row
+      .col-md-6
+        .card.card-primary
+          .card-header
+            h3.card-title 今期のアニメ
+          .card-footer
+            button.btn.btn-primary.my-3 type="インポート"  一括インポート
+        .card.card-info
+          .card-header
+            h3.card-title 指定クールのアニメ
+          .card-body
+            #search_form.mx-auto.my-3
+              = form_with url: admin_animes_path, html: { method: :get, class: 'form-inline' }, local: true do |f|
+                = f.date_select :year, { discard_month: true }, { class: 'form-control mr-2' }
+                = f.select :season, { 春: 2, 夏: 3, 秋: 4, 冬: 1 }, {}, { class: 'form-control mr-2' }
+          .card-footer
+            button.btn.btn-info type="submit"  一括インポート
+        .card.card-danger
+          .card-header
+            h3.card-title エラーログ
+          .card-body
+      .col-md-6
+        .card.card-warning
+          = render 'form'
