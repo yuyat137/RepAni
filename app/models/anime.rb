@@ -4,7 +4,7 @@ class Anime < ApplicationRecord
   has_many :terms, through: :anime_terms
   has_many :episodes
   validates :title, presence: true, uniqueness: { case_sensitive: false }
-  validates :public, inclusion: { in: [true, false]}
+  validates :public, inclusion: { in: [true, false] }
   RESPONSE_SUCCESS = '200'.freeze
   SHANGRILA_API_URI = 'http://api.moemoe.tokyo/anime/v1/master/'.freeze
 
