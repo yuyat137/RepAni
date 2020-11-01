@@ -1,7 +1,7 @@
 .card-header
   h3.card-title 指定アニメ登録
 .card-body
-  = form_with url: admin_animes_path, html: { method: :get }, local: true do |f|
+  = form_with url: admin_animes_path, local: true do |f|
     .form-group
       = f.label :title, 'タイトル'
       span.red （必須）
@@ -35,5 +35,4 @@
       = f.label :episodes_num, '話数'
       span.red （必須）
       = f.number_field :episodes_num, { class: 'form-control' }
-.card-footer
-  button.btn.btn-warning type="submit"  登録
+    = link_to '登録', '#', class: 'btn btn-warning'

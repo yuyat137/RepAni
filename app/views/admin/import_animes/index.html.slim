@@ -5,22 +5,25 @@ section.content
         .card.card-primary
           .card-header
             h3.card-title 今期のアニメ
-          .card-footer
-            button.btn.btn-primary.my-3 type="インポート"  一括インポート
+          .card-body
+            = link_to '一括インポート', admin_import_animes_import_path, method: :post, class: 'btn btn-primary my-2'
         .card.card-info
           .card-header
             h3.card-title 指定クールのアニメ
           .card-body
             #search_form.mx-auto.my-3
-              = form_with url: admin_animes_path, html: { method: :get, class: 'form-inline' }, local: true do |f|
-                = f.date_select :year, { discard_month: true }, { class: 'form-control mr-2' }
-                = f.select :season, { 春: 2, 夏: 3, 秋: 4, 冬: 1 }, {}, { class: 'form-control mr-2' }
-          .card-footer
-            button.btn.btn-info type="submit"  一括インポート
+              = form_with url: admin_import_animes_import_path, scope: 'import_period', local: true do |f|
+                = f.date_select :year, { discard_month: true }, { method: :post, class: 'form-control d-inline-block w-25 mr-2' }
+                = f.select :season, { 春: 2, 夏: 3, 秋: 4, 冬: 1 }, {}, { class: 'form-control d-inline-block inline-block w-25' }
+                br
+                = f.submit '一括インポート', class: 'btn btn-info mt-4'
         .card.card-danger
           .card-header
             h3.card-title エラーログ
           .card-body
+            = @result
+            - @animes.each do |anime|
+              li= anime.title
       .col-md-6
         .card.card-warning
           = render 'form'

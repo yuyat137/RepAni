@@ -12,7 +12,8 @@ class Term < ApplicationRecord
   def self.fetch_now_or_select_term(year = nil, season = nil)
     year ||= Date.today.year
     season ||= (Date.today.month - 1) / 3 + 1
-    Term.find_or_create_by({ year: year, season: season })
+    Term.find_or_create_by({ year: year.to_i, season: season.to_i })
+    # TODO: 画面から指定クールのアニメをインポートする時、文字列として入るためto_iメソッドが必要。最初からから整数型で受ける形にしたい
   end
 
   def self.update_all_now_attribute
