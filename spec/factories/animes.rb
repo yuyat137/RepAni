@@ -19,6 +19,16 @@ FactoryBot.define do
       create(:anime_term, anime_id: anime.id, term_id: term.id)
     end
   end
+  trait :public do
+    after(:create) do |anime|
+      anime.update(public: true)
+    end
+  end
+  trait :private do
+    after(:create) do |anime|
+      anime.update(public: false)
+    end
+  end
   trait :episodes do
     after(:create) do |anime|
       create_list(:episode, 12, anime_id: anime.id)
