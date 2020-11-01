@@ -1,0 +1,26 @@
+@import 'bootstrap/dist/css/bootstrap.min';
+@import "font-awesome-sprockets";
+@import 'font-awesome';
+@import 'admin-lte/dist/css/adminlte.min';
+@import 'color';
+
+body {
+  font: 12px/1 'Noto Sans Japanese', Helvetica, Arial, "\30E1\30A4\30EA\30AA", Meiryo, "\30D2\30E9\30AE\30CE\89D2\30B4\20\50\72\6F\20\57\33", "Hiragino Kaku Gothic Pro", sans-serif;
+  color: #333;
+  font-size: 14px;
+}
+
+.content-header {
+  height: 40px;
+  .breadcrumb {
+    line-height: 0.8rem;
+  }
+}
+
+.alert-dismissible .close {
+  padding: .25rem 1.25rem;
+}
+
+.pagination {
+  justify-content: center;
+}

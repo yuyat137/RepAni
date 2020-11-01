@@ -1,0 +1,7 @@
+$("#anime_<%= @anime.id %>").find(".anime-edit").replaceWith("<%= j(render('admin/animes/anime_edit', anime: @anime)) %>");
+
+<% if(@anime.public) %>
+  $("#anime_<%= @anime.id %>").children(".show-public").replaceWith("<td class='show-public'><i class='fas fa-plus-circle green mr-1'></i>公開</td>");
+<% else %>
+  $("#anime_<%= @anime.id %>").children(".show-public").replaceWith("<td class='show-public'><i class='fas fa-minus-circle red mr-1'></i>非公開</td>");
+<% end %>
