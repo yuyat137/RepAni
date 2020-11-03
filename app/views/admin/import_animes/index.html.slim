@@ -17,13 +17,7 @@ section.content
                 = f.select :season, { 春: 2, 夏: 3, 秋: 4, 冬: 1 }, {}, { class: 'form-control d-inline-block inline-block w-25' }
                 br
                 = f.submit '一括インポート', class: 'btn btn-info mt-4'
-        .card.card-danger
-          .card-header
-            h3.card-title エラーログ
-          .card-body
-            = @result
-            - @animes.each do |anime|
-              li= anime.title
+        .card.card-secondary
+          = render 'log'
       .col-md-6
-        .card.card-warning
           = render 'form'
