@@ -1,8 +1,8 @@
 class Anime < ApplicationRecord
   before_validation :set_public
-  has_many :anime_terms
-  has_many :terms, through: :anime_terms
-  has_many :episodes
+  has_many :anime_terms, dependent: :destroy
+  has_many :terms, through: :anime_terms, dependent: :destroy
+  has_many :episodes, dependent: :destroy
   validates :title, presence: true, uniqueness: { case_sensitive: false }
   validates :public, inclusion: { in: [true, false] }
   RESPONSE_SUCCESS = '200'.freeze
@@ -44,6 +44,23 @@ class Anime < ApplicationRecord
                       end
     end
     Episode.import new_episodes
+  end
+
+  def self.register(*args)
+    options = args.extract_options!
+    return '引数が足りません' if (options[:title].nil? || options[:public].nil? || options[:default_air_time].nil? ||
+                                   options[:year].nil? || options[:season].nil? || options[:episodes_num].nil?)
+
+    anime = Anime.new(title: options[:title], public_url: options[:public_url],
+                       default_air_time: options[:default_air_time], twitter_account: options[:twitter_account], public: options[:public])
+    return anime.errors.full_messages unless anime.valid?
+
+    # TODO: 後でトランザクション追加したい
+    anime.save!
+    term = Term.find_or_create_by!(year: options[:year], season: options[:season])
+    anime.anime_terms.create!(term_id: term.id)
+    anime.import_associate_episodes(options[:episodes_num])
+    true
   end
 
   private

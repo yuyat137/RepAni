@@ -1,6 +1,9 @@
 .card-header
   h3.card-title ログ
 .card-body
+  - if @log
+    // TODO: リファクタリング対象
+    = @log
   - if @animes
     - @animes.each do |anime|
       li= anime.title
