@@ -9,11 +9,10 @@ class Term < ApplicationRecord
   # NOTE: vue.js側に値を送る際、"winter"など文字列になるので、vue.js側では統一して文字列を使用する
   enum season: { winter: 1, spring: 2, summer: 3, autumn: 4 }
 
-  def self.fetch_now_or_select_term(year = nil, season = nil)
+  def self.fetch_now_or_select_term(year = nil, season_num = nil)
     year ||= Date.today.year
-    season ||= (Date.today.month - 1) / 3 + 1
-    Term.find_or_create_by({ year: year.to_i, season: season.to_i })
-    # TODO: 画面から指定クールのアニメをインポートする時、文字列として入るためto_iメソッドが必要。最初からから整数型で受ける形にしたい
+    season_num ||= (Date.today.month - 1) / 3 + 1
+    Term.find_or_create_by({ year: year.to_i, season: season_num.to_i })
   end
 
   def self.update_all_now_attribute

@@ -63,6 +63,7 @@ export default {
         .then(res => this.episodes = res.data)
         .catch(err => console.log(err.status));
     },
+    // ここの引数いる？あとで確認
     handleSetSelectTerm(term) {
       for(let i=0; i<this.terms.length; i++) {
         if(this.terms[i].now == true) {
