@@ -48,11 +48,11 @@ class Anime < ApplicationRecord
 
   def self.register(*args)
     options = args.extract_options!
-    return '引数が足りません' if (options[:title].nil? || options[:public].nil? || options[:default_air_time].nil? ||
-                                   options[:year].nil? || options[:season].nil? || options[:episodes_num].nil?)
+    return '引数が足りません' if options[:title].nil? || options[:public].nil? || options[:default_air_time].nil? ||
+                         options[:year].nil? || options[:season].nil? || options[:episodes_num].nil?
 
     anime = Anime.new(title: options[:title], public_url: options[:public_url],
-                       default_air_time: options[:default_air_time], twitter_account: options[:twitter_account], public: options[:public])
+                      default_air_time: options[:default_air_time], twitter_account: options[:twitter_account], public: options[:public])
     return anime.errors.full_messages unless anime.valid?
 
     # TODO: 後でトランザクション追加したい
