@@ -35,6 +35,8 @@ class Anime < ApplicationRecord
   end
 
   def import_associate_episodes(episode_num, first_broadcast_date = nil)
+    return if (episode_num.blank? || episode_num.zero?)
+
     new_episodes = []
     episode_num.times do |num|
       new_episodes << if first_broadcast_date
@@ -46,21 +48,17 @@ class Anime < ApplicationRecord
     Episode.import new_episodes
   end
 
-  def self.register(*args)
-    options = args.extract_options!
-    return '引数が足りません' if options[:title].nil? || options[:public].nil? || options[:default_air_time].nil? ||
-                         options[:year].nil? || options[:season].nil? || options[:episodes_num].nil?
-
-    anime = Anime.new(title: options[:title], public_url: options[:public_url],
-                      default_air_time: options[:default_air_time], twitter_account: options[:twitter_account], public: options[:public])
-    return anime.errors.full_messages unless anime.valid?
-
-    # TODO: 後でトランザクション追加したい
-    anime.save!
-    term = Term.find_or_create_by!(year: options[:year], season: options[:season])
-    anime.anime_terms.create!(term_id: term.id)
-    anime.import_associate_episodes(options[:episodes_num])
-    true
+  def self.register(params)
+    ActiveRecord::Base.transaction do
+      anime = Anime.create!(title: params[:title],
+                           public_url: params[:public_url],
+                           default_air_time: params[:default_air_time],
+                           twitter_account: params[:twitter_account],
+                           public: params[:public])
+      term = Term.find_or_create_by!(year: params[:year], season: params[:season])
+      anime.anime_terms.create!(term_id: term.id)
+      anime.import_associate_episodes(params[:episodes_num])
+    end
   end
 
   private
