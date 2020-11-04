@@ -13,11 +13,10 @@ class Admin::ImportAnimesController < Admin::BaseController
       episodes_num: params[:anime][:episodes_num].to_i
     )
 
-    if result == true
+    if result
       flash.now[:success] = 'アニメを登録しました'
     else
       flash.now[:danger] = 'アニメの登録に失敗しました'
-      @log = result
     end
 
     render :index
