@@ -35,8 +35,6 @@ class Anime < ApplicationRecord
   end
 
   def import_associate_episodes(episode_num, first_broadcast_date = nil)
-    return if (episode_num.blank? || episode_num.zero?)
-
     new_episodes = []
     episode_num.times do |num|
       new_episodes << if first_broadcast_date
@@ -55,9 +53,10 @@ class Anime < ApplicationRecord
                            default_air_time: params[:default_air_time],
                            twitter_account: params[:twitter_account],
                            public: params[:public])
-      term = Term.find_or_create_by!(year: params[:year], season: params[:season])
+      # TODO: ここでyear(1i)は使いたくない
+      term = Term.find_or_create_by!(year: params['year(1i)'].to_i, season: params[:season].to_i)
       anime.anime_terms.create!(term_id: term.id)
-      anime.import_associate_episodes(params[:episodes_num])
+      anime.import_associate_episodes(params[:episodes_num].to_i)
     end
   end
 

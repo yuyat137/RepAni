@@ -2,7 +2,7 @@ class Admin::ImportAnimesController < Admin::BaseController
   def index; end
 
   def create
-    result = Anime.register(params)
+    result = Anime.register(params[:anime])
 
     if result
       flash.now[:success] = 'アニメを登録しました'
