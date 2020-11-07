@@ -26,7 +26,6 @@ gem 'font-awesome-sass'
 gem 'activerecord-import'
 gem 'bullet'
 gem 'kaminari'
-gem 'kaminari'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
