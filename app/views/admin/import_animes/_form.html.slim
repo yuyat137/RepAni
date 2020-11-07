@@ -6,7 +6,7 @@
       .form-group
         = f.label :title, 'タイトル'
         span.red （必須）
-        = f.text_field :title, class:'form-control', id: 'title', required: true
+        = f.text_field :title, class:'form-control', required: true
       .form-group
         = f.label :year, '放送年'
         span.red （必須）
@@ -24,10 +24,10 @@
         = f.number_field :default_air_time, { class: 'form-control', value: 30, required: true }
       .form-group
         = f.label :twitter_account, 'Twitterアカウント'
-        = f.number_field :twitter_account, { class: 'form-control' }
+        = f.text_field :twitter_account, { class: 'form-control' }
       .form-group
         = f.label :twitter_hash_tag, 'Twitterハッシュタグ'
-        = f.number_field :twitter_hash_tag, { class: 'form-control' }
+        = f.text_field :twitter_hash_tag, { class: 'form-control' }
       .form-group
         = f.label :public, '公開非公開'
         span.red （必須）
@@ -36,4 +36,4 @@
         = f.label :episodes_num, '話数'
         span.red （必須）
         = f.number_field :episodes_num, { class: 'form-control', required: true, value: 12 }
-      = f.submit '登録', class: 'btn btn-warning'
+      = f.submit '登録', class: 'btn btn-warning', id: 'register_anime'

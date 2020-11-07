@@ -53,6 +53,7 @@ class Anime < ApplicationRecord
                             public_url: params[:public_url],
                             default_air_time: params[:default_air_time],
                             twitter_account: params[:twitter_account],
+                            twitter_hash_tag: params[:twitter_hash_tag],
                             public: params[:public])
       term = Term.find_or_create_by!(year: year.to_i, season: params[:season].to_i)
       anime.anime_terms.create!(term_id: term.id)
