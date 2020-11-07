@@ -1,6 +1,6 @@
 .card-header
   h3.card-title ログ
 .card-body
-  - if @animes
-    - @animes.each do |anime|
+  - if animes
+    - animes.each do |anime|
       li= anime.title
