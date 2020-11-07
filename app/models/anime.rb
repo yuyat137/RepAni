@@ -48,13 +48,13 @@ class Anime < ApplicationRecord
 
   def self.register(params)
     ActiveRecord::Base.transaction do
+      year = params['year(1i)']? params['year(1i)'] : params[:year]
       anime = Anime.create!(title: params[:title],
                            public_url: params[:public_url],
                            default_air_time: params[:default_air_time],
                            twitter_account: params[:twitter_account],
                            public: params[:public])
-      # TODO: ここでyear(1i)は使いたくない
-      term = Term.find_or_create_by!(year: params['year(1i)'].to_i, season: params[:season].to_i)
+      term = Term.find_or_create_by!(year: year.to_i, season: params[:season].to_i)
       anime.anime_terms.create!(term_id: term.id)
       anime.import_associate_episodes(params[:episodes_num].to_i)
     end
