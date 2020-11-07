@@ -43,16 +43,17 @@ RSpec.describe 'admin/import_animes', type: :system do
         expect(page).to have_content('アニメを登録しました')
         # TODO: 以下コードは詳細画面ができたら画面から確認する形に移行
         expect(Anime.all.length).to be 1
-        expect(Anime.first.terms.length).to be 1
-        expect(Anime.first.episodes.length).to be 13
-        expect(Anime.first.title).to eq 'テストアニメ'
-        expect(Anime.first.terms.first.year).to eq 2019
-        expect(Anime.first.terms.first.season).to eq 'spring'
-        expect(Anime.first.public_url).to eq 'test@example.com'
-        expect(Anime.first.default_air_time).to be 25
-        expect(Anime.first.twitter_account).to eq 'test_account'
-        expect(Anime.first.twitter_hash_tag).to eq 'test_hash_tag'
-        expect(Anime.first.public).to be false
+        anime = Anime.first
+        expect(anime.terms.length).to be 1
+        expect(anime.episodes.length).to be 13
+        expect(anime.title).to eq 'テストアニメ'
+        expect(anime.terms.first.year).to eq 2019
+        expect(anime.terms.first.season).to eq 'spring'
+        expect(anime.public_url).to eq 'test@example.com'
+        expect(anime.default_air_time).to be 25
+        expect(anime.twitter_account).to eq 'test_account'
+        expect(anime.twitter_hash_tag).to eq 'test_hash_tag'
+        expect(anime.public).to be false
       end
     end
     context '入力値が誤り' do

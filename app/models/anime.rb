@@ -1,7 +1,7 @@
 class Anime < ApplicationRecord
   before_validation :set_public
   has_many :anime_terms, dependent: :destroy
-  has_many :terms, through: :anime_terms, dependent: :destroy
+  has_many :terms, through: :anime_terms
   has_many :episodes, dependent: :destroy
   validates :title, presence: true, uniqueness: { case_sensitive: false }
   validates :public, inclusion: { in: [true, false] }
