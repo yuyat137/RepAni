@@ -1,6 +1,6 @@
 .anime-edit
   - if anime.public
-    = link_to '非公開にする', admin_anime_path(anime, public: false), method: :patch, class: 'btn btn-outline-danger btn-sm mr-3', remote: true
+    = link_to '非公開にする', admin_animes_switch_public_path(id: anime.id, public: false), method: :patch, class: 'btn btn-outline-danger btn-sm mr-3', remote: true
   - else
-    = link_to '公開する', admin_anime_path(anime, public: true), method: :patch, class: 'btn btn-outline-primary btn-sm mr-3', remote: true
+    = link_to '公開する', admin_animes_switch_public_path(id: anime.id, public: true), method: :patch, class: 'btn btn-outline-primary btn-sm mr-3', remote: true
   = link_to '削除', admin_anime_path(anime), method: :delete, class: 'btn btn-outline-danger btn-sm mr-3', data: { confirm: "#{anime.title}を削除しますか?" }, remote: true

@@ -6,7 +6,7 @@ class Admin::AnimesController < Admin::BaseController
 
   def update
     @anime = Anime.find(params[:id])
-    @anime.update(public: anime_public_param)
+    @anime.update(anime_params)
   end
 
   def show
@@ -16,6 +16,11 @@ class Admin::AnimesController < Admin::BaseController
   def destroy
     @anime = Anime.find(params[:id])
     @anime.destroy
+  end
+
+  def switch_public
+    @anime = Anime.find(params[:id])
+    @anime.update(public: anime_public_param)
   end
 
   private

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root 'home#index'
   namespace :admin do
     root to: 'dashboards#index'
+    patch 'animes/switch_public', to: 'animes#switch_public'
     resources :animes, only: %w[index update show destroy]
     resources :import_animes, only: %w[index create]
     post 'import_animes/import', to: 'import_animes#import'
