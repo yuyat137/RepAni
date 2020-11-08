@@ -1,6 +1,6 @@
 class Episode < ApplicationRecord
   belongs_to :anime
-  has_many :tweets
+  has_many :tweets, dependent: :destroy
   validates :anime_id, presence: true
   validates :num, presence: true, uniqueness: { scope: :anime_id, case_sensitive: false }
   validates :air_time, presence: true

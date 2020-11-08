@@ -48,14 +48,12 @@ ActiveRecord::Schema.define(version: 2020_10_03_051424) do
   end
 
   create_table "terms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.bigint "anime_id"
     t.integer "year", null: false
     t.integer "season", null: false
     t.string "season_ja", null: false
     t.boolean "now", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["anime_id"], name: "index_terms_on_anime_id"
     t.index ["year", "season"], name: "index_terms_on_year_and_season", unique: true
   end
 

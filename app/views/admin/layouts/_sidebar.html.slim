@@ -9,6 +9,11 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4
             p = "アニメ管理"
       ul.nav.nav-pills.nav-sidebar.flex-column.mt-3 data-accordion="false" data-widget="treeview" role="menu"
         li.nav-item
+          = link_to admin_import_animes_path, class: "nav-link"
+            i.nav-icon.fas.fa-download
+            p = "アニメインポート"
+      ul.nav.nav-pills.nav-sidebar.flex-column.mt-3 data-accordion="false" data-widget="treeview" role="menu"
+        li.nav-item
           = link_to '#', method: :delete, class: 'nav-link'
             i.nav-icon.fas.fa-sign-out-alt
             p ログアウト

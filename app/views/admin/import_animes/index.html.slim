@@ -1,0 +1,23 @@
+section.content
+  .container-fluid
+    .row
+      .col-md-6
+        .card.card-primary
+          .card-header
+            h3.card-title 今期のアニメ
+          .card-body
+            = link_to '一括インポート', admin_import_animes_import_path, method: :post, class: 'btn btn-primary my-2', id: 'import_now_term'
+        .card.card-info
+          .card-header
+            h3.card-title 指定クールのアニメ
+          .card-body
+            #search_form.mx-auto.my-3
+              = form_with url: admin_import_animes_import_path, scope: 'import_period', local: true do |f|
+                = f.date_select :year, { discard_month: true }, { method: :post, class: 'form-control d-inline-block w-25 mr-2', id: 'select_term_year' }
+                = f.select :season, { 春: 2, 夏: 3, 秋: 4, 冬: 1 }, {}, { class: 'form-control d-inline-block inline-block w-25', id: 'select_term_season' }
+                br
+                = f.submit '一括インポート', class: 'btn btn-info mt-4', id: 'import_select_term'
+        .card.card-secondary
+          = render 'log', animes: @animes
+      .col-md-6
+          = render 'form'
