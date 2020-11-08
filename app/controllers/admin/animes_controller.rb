@@ -9,6 +9,10 @@ class Admin::AnimesController < Admin::BaseController
     @anime.update(public: anime_public_param)
   end
 
+  def show
+    @anime = Anime.find(params[:id])
+  end
+
   def destroy
     @anime = Anime.find(params[:id])
     @anime.destroy

@@ -4,14 +4,6 @@
     span.red （必須）
     = f.text_field :title, class:'form-control', required: true
   .form-group
-    = f.label :year, '放送年'
-    span.red （必須）
-    = f.date_select :year, { discard_month: true }, { class: 'form-control', required: true}
-  .form-group
-    = f.label :season, '放送季節'
-    span.red （必須）
-    = f.select :season, { 春: 2, 夏: 3, 秋: 4, 冬: 1 }, {}, { class: 'form-control', required: true }
-  .form-group
     = f.label :public_url, '公式URL'
     = f.text_field :public_url, { class: 'form-control' }
   .form-group

@@ -22,7 +22,7 @@
       tbody
         - @animes.each do |anime|
           tr id="anime_#{anime.id}"
-            td = anime.title
+            td = link_to anime.title, admin_anime_path(anime)
             td = anime.terms.first.year
             td = anime.terms.first.season_ja
             td = anime.default_air_time

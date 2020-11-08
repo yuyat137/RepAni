@@ -1,0 +1,15 @@
+.card
+  .card-header.pb-3
+    h4.card-title = "アニメ詳細画面 - #{@anime.title}"
+  .card-body
+    #anime-detail-term
+      h5.border-bottom.font-weight-bold 期間
+      span.badge.badge-primary = "#{@anime.terms.first.year}年#{@anime.terms.first.season_ja}"
+    #anime-detail-episode
+      h5.border-bottom.font-weight-bold.my-3 エピソード
+      span = link_to '1話', '#', class: 'mr-2'
+      span = link_to '2話', '#', class: 'mr-2'
+      span = link_to '3話', '#', class: 'mr-2'
+    #anime-detail-form
+      h5.border-bottom.font-weight-bold.my-4 登録情報修正
+      = render 'form'
