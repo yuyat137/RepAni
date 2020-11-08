@@ -14,7 +14,7 @@ class Admin::ImportAnimesController < Admin::BaseController
   end
 
   def import
-    @animes = Anime.import_this_term_from_api(params.dig(:import_period, 'year(1i)'), params.dig(:import_period, :season))
+    @animes = ImportAnimesFromApiService.call(params.dig(:import_period, 'year(1i)'), params.dig(:import_period, :season))
     if !@animes.blank?
       flash.now[:success] = 'ログ欄のアニメをインポートしました'
     else
