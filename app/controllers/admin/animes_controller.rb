@@ -12,7 +12,6 @@ class Admin::AnimesController < Admin::BaseController
   def destroy
     @anime = Anime.find(params[:id])
     @anime.destroy
-    redirect_to admin_animes_path
   end
 
   private
