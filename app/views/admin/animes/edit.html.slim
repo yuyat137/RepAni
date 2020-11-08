@@ -1,0 +1,37 @@
+.card
+  .card-header.pb-3
+    h4.card-title = "アニメ詳細画面 - #{@anime.title}"
+  .card-body
+    #anime-detail-term
+      h5.border-bottom.font-weight-bold 期間
+      span.badge.badge-primary = "#{@anime.terms.first.year}年#{@anime.terms.first.season_ja}"
+    #anime-detail-episode
+      h5.border-bottom.font-weight-bold.my-3 エピソード
+      #episode_list
+      = link_to 'エピソードを管理', admin_episodes_path(id: @anime.id), class: 'btn btn-primary btn-sm my-1'
+    #anime-detail-form
+      h5.border-bottom.font-weight-bold.my-4 登録情報修正
+      = form_with model: @anime, url: admin_anime_path(@anime), local: true do |f|
+        .form-group
+          = f.label :title, 'タイトル'
+          span.red （必須）
+          = f.text_field :title, class:'form-control', required: true
+        .form-group
+          = f.label :public_url, '公式URL'
+          = f.text_field :public_url, { class: 'form-control' }
+        .form-group
+          = f.label :default_air_time, '放送時間(分)'
+          span.red （必須）
+          = f.number_field :default_air_time, { class: 'form-control', required: true }
+        .form-group
+          = f.label :twitter_account, 'Twitterアカウント'
+          = f.text_field :twitter_account, { class: 'form-control' }
+        .form-group
+          = f.label :twitter_hash_tag, 'Twitterハッシュタグ'
+          = f.text_field :twitter_hash_tag, { class: 'form-control' }
+        .form-group
+          = f.label :public, '公開非公開'
+          span.red （必須）
+          = f.select :public, { 公開: true, 非公開: false }, {}, { class: 'form-control', required: true }
+        = f.submit '登録', class: 'btn btn-warning', id: 'register_anime'
+

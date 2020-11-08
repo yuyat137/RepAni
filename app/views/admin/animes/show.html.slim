@@ -1,38 +1,72 @@
-.card
-  .card-header.pb-3
+.card.card-default
+  .card-header.with-border.pb-3
     h4.card-title = "アニメ詳細画面 - #{@anime.title}"
+    .card-tools
+     = link_to "戻る", admin_animes_path, class: 'btn btn-outline-secondary mr-3'
   .card-body
-    #anime-detail-term
-      h5.border-bottom.font-weight-bold 期間
-      span.badge.badge-primary = "#{@anime.terms.first.year}年#{@anime.terms.first.season_ja}"
-    #anime-detail-episode
-      h5.border-bottom.font-weight-bold.my-3 エピソード
-      span = link_to '1話', '#', class: 'mr-2'
-      span = link_to '2話', '#', class: 'mr-2'
-      span = link_to '3話', '#', class: 'mr-2'
-    #anime-detail-form
-      h5.border-bottom.font-weight-bold.my-4 登録情報修正
-      = form_with model: @anime, url: admin_anime_path(@anime), local: true do |f|
-        .form-group
-          = f.label :title, 'タイトル'
-          span.red （必須）
-          = f.text_field :title, class:'form-control', required: true
-        .form-group
-          = f.label :public_url, '公式URL'
-          = f.text_field :public_url, { class: 'form-control' }
-        .form-group
-          = f.label :default_air_time, '放送時間(分)'
-          span.red （必須）
-          = f.number_field :default_air_time, { class: 'form-control', value: 30, required: true }
-        .form-group
-          = f.label :twitter_account, 'Twitterアカウント'
-          = f.text_field :twitter_account, { class: 'form-control' }
-        .form-group
-          = f.label :twitter_hash_tag, 'Twitterハッシュタグ'
-          = f.text_field :twitter_hash_tag, { class: 'form-control' }
-        .form-group
-          = f.label :public, '公開非公開'
-          span.red （必須）
-          = f.select :public, { 公開: true, 非公開: false }, {}, { class: 'form-control', required: true }
-        = f.submit '登録', class: 'btn btn-warning', id: 'register_anime'
-
+    #anime-detail
+      .d-flex.justify-content-between.mb-3
+        h4.my-auto アニメ情報
+        = link_to "編集", edit_admin_anime_path(@anime), class: 'btn btn-outline-primary'
+      table.table.table-striped
+        tr
+          th id
+          td = @anime.id
+        tr
+          th タイトル
+          td = @anime.title
+        tr
+          th 公式URL
+          td = @anime.public_url
+        tr
+          th 放送時間（分）
+          td = @anime.default_air_time
+        tr
+          th Twitterアカウント
+          td = @anime.twitter_account
+        tr
+          th Twitterハッシュタグ
+          td = @anime.twitter_hash_tag
+        tr
+          th 公開非公開
+          td = @anime.public
+        tr
+          th 登録日時
+          td = @anime.created_at
+        tr
+          th 更新日時
+          td = @anime.updated_at
+    #term-detail
+      .d-flex.justify-content-between.mb-3
+        h4.my-auto 放送時期
+        = link_to "編集", edit_admin_anime_path(@anime), class: 'btn btn-outline-primary'
+      table.table.table-bordered
+        thead
+          tr
+            th.text-center scope='col' 年
+            th.text-center scope='col' 季節
+            th.text-center scope='col' 今期
+        tbody
+          - @anime.terms.each do |term|
+            tr
+              td = term.year
+              td = term.season_ja
+              td = term.now
+    #episode-detail
+      .d-flex.justify-content-between.mb-3
+        h4.my-auto エピソード
+        = link_to "編集", edit_admin_anime_path(@anime), class: 'btn btn-outline-primary'
+      table.table.table-bordered
+        thead
+          tr
+            th.text-center scope='col' width='10%' 話数
+            th.text-center scope='col' width='50%' サブタイトル
+            th.text-center scope='col' width='20%' 放送時間（分）
+            th.text-center scope='col' width='20%' 放送日
+        tbody
+          - @anime.episodes.each do |episode|
+            tr
+              td = episode.num
+              td = episode.subtitle
+              td = episode.air_time
+              td = episode.broadcast_datetime
