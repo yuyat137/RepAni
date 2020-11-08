@@ -10,7 +10,6 @@ RSpec.describe 'admin/animes', type: :system do
           expect(page).to have_content(public_anime.title)
           expect(page).to have_content(public_anime.terms.first.year)
           expect(page).to have_content(public_anime.terms.first.season_ja)
-          expect(page).to have_content(public_anime.default_air_time)
           expect(page).to have_link('非公開にする')
           expect(page).to have_link('削除')
         end
@@ -21,7 +20,6 @@ RSpec.describe 'admin/animes', type: :system do
           expect(page).to have_content(private_anime.title)
           expect(page).to have_content(private_anime.terms.first.year)
           expect(page).to have_content(private_anime.terms.first.season_ja)
-          expect(page).to have_content(private_anime.default_air_time)
           expect(page).to have_link('公開する')
           expect(page).to have_link('削除')
         end
