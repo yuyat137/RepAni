@@ -9,7 +9,7 @@ class Admin::AnimesController < Admin::BaseController
   def update
     @anime = Anime.find(params[:id])
     @anime.update(anime_params)
-    redirect_to edit_admin_anime_path(@anime.id), success: '登録情報を更新しました'
+    redirect_to admin_anime_path(@anime.id), success: '登録情報を更新しました'
   end
 
   def show
