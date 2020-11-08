@@ -20,15 +20,10 @@ class Admin::AnimesController < Admin::BaseController
 
   def switch_public
     @anime = Anime.find(params[:id])
-    @anime.update(public: anime_public_param)
+    @anime.update(public: params[:public])
   end
 
   private
-
-  def anime_public_param
-    params.require(:public)
-  end
-
   def search_params
     params[:search]&.permit(:title, :year, :season, :public)
   end
