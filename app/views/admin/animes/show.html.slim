@@ -45,13 +45,15 @@
           tr
             th.text-center scope='col' 年
             th.text-center scope='col' 季節
+            th.text-center scope='col' 季節(日本語)
             th.text-center scope='col' 今期
         tbody
           - @anime.terms.each do |term|
             tr
-              td = term.year
-              td = term.season_ja
-              td = term.now
+              td.text-center = term.year
+              td.text-center = term.season
+              td.text-center = term.season_ja
+              td.text-center = term.now
     #episode-detail
       .d-flex.justify-content-between.mb-3
         h4.my-auto エピソード
