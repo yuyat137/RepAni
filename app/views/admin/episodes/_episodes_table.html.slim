@@ -1,0 +1,19 @@
+.d-flex.justify-content-between.mb-3
+  h4.my-auto エピソード
+  = link_to "編集", edit_admin_anime_path(@anime), class: 'btn btn-outline-primary'
+table.table.table-bordered
+  thead
+    tr
+      th.text-center scope='col' width='10%' 話数
+      th.text-center scope='col' width='45%' サブタイトル
+      th.text-center scope='col' width='15%' ツイート取得
+      th.text-center scope='col' width='15%' 放送時間（分）
+      th.text-center scope='col' width='15%' 放送日
+  tbody
+    - @anime.episodes.each do |episode|
+      tr
+        td = episode.num
+        td = episode.subtitle
+        td = episode.tweets.blank? ? '未取得' : '取得済'
+        td = episode.air_time
+        td = episode.broadcast_datetime

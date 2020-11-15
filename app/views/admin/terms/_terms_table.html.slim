@@ -1,0 +1,17 @@
+.d-flex.justify-content-between.mb-3
+  h4.my-auto 放送時期
+  = link_to "編集", admin_anime_terms_edit_path(anime_id), class: 'btn btn-outline-primary'
+table.table.table-bordered
+  thead
+    tr
+      th.text-center scope='col' 年
+      th.text-center scope='col' 季節
+      th.text-center scope='col' 季節(日本語)
+      th.text-center scope='col' 今期
+  tbody
+    - @anime.terms.each do |term|
+      tr
+        td.text-center = term.year
+        td.text-center = term.season
+        td.text-center = term.season_ja
+        td.text-center = term.now
