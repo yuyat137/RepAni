@@ -1,4 +1,4 @@
-class TermCollectionForm
+class AnimeTermCollectionForm
   include ActiveModel::Model
   include ActiveModel::Callbacks
   include ActiveModel::Validations
@@ -25,8 +25,8 @@ class TermCollectionForm
   # end
 
   def load(anime_id)
+    self.anime_id = anime_id
     self.terms = Anime.find(anime_id).terms.to_a
-    # self.terms = Anime.find(anime_id).terms.first
   end
 
   def terms_attributes=(attributes)

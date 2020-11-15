@@ -1,5 +1,5 @@
 h4.my-auto 放送時期
-= form_with model: @form, url: admin_anime_terms_path, method: :put do |f|
+= form_with model: @form, url: admin_anime_term_path(@form.anime_id), method: :put do |f|
   table.table.w-75.mx-auto.mt-4#term_lines
     thead
       tr
@@ -8,7 +8,7 @@ h4.my-auto 放送時期
         th.text-center scope='col' 今期
     tbody.bulk-registration-form
       = f.fields_for :terms do |ff|
-        tr.item.term_line
+        tr.item id="term_line_num#{}"
           td
             = ff.number_field :year, class: 'form-control term-year'
           td
