@@ -24,6 +24,7 @@ class AnimeTermCollectionForm < Anime
 
   def save
     return false unless valid?
+
     Term.transaction { target_terms.each(&:save!) }
     true
   end

@@ -1,5 +1,4 @@
 class Admin::AnimesController < Admin::BaseController
-
   # TODO: ここはストロングパラメーターにする必要無い気がする
   def index
     @search_form = SearchAnimesForm.new(search_params)
