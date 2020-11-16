@@ -22,8 +22,8 @@
         - @animes.each do |anime|
           tr id="anime_#{anime.id}"
             td = link_to anime.title, admin_anime_path(anime)
-            td = anime.terms.first.year
-            td = anime.terms.first.season_ja
+            td = anime.terms.blank? ? '' : anime.terms.first.year
+            td = anime.terms.blank? ? '' : anime.terms.first.season_ja
             td.show-public
               - if anime.public
                 = icon 'fas', 'plus-circle', class:'green mr-1'

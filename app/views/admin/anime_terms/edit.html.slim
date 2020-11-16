@@ -1,13 +1,17 @@
 h4.my-auto 放送時期
-= form_with model: @form, url: admin_anime_term_path(@form.anime_id), method: :put, local: true do |f|
-  = link_to_add_association '1行追加', f, :terms, class: 'btn btn-default'
-  table.table.w-75.mx-auto.mt-4#term_lines
+= form_with model: @anime, url: admin_anime_term_path(@anime.id), method: :put, local: true do |f|
+  table.table.w-75.mx-auto.mt-4
     thead
       tr
-        th.text-center scope='col' 年
-        th.text-center scope='col' 季節
-    tbody.bulk-registration-form
-      = f.fields_for :terms do |term|
-        = render 'term_fields', f: term
+        th.text-center width="45%" scope='col' 年
+        th.text-center width="45%" scope='col' 季節
+        th.text-center width="10%" scope='col'
+    tbody#test
+      .form-group
+        = f.fields_for :terms do |term|
+          = render 'term_fields', f: term
   .text-center
-    = f.submit '一括登録', class: 'btn btn-primary mt-4'
+    = link_to_add_association '1行追加', f, :terms, class: 'btn btn-default',
+        data: { association_insertion_node: '#test', association_insertion_method: 'append' }
+  .text-center
+    = f.submit '更新', class: 'btn btn-primary mt-4'
