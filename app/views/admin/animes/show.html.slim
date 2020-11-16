@@ -37,6 +37,6 @@
           th 更新日時
           td = @anime.updated_at
     #term-detail
-      = render 'admin/anime_terms/terms_table', anime_id: @anime.id
+      = render 'admin/anime_terms/terms_table', anime: @anime
     #episode-detail
-      = render 'admin/episodes/episodes_table'
+      = render 'admin/episodes/episodes_table', anime: @anime

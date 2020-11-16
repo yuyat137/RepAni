@@ -1,6 +1,6 @@
 .d-flex.justify-content-between.mb-3
   h4.my-auto 放送時期
-  = link_to "編集", edit_admin_anime_term_path(anime_id), class: 'btn btn-outline-primary'
+  = link_to "編集", edit_admin_anime_term_path(anime), class: 'btn btn-outline-primary'
 table.table.table-bordered
   thead
     tr
@@ -9,7 +9,7 @@ table.table.table-bordered
       th.text-center scope='col' 季節(日本語)
       th.text-center scope='col' 今期
   tbody
-    - @anime.terms.each do |term|
+    - anime.terms.each do |term|
       tr
         td.text-center = term.year
         td.text-center = term.season
