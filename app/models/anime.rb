@@ -35,8 +35,12 @@ class Anime < ApplicationRecord
   end
 
   def register_term(year, season_num)
+    return if year.blank? || season_num.blank?
+
     # TODO: このseason_numの値は"winter"で送っても0で送っても良いようにしたい
     term = Term.find_or_create_by!(year: year.to_i, season: season_num.to_i)
+    return if anime_terms.map{ |i| i.term_id }.include?(term&.id)
+
     anime_terms.create!(term_id: term.id)
   end
 

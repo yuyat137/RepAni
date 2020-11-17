@@ -7,7 +7,8 @@ class Admin::AnimeTermsController < Admin::BaseController
     @anime = Anime.find(params[:anime_id])
     @anime.terms.destroy_all
     params.dig(:anime, :terms_attributes)&.each do |_key, value|
-      @anime.register_term(value[:year], Term.seasons[value[:season]]) unless ActiveRecord::Type::Boolean.new.cast(value[:_destroy])
+      next if ActiveRecord::Type::Boolean.new.cast(value[:_destroy])
+      @anime.register_term(value[:year], Term.seasons[value[:season]])
     end
     redirect_to admin_anime_path(@anime)
   end

@@ -2,21 +2,21 @@ class Admin::AnimesController < Admin::BaseController
   # TODO: ここはストロングパラメーターにする必要無い気がする
   def index
     @search_form = SearchAnimesForm.new(search_params)
-    @animes = @search_form.search.page(params[:page])
+    @animes = @search_form.search.page(params[:page]).preload(:terms)
+  end
+
+  def show
+    @anime = Anime.includes(episodes: :tweets).find(params[:id])
+  end
+
+  def edit
+    @anime = Anime.find(params[:id])
   end
 
   def update
     @anime = Anime.find(params[:id])
     @anime.update(anime_params)
     redirect_to admin_anime_path(@anime.id), success: '登録情報を更新しました'
-  end
-
-  def show
-    @anime = Anime.find(params[:id])
-  end
-
-  def edit
-    @anime = Anime.find(params[:id])
   end
 
   def destroy
