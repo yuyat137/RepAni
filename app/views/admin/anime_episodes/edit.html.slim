@@ -10,7 +10,7 @@ h4.my-auto エピソード
         th.text-center width="10%" scope='col' 公開
     tbody#test
       .form-group
-        = f.fields_for :episodes do |episode|
+        = f.fields_for :episodes, @anime.episodes.sort_by(&:num) do |episode|
           = render 'episode_fields', f: episode
   .text-center
     = link_to_add_association '1行追加', f, :episodes, class: 'btn btn-default',

@@ -5,11 +5,17 @@ class Admin::AnimeEpisodesController < Admin::BaseController
 
   def update
     @anime = Anime.find(params[:anime_id])
-    # @anime.terms.destroy_all
-    params.dig(:anime, :terms_attributes)&.each do |_key, value|
-      next if ActiveRecord::Type::Boolean.new.cast(value[:_destroy])
-      @anime.register_term(value[:year], Term.seasons[value[:season]])
+    # 放送時間を空欄にするとエラーになる。その他、エラーになったときの処理を書く
+    if @anime.update(update_episode_params)
+      redirect_to admin_anime_path(@anime), success: 'エピソードを更新しました'
+    else
+      render :edit
     end
-    redirect_to admin_anime_path(@anime), success: '放送時期を更新しました'
+  end
+
+  private
+
+  def update_episode_params
+    params.require(:anime).permit(episodes_attributes: [:id, :num, :subtitle, :broadcast_datetime, :air_time, :active])
   end
 end

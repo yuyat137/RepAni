@@ -12,7 +12,7 @@ table.table.table-bordered
       th.text-center scope='col' width='10%' ツイート
       th.text-center scope='col' width='10%'
   tbody
-    - anime.episodes.each do |episode|
+    - anime.episodes.sort_by(&:num).each do |episode|
       tr
         td.text-center.align-middle = episode.num
         td.text-center.align-middle = episode.subtitle
