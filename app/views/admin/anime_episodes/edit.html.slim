@@ -1,0 +1,20 @@
+h4.my-auto エピソード
+= form_with model: @anime, url: admin_anime_episode_path(@anime.id), method: :put, local: true do |f|
+  table.table.w-75.mx-auto.mt-4
+    thead
+      tr
+        th.text-center width="10%" scope='col' 話数
+        th.text-center width="50%" scope='col' サブタイトル
+        th.text-center width="10%" scope='col' 放送日
+        th.text-center width="10%" scope='col' 放送時間
+        th.text-center width="10%" scope='col' 有効・非有効
+        th.text-center width="10%" scope='col'
+    tbody#test
+      .form-group
+        = f.fields_for :episodes do |episode|
+          = render 'episode_fields', f: episode
+  .text-center
+    = link_to_add_association '1行追加', f, :episodes, class: 'btn btn-default',
+        data: { association_insertion_node: '#test', association_insertion_method: 'append' }
+  .text-center
+    = f.submit '更新', class: 'btn btn-primary mt-4'

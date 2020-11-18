@@ -4,6 +4,7 @@ class Anime < ApplicationRecord
   has_many :terms, through: :anime_terms
   has_many :episodes, dependent: :destroy
   accepts_nested_attributes_for :terms, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :episodes, reject_if: :all_blank, allow_destroy: true
   validates :title, presence: true, uniqueness: { case_sensitive: false }
   validates :public, inclusion: { in: [true, false] }
 

@@ -1,0 +1,14 @@
+tr.nested-fields
+  td
+    = f.number_field :num, class: 'form-control'
+  td
+    = f.text_field :subtitle, class: 'form-control'
+  td
+    = f.text_field :broadcast_datetime, class: 'form-control'
+  td
+    = f.text_field :air_time, class: 'form-control'
+  td
+    = f.text_field :active, class: 'form-control'
+  td
+    = link_to_remove_association '削除', f, class: 'btn btn-danger'
+
