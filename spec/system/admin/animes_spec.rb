@@ -118,10 +118,91 @@ RSpec.describe 'admin/animes', type: :system do
   end
   describe '詳細機能' do
     let!(:anime) { create(:anime, :associate_term, :public, :episodes) }
-    context '初期表示' do
-      it '初期表示が正しい' do
-        visit admin_anime_path(anime)
-        expect(page).to have_content(anime.title)
+    it '初期表示が正しい' do
+      visit admin_anime_path(anime)
+      within("#anime_id") { expect(page).to have_content(anime.id) }
+      within("#anime_title") { expect(page).to have_content(anime.title) }
+      within("#anime_public_url") { expect(page).to have_content(anime.public_url) }
+      within("#anime_default_air_time") { expect(page).to have_content(anime.default_air_time) }
+      within("#anime_twitter_account") { expect(page).to have_content(anime.twitter_account) }
+      within("#anime_twitter_hash_tag") { expect(page).to have_content(anime.twitter_hash_tag) }
+      within("#anime_public") { expect(page).to have_content(anime.public) }
+      # TODO: 後ほど対応
+      # within("#anime_created_at") { expect(page).to have_content(anime.created_at) }
+      # within("#anime_updated_at") { expect(page).to have_content(anime.updated_at) }
+    end
+  end
+  describe '編集機能' do
+    let!(:anime) { create(:anime, :associate_term, :public, :episodes) }
+    let(:title) { 'アニメタイトル更新' }
+    let(:public_url) { 'http://www.update.com' }
+    let(:default_air_time) { 15 }
+    let(:twitter_account) { 'update_account' }
+    let(:twitter_hash_tag) { 'update_hash_tag' }
+    let(:public) { '非公開' }
+    context '更新できる場合' do
+      it 'アニメ情報を編集更新できる' do
+        visit edit_admin_anime_path(anime)
+        fill_in 'anime_title', with: title
+        fill_in 'anime_public_url', with: public_url
+        fill_in 'anime_default_air_time', with: default_air_time
+        fill_in 'anime_twitter_account', with: twitter_account
+        fill_in 'anime_twitter_hash_tag', with: twitter_hash_tag
+        select public, from: 'anime_public'
+        click_on '登録'
+        expect(current_path).to eq admin_anime_path(anime)
+        expect(page).to have_content(title)
+        expect(page).to have_content(public_url)
+        expect(page).to have_content(default_air_time)
+        expect(page).to have_content(twitter_account)
+        expect(page).to have_content(twitter_hash_tag)
+        expect(page).to have_content(public)
+      end
+      it '最低限の情報のみで更新できる' do
+        visit edit_admin_anime_path(anime)
+        fill_in 'anime_title', with: title
+        fill_in 'anime_default_air_time', with: default_air_time
+        select public, from: 'anime_public'
+        click_on '登録'
+        expect(current_path).to eq admin_anime_path(anime)
+        expect(page).to have_content(title)
+        expect(page).to have_content(default_air_time)
+        expect(page).to have_content(public)
+      end
+    end
+    context '更新できない場合' do
+      it 'タイトルがない場合更新できない' do
+        visit edit_admin_anime_path(anime)
+        fill_in 'anime_title', with: ''
+        fill_in 'anime_public_url', with: public_url
+        fill_in 'anime_default_air_time', with: default_air_time
+        fill_in 'anime_twitter_account', with: twitter_account
+        fill_in 'anime_twitter_hash_tag', with: twitter_hash_tag
+        select public, from: 'anime_public'
+        click_on '登録'
+        expect(current_path).to eq edit_admin_anime_path(anime)
+      end
+      it '放送時間(分)がない場合更新できない' do
+        visit edit_admin_anime_path(anime)
+        fill_in 'anime_title', with: title
+        fill_in 'anime_public_url', with: public_url
+        fill_in 'anime_default_air_time', with: ''
+        fill_in 'anime_twitter_account', with: twitter_account
+        fill_in 'anime_twitter_hash_tag', with: twitter_hash_tag
+        select public, from: 'anime_public'
+        click_on '登録'
+        expect(current_path).to eq edit_admin_anime_path(anime)
+      end
+      it '公開非公開がない場合更新できない' do
+        visit edit_admin_anime_path(anime)
+        fill_in 'anime_title', with: title
+        fill_in 'anime_public_url', with: public_url
+        fill_in 'anime_default_air_time', with: default_air_time
+        fill_in 'anime_twitter_account', with: twitter_account
+        fill_in 'anime_twitter_hash_tag', with: twitter_hash_tag
+        select '', from: 'anime_public'
+        click_on '登録'
+        expect(current_path).to eq edit_admin_anime_path(anime)
       end
     end
   end
