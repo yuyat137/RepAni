@@ -2,7 +2,7 @@ require 'rails_helper'
 RSpec.describe 'admin/import_animes', type: :system do
   describe '今期のアニメ' do
     it '今期アニメが正しく取得できる', vcr: true do
-      visit 'admin/import_animes'
+      visit admin_import_animes_path
       expect(Anime.all.length).to be 0
       find('#import_now_term').click
       expect(page).to have_content('ログ欄のアニメをインポートしました')
@@ -14,7 +14,7 @@ RSpec.describe 'admin/import_animes', type: :system do
   end
   describe '指定クールのアニメ' do
     it '指定クールのアニメが正しく取得できる', vcr: true do
-      visit 'admin/import_animes'
+      visit admin_import_animes_path
       expect(Anime.all.length).to be 0
       select '2020', from: 'select_term_year'
       select '夏', from: 'select_term_season'
@@ -28,7 +28,7 @@ RSpec.describe 'admin/import_animes', type: :system do
   describe '指定アニメ登録' do
     context '入力値が正しい' do
       it '指定アニメを登録できる' do
-        visit 'admin/import_animes'
+        visit admin_import_animes_path
         expect(Anime.all.length).to be 0
         fill_in 'anime_title', with: 'テストアニメ'
         select '2019', from: 'anime_year_1i'
@@ -58,7 +58,7 @@ RSpec.describe 'admin/import_animes', type: :system do
     end
     context '入力値が誤り' do
       it 'タイトルが無いとアニメが登録できない' do
-        visit 'admin/import_animes'
+        visit admin_import_animes_path
         expect(Anime.all.length).to be 0
         select '2019', from: 'anime_year_1i'
         select '春', from: 'anime_season'
@@ -69,7 +69,7 @@ RSpec.describe 'admin/import_animes', type: :system do
         expect(page).not_to have_content('アニメを登録しました')
       end
       it '放送季節が無いとアニメが登録できない' do
-        visit 'admin/import_animes'
+        visit admin_import_animes_path
         expect(Anime.all.length).to be 0
         fill_in 'anime_title', with: 'テストアニメ'
         select '2019', from: 'anime_year_1i'
@@ -80,7 +80,7 @@ RSpec.describe 'admin/import_animes', type: :system do
         expect(page).not_to have_content('アニメを登録しました')
       end
       it '放送時間が無いとアニメが登録できない' do
-        visit 'admin/import_animes'
+        visit admin_import_animes_path
         expect(Anime.all.length).to be 0
         fill_in 'anime_title', with: 'テストアニメ'
         select '2019', from: 'anime_year_1i'
@@ -92,7 +92,7 @@ RSpec.describe 'admin/import_animes', type: :system do
         expect(page).not_to have_content('アニメを登録しました')
       end
       it '公開非公開が無いとアニメが登録できない' do
-        visit 'admin/import_animes'
+        visit admin_import_animes_path
         expect(Anime.all.length).to be 0
         fill_in 'anime_title', with: 'テストアニメ'
         select '2019', from: 'anime_year_1i'
@@ -103,7 +103,7 @@ RSpec.describe 'admin/import_animes', type: :system do
         expect(page).not_to have_content('アニメを登録しました')
       end
       it '話数が無いとアニメが登録できない' do
-        visit 'admin/import_animes'
+        visit admin_import_animes_path
         expect(Anime.all.length).to be 0
         fill_in 'anime_title', with: 'テストアニメ'
         select '2019', from: 'anime_year_1i'

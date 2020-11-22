@@ -1,11 +1,11 @@
 require 'rails_helper'
 RSpec.describe 'admin/animes', type: :system do
-  describe '表示機能' do
+  describe '一覧表示機能' do
     let!(:public_anime) { create(:anime, :associate_term, :public, :episodes) }
     let!(:private_anime) { create(:anime, :associate_term, :private, :episodes) }
     context 'ページを開いた直後' do
       it '登録済の公開状態のアニメが表示されている' do
-        visit 'admin/animes'
+        visit admin_animes_path
         within("#anime_#{public_anime.id}") do
           expect(page).to have_content(public_anime.title)
           expect(page).to have_content(public_anime.terms.first.year)
@@ -15,7 +15,7 @@ RSpec.describe 'admin/animes', type: :system do
         end
       end
       it '登録済の非公開状態のアニメが表示されている' do
-        visit 'admin/animes'
+        visit admin_animes_path
         within("#anime_#{private_anime.id}") do
           expect(page).to have_content(private_anime.title)
           expect(page).to have_content(private_anime.terms.first.year)
@@ -27,7 +27,7 @@ RSpec.describe 'admin/animes', type: :system do
     end
     context 'アニメ操作' do
       it '非公開にする' do
-        visit 'admin/animes'
+        visit admin_animes_path
         within("#anime_#{public_anime.id}") do
           click_on '非公開にする'
           expect(page).to have_content('非公開')
@@ -35,7 +35,7 @@ RSpec.describe 'admin/animes', type: :system do
         end
       end
       it '公開する' do
-        visit 'admin/animes'
+        visit admin_animes_path
         within("#anime_#{private_anime.id}") do
           click_on '公開する'
           expect(page).to have_content('公開')
@@ -55,21 +55,21 @@ RSpec.describe 'admin/animes', type: :system do
     end
     context 'タイトル検索' do
       it 'タイトルで検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         fill_in 'search_title', with: 'ごちうさ'
         click_on '検索'
         expect(page).to have_content(public_anime.title)
         expect(page).not_to have_content(private_anime.title)
       end
       it '一部のタイトルで検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         fill_in 'search_title', with: 'うさ'
         click_on '検索'
         expect(page).to have_content(public_anime.title)
         expect(page).not_to have_content(private_anime.title)
       end
       it 'ひらがなカタカナの区別なく検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         fill_in 'search_title', with: 'ゴチウサ'
         click_on '検索'
         expect(page).to have_content(public_anime.title)
@@ -78,7 +78,7 @@ RSpec.describe 'admin/animes', type: :system do
     end
     context '年で検索' do
       it '年で検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         select public_anime.terms.first.year, from: 'search_year'
         click_on '検索'
         expect(page).to have_content(public_anime.title)
@@ -87,7 +87,7 @@ RSpec.describe 'admin/animes', type: :system do
     end
     context '季節で検索' do
       it '季節で検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         select public_anime.terms.first.season_ja, from: 'search_season'
         click_on '検索'
         expect(page).to have_content(public_anime.title)
@@ -96,7 +96,7 @@ RSpec.describe 'admin/animes', type: :system do
     end
     context '公開非公開で検索' do
       it '公開非公開で検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         select '公開', from: 'search_public'
         click_on '検索'
         expect(page).to have_content(public_anime.title)
@@ -105,7 +105,7 @@ RSpec.describe 'admin/animes', type: :system do
     end
     context '全要素で検索' do
       it '全要素で検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         fill_in 'search_title', with: 'ゴチウサ'
         select public_anime.terms.first.year, from: 'search_year'
         select public_anime.terms.first.season_ja, from: 'search_season'
@@ -113,6 +113,15 @@ RSpec.describe 'admin/animes', type: :system do
         click_on '検索'
         expect(page).to have_content(public_anime.title)
         expect(page).not_to have_content(private_anime.title)
+      end
+    end
+  end
+  describe '詳細機能' do
+    let!(:anime) { create(:anime, :associate_term, :public, :episodes) }
+    context '初期表示' do
+      it '初期表示が正しい' do
+        visit admin_anime_path(anime)
+        expect(page).to have_content(anime.title)
       end
     end
   end
