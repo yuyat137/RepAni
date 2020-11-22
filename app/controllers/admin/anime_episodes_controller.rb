@@ -13,10 +13,4 @@ class Admin::AnimeEpisodesController < Admin::BaseController
       render :edit
     end
   end
-
-  private
-
-  def update_episode_params
-    params.require(:anime).permit(episodes_attributes: [:id, :num, :subtitle, :broadcast_datetime, :air_time, :active])
-  end
 end

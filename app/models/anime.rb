@@ -41,7 +41,7 @@ class Anime < ApplicationRecord
 
     # TODO: このseason_numの値は"winter"で送っても0で送っても良いようにしたい
     term = Term.find_or_create_by!(year: year.to_i, season: season_num.to_i)
-    return if anime_terms.map{ |i| i.term_id }.include?(term&.id)
+    return if anime_terms.map(&:term_id).include?(term&.id)
 
     anime_terms.create!(term_id: term.id)
   end
@@ -57,10 +57,10 @@ class Anime < ApplicationRecord
 
       if value[:id].blank?
         episodes.create(num: value[:num], subtitle: value[:subtitle], air_time: value[:air_time],
-                                broadcast_datetime: value[:broadcast_datetime], active: value[:active])
+                        broadcast_datetime: value[:broadcast_datetime], active: value[:active])
       else
         episodes.find(value[:id]).update!(num: value[:num], subtitle: value[:subtitle], air_time: value[:air_time],
-                                broadcast_datetime: value[:broadcast_datetime], active: value[:active])
+                                          broadcast_datetime: value[:broadcast_datetime], active: value[:active])
       end
     end
     true
