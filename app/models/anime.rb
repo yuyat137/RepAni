@@ -7,7 +7,6 @@ class Anime < ApplicationRecord
   accepts_nested_attributes_for :episodes, reject_if: :all_blank, allow_destroy: true
   validates :title, presence: true, uniqueness: { case_sensitive: false }
   validates :public, inclusion: { in: [true, false] }
-  validates_associated :episodes
 
   def import_associate_episodes(episode_num, first_broadcast_date = nil)
     new_episodes = []
