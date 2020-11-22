@@ -7,6 +7,7 @@ class Anime < ApplicationRecord
   accepts_nested_attributes_for :episodes, reject_if: :all_blank, allow_destroy: true
   validates :title, presence: true, uniqueness: { case_sensitive: false }
   validates :public, inclusion: { in: [true, false] }
+  validates_associated :episodes
 
   def import_associate_episodes(episode_num, first_broadcast_date = nil)
     new_episodes = []
@@ -43,6 +44,26 @@ class Anime < ApplicationRecord
     return if anime_terms.map{ |i| i.term_id }.include?(term&.id)
 
     anime_terms.create!(term_id: term.id)
+  end
+
+  def update_episodes(params)
+    return false if params.blank?
+
+    story_num_arr = params.values.map { |i| i[:num] }.reject(&:blank?)
+    return false if story_num_arr.count != story_num_arr.reject(&:blank?).uniq.count
+
+    params.each do |_key, value|
+      next if value[:num].blank? || value[:air_time].blank?
+
+      if value[:id].blank?
+        episodes.create(num: value[:num], subtitle: value[:subtitle], air_time: value[:air_time],
+                                broadcast_datetime: value[:broadcast_datetime], active: value[:active])
+      else
+        episodes.find(value[:id]).update!(num: value[:num], subtitle: value[:subtitle], air_time: value[:air_time],
+                                broadcast_datetime: value[:broadcast_datetime], active: value[:active])
+      end
+    end
+    true
   end
 
   private

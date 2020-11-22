@@ -5,10 +5,11 @@ class Admin::AnimeEpisodesController < Admin::BaseController
 
   def update
     @anime = Anime.find(params[:anime_id])
-    # 放送時間を空欄にするとエラーになる。その他、エラーになったときの処理を書く
-    if @anime.update(update_episode_params)
+    result = @anime.update_episodes(params.dig(:anime, :episodes_attributes))
+    if result
       redirect_to admin_anime_path(@anime), success: 'エピソードを更新しました'
     else
+      flash.now[:danger] = '更新に失敗しました'
       render :edit
     end
   end
