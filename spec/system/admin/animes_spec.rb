@@ -134,11 +134,11 @@ RSpec.describe 'admin/animes', type: :system do
   end
   describe '編集機能' do
     let!(:anime) { create(:anime, :associate_term, :public, :episodes) }
-    let(:title) { 'アニメタイトル更新' }
-    let(:public_url) { 'http://www.update.com' }
-    let(:default_air_time) { 15 }
-    let(:twitter_account) { 'update_account' }
-    let(:twitter_hash_tag) { 'update_hash_tag' }
+    let(:title) { Faker::Movie.title }
+    let(:public_url) { Faker::Internet.url }
+    let(:default_air_time) { Faker::Number.number(digits: 3) }
+    let(:twitter_account) { Faker::Twitter.screen_name }
+    let(:twitter_hash_tag) { Faker::Lorem.word }
     let(:public) { '非公開' }
     context '更新できる場合' do
       it 'アニメ情報を編集更新できる' do
