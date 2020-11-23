@@ -1,6 +1,6 @@
 12.times do |n|
   Episode.seed(:id, {
-    anime: Anime.where('title like ?', 'テストアニメ%').last,
+    anime: Anime.find_by(title: 'テストアニメ'),
     num: n + 1,
     subtitle: Faker::JapaneseMedia::SwordArtOnline.game_name,
     broadcast_datetime: DateTime.now - (7 * 12).day + (n * 7).day,

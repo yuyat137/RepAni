@@ -5,7 +5,7 @@ term = Term.seed(:id, {
 }).first
 
 AnimeTerm.seed(:id, {
-  anime_id: Anime.where('title like ?', 'テストアニメ%').last.id,
+  anime_id: Anime.find_by(title: 'テストアニメ').id,
   term_id: term.id
 })
 

@@ -1,4 +1,4 @@
-anime = Anime.where('title like ?', 'テストアニメ%').last
+anime = Anime.find_by(title: 'テストアニメ')
 episode = anime.episodes.first
 
 100.times do |n|
