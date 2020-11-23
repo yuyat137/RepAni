@@ -1,27 +1,25 @@
 require 'rails_helper'
 RSpec.describe 'admin/animes', type: :system do
-  describe '表示機能' do
+  describe '一覧表示機能' do
     let!(:public_anime) { create(:anime, :associate_term, :public, :episodes) }
     let!(:private_anime) { create(:anime, :associate_term, :private, :episodes) }
     context 'ページを開いた直後' do
       it '登録済の公開状態のアニメが表示されている' do
-        visit 'admin/animes'
+        visit admin_animes_path
         within("#anime_#{public_anime.id}") do
           expect(page).to have_content(public_anime.title)
           expect(page).to have_content(public_anime.terms.first.year)
           expect(page).to have_content(public_anime.terms.first.season_ja)
-          expect(page).to have_content(public_anime.default_air_time)
           expect(page).to have_link('非公開にする')
           expect(page).to have_link('削除')
         end
       end
       it '登録済の非公開状態のアニメが表示されている' do
-        visit 'admin/animes'
+        visit admin_animes_path
         within("#anime_#{private_anime.id}") do
           expect(page).to have_content(private_anime.title)
           expect(page).to have_content(private_anime.terms.first.year)
           expect(page).to have_content(private_anime.terms.first.season_ja)
-          expect(page).to have_content(private_anime.default_air_time)
           expect(page).to have_link('公開する')
           expect(page).to have_link('削除')
         end
@@ -29,7 +27,7 @@ RSpec.describe 'admin/animes', type: :system do
     end
     context 'アニメ操作' do
       it '非公開にする' do
-        visit 'admin/animes'
+        visit admin_animes_path
         within("#anime_#{public_anime.id}") do
           click_on '非公開にする'
           expect(page).to have_content('非公開')
@@ -37,7 +35,7 @@ RSpec.describe 'admin/animes', type: :system do
         end
       end
       it '公開する' do
-        visit 'admin/animes'
+        visit admin_animes_path
         within("#anime_#{private_anime.id}") do
           click_on '公開する'
           expect(page).to have_content('公開')
@@ -57,21 +55,21 @@ RSpec.describe 'admin/animes', type: :system do
     end
     context 'タイトル検索' do
       it 'タイトルで検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         fill_in 'search_title', with: 'ごちうさ'
         click_on '検索'
         expect(page).to have_content(public_anime.title)
         expect(page).not_to have_content(private_anime.title)
       end
       it '一部のタイトルで検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         fill_in 'search_title', with: 'うさ'
         click_on '検索'
         expect(page).to have_content(public_anime.title)
         expect(page).not_to have_content(private_anime.title)
       end
       it 'ひらがなカタカナの区別なく検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         fill_in 'search_title', with: 'ゴチウサ'
         click_on '検索'
         expect(page).to have_content(public_anime.title)
@@ -80,7 +78,7 @@ RSpec.describe 'admin/animes', type: :system do
     end
     context '年で検索' do
       it '年で検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         select public_anime.terms.first.year, from: 'search_year'
         click_on '検索'
         expect(page).to have_content(public_anime.title)
@@ -89,7 +87,7 @@ RSpec.describe 'admin/animes', type: :system do
     end
     context '季節で検索' do
       it '季節で検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         select public_anime.terms.first.season_ja, from: 'search_season'
         click_on '検索'
         expect(page).to have_content(public_anime.title)
@@ -98,7 +96,7 @@ RSpec.describe 'admin/animes', type: :system do
     end
     context '公開非公開で検索' do
       it '公開非公開で検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         select '公開', from: 'search_public'
         click_on '検索'
         expect(page).to have_content(public_anime.title)
@@ -107,7 +105,7 @@ RSpec.describe 'admin/animes', type: :system do
     end
     context '全要素で検索' do
       it '全要素で検索できる' do
-        visit 'admin/animes'
+        visit admin_animes_path
         fill_in 'search_title', with: 'ゴチウサ'
         select public_anime.terms.first.year, from: 'search_year'
         select public_anime.terms.first.season_ja, from: 'search_season'
@@ -115,6 +113,96 @@ RSpec.describe 'admin/animes', type: :system do
         click_on '検索'
         expect(page).to have_content(public_anime.title)
         expect(page).not_to have_content(private_anime.title)
+      end
+    end
+  end
+  describe '詳細機能' do
+    let!(:anime) { create(:anime, :associate_term, :public, :episodes) }
+    it '初期表示が正しい' do
+      visit admin_anime_path(anime)
+      within("#anime_id") { expect(page).to have_content(anime.id) }
+      within("#anime_title") { expect(page).to have_content(anime.title) }
+      within("#anime_public_url") { expect(page).to have_content(anime.public_url) }
+      within("#anime_default_air_time") { expect(page).to have_content(anime.default_air_time) }
+      within("#anime_twitter_account") { expect(page).to have_content(anime.twitter_account) }
+      within("#anime_twitter_hash_tag") { expect(page).to have_content(anime.twitter_hash_tag) }
+      within("#anime_public") { expect(page).to have_content(anime.public) }
+      # TODO: 後ほど対応
+      # within("#anime_created_at") { expect(page).to have_content(anime.created_at) }
+      # within("#anime_updated_at") { expect(page).to have_content(anime.updated_at) }
+    end
+  end
+  describe '編集機能' do
+    let!(:anime) { create(:anime, :associate_term, :public, :episodes) }
+    let(:title) { Faker::Movie.title }
+    let(:public_url) { Faker::Internet.url }
+    let(:default_air_time) { Faker::Number.number(digits: 3) }
+    let(:twitter_account) { Faker::Twitter.screen_name }
+    let(:twitter_hash_tag) { Faker::Lorem.word }
+    let(:public) { '非公開' }
+    context '更新できる場合' do
+      it 'アニメ情報を編集更新できる' do
+        visit edit_admin_anime_path(anime)
+        fill_in 'anime_title', with: title
+        fill_in 'anime_public_url', with: public_url
+        fill_in 'anime_default_air_time', with: default_air_time
+        fill_in 'anime_twitter_account', with: twitter_account
+        fill_in 'anime_twitter_hash_tag', with: twitter_hash_tag
+        select public, from: 'anime_public'
+        click_on '登録'
+        expect(current_path).to eq admin_anime_path(anime)
+        expect(page).to have_content(title)
+        expect(page).to have_content(public_url)
+        expect(page).to have_content(default_air_time)
+        expect(page).to have_content(twitter_account)
+        expect(page).to have_content(twitter_hash_tag)
+        expect(page).to have_content(public)
+      end
+      it '最低限の情報のみで更新できる' do
+        visit edit_admin_anime_path(anime)
+        fill_in 'anime_title', with: title
+        fill_in 'anime_default_air_time', with: default_air_time
+        select public, from: 'anime_public'
+        click_on '登録'
+        expect(current_path).to eq admin_anime_path(anime)
+        expect(page).to have_content(title)
+        expect(page).to have_content(default_air_time)
+        expect(page).to have_content(public)
+      end
+    end
+    context '更新できない場合' do
+      it 'タイトルがない場合更新できない' do
+        visit edit_admin_anime_path(anime)
+        fill_in 'anime_title', with: ''
+        fill_in 'anime_public_url', with: public_url
+        fill_in 'anime_default_air_time', with: default_air_time
+        fill_in 'anime_twitter_account', with: twitter_account
+        fill_in 'anime_twitter_hash_tag', with: twitter_hash_tag
+        select public, from: 'anime_public'
+        click_on '登録'
+        expect(current_path).to eq edit_admin_anime_path(anime)
+      end
+      it '放送時間(分)がない場合更新できない' do
+        visit edit_admin_anime_path(anime)
+        fill_in 'anime_title', with: title
+        fill_in 'anime_public_url', with: public_url
+        fill_in 'anime_default_air_time', with: ''
+        fill_in 'anime_twitter_account', with: twitter_account
+        fill_in 'anime_twitter_hash_tag', with: twitter_hash_tag
+        select public, from: 'anime_public'
+        click_on '登録'
+        expect(current_path).to eq edit_admin_anime_path(anime)
+      end
+      it '公開非公開がない場合更新できない' do
+        visit edit_admin_anime_path(anime)
+        fill_in 'anime_title', with: title
+        fill_in 'anime_public_url', with: public_url
+        fill_in 'anime_default_air_time', with: default_air_time
+        fill_in 'anime_twitter_account', with: twitter_account
+        fill_in 'anime_twitter_hash_tag', with: twitter_hash_tag
+        select '', from: 'anime_public'
+        click_on '登録'
+        expect(current_path).to eq edit_admin_anime_path(anime)
       end
     end
   end

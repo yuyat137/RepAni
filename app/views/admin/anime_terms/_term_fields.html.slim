@@ -1,0 +1,8 @@
+tr.nested-fields
+  td
+    = f.number_field :year, class: 'form-control term-year'
+  td
+    = f.select :season, { 春: 'spring', 夏: 'summer', 秋: 'autumn', 冬: 'winter' }, { prompt: true }, {class: 'form-control term-season'}
+  td
+    = link_to_remove_association '削除', f, class: 'btn btn-danger'
+

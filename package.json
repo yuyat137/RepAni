@@ -6,6 +6,7 @@
     "lint-fix": "eslint --fix --ext .js,.vue app/javascript"
   },
   "dependencies": {
+    "@nathanvda/cocoon": "^1.2.14",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.2.2",

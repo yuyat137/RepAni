@@ -20,4 +20,8 @@ section.content
         .card.card-secondary
           = render 'log', animes: @animes
       .col-md-6
-          = render 'form'
+        .card.card-warning
+          .card-header
+            h3.card-title 指定アニメ登録
+          .card-body
+            = render 'form'

@@ -3,6 +3,8 @@ class Anime < ApplicationRecord
   has_many :anime_terms, dependent: :destroy
   has_many :terms, through: :anime_terms
   has_many :episodes, dependent: :destroy
+  accepts_nested_attributes_for :terms, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :episodes, reject_if: :all_blank, allow_destroy: true
   validates :title, presence: true, uniqueness: { case_sensitive: false }
   validates :public, inclusion: { in: [true, false] }
 
@@ -21,16 +23,46 @@ class Anime < ApplicationRecord
   def self.register(params)
     ActiveRecord::Base.transaction do
       year = params['year(1i)'] || params[:year]
+      season_num = params[:season]
       anime = Anime.create!(title: params[:title],
                             public_url: params[:public_url],
                             default_air_time: params[:default_air_time],
                             twitter_account: params[:twitter_account],
                             twitter_hash_tag: params[:twitter_hash_tag],
                             public: params[:public])
-      term = Term.find_or_create_by!(year: year.to_i, season: params[:season].to_i)
-      anime.anime_terms.create!(term_id: term.id)
+      anime.register_term(year, season_num)
       anime.import_associate_episodes(params[:episodes_num].to_i)
     end
+  end
+
+  def register_term(year, season_num)
+    return if year.blank? || season_num.blank?
+
+    # TODO: このseason_numの値は"winter"で送っても0で送っても良いようにしたい
+    term = Term.find_or_create_by!(year: year.to_i, season: season_num.to_i)
+    return if anime_terms.map(&:term_id).include?(term&.id)
+
+    anime_terms.create!(term_id: term.id)
+  end
+
+  def update_episodes(params)
+    return false if params.blank?
+
+    story_num_arr = params.values.map { |i| i[:num] }.reject(&:blank?)
+    return false if story_num_arr.count != story_num_arr.reject(&:blank?).uniq.count
+
+    params.each do |_key, value|
+      next if value[:num].blank? || value[:air_time].blank?
+
+      if value[:id].blank?
+        episodes.create(num: value[:num], subtitle: value[:subtitle], air_time: value[:air_time],
+                        broadcast_datetime: value[:broadcast_datetime], active: value[:active])
+      else
+        episodes.find(value[:id]).update!(num: value[:num], subtitle: value[:subtitle], air_time: value[:air_time],
+                                          broadcast_datetime: value[:broadcast_datetime], active: value[:active])
+      end
+    end
+    true
   end
 
   private

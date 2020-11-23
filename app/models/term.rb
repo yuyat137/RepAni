@@ -1,5 +1,7 @@
 class Term < ApplicationRecord
   before_validation :set_season_ja
+  # TODO: set_nowメソッド実装する
+  # before_validation :set_now
   has_many :anime_terms
   has_many :animes, through: :anime_terms
   validates :year, presence: true

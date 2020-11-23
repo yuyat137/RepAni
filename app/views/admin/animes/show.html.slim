@@ -1,0 +1,42 @@
+.card.card-default
+  .card-header.with-border.pb-3
+    h4.card-title = "アニメ詳細画面 - #{@anime.title}"
+    .card-tools
+     = link_to "戻る", admin_animes_path, class: 'btn btn-outline-secondary mr-3'
+  .card-body
+    #anime-detail
+      .d-flex.justify-content-between.mb-3
+        h4.my-auto アニメ情報
+        = link_to "編集", edit_admin_anime_path(@anime), class: 'btn btn-outline-primary'
+      table.table.table-striped
+        tr#anime_id
+          th width='40%' id
+          td width='60%' = @anime.id
+        tr#anime_title
+          th タイトル
+          td = @anime.title
+        tr#anime_public_url
+          th 公式URL
+          td = @anime.public_url
+        tr#anime_default_air_time
+          th デフォルトの放送時間（分）
+          td = @anime.default_air_time
+        tr#anime_twitter_account
+          th Twitterアカウント
+          td = @anime.twitter_account
+        tr#anime_twitter_hash_tag
+          th Twitterハッシュタグ
+          td = @anime.twitter_hash_tag
+        tr#anime_public
+          th 公開非公開
+          td = @anime.public
+        tr#anime_created_at
+          th 登録日時
+          td = @anime.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        tr#anime_updated_at
+          th 更新日時
+          td = @anime.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+    #term-detail
+      = render 'admin/anime_terms/terms_table', anime: @anime
+    #episode-detail
+      = render 'admin/episodes/episodes_table', anime: @anime

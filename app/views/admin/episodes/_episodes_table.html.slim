@@ -1,0 +1,25 @@
+.d-flex.justify-content-between.mb-3
+  h4.my-auto エピソード
+  = link_to "編集", edit_admin_anime_episode_path(anime), class: 'btn btn-outline-primary'
+table.table.table-bordered
+  thead
+    tr
+      th.text-center scope='col' width='10%' 話数
+      th.text-center scope='col' width='30%' サブタイトル
+      th.text-center scope='col' width='20%' 放送日
+      th.text-center scope='col' width='10%' 時間(分)
+      th.text-center scope='col' width='10%' 公開
+      th.text-center scope='col' width='10%' ツイート
+      th.text-center scope='col' width='10%'
+  tbody
+    - anime.episodes.sort_by(&:num).each do |episode|
+      tr id="episode_#{episode.id}"
+        td.text-center.align-middle = episode.num
+        td.text-center.align-middle = episode.subtitle
+        td.text-center.align-middle = episode.broadcast_datetime.strftime('%Y-%m-%d %H:%M')
+        td.text-center.align-middle = episode.air_time
+        td.text-center.align-middle = episode.active
+        // TODO: 後ほどhelper
+        td.text-center.align-middle = link_to (episode.tweets.blank? ?  '未取得': '取得済'), '#'
+        td.text-center.align-middle = link_to '削除', admin_anime_episode_path(episode.id), method: :delete, class: 'btn btn-danger',
+          data: { confirm: "#{episode.num}話を削除します。\nツイートを取得してる場合、ツイートも削除されますがよろしいですか。" }, remote: true
