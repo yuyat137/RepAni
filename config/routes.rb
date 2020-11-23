@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :animes, only: %w[index update edit show destroy]
     resources :anime_terms, only: %w[edit update], param: :anime_id
     resources :anime_episodes, only: %w[edit update], param: :anime_id
+    resources :anime_episodes, only: %w[destroy], param: :episode_id
     resources :episodes, only: %w[index]
     resources :terms, only: %w[edit update]
     resources :import_animes, only: %w[index create]
