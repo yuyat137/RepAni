@@ -27,6 +27,7 @@ gem 'activerecord-import'
 gem 'bullet'
 gem 'kaminari'
 gem 'cocoon'
+gem 'seed-fu'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
