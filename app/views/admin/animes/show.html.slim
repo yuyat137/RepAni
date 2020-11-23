@@ -32,10 +32,10 @@
           td = @anime.public
         tr#anime_created_at
           th 登録日時
-          td = @anime.created_at
+          td = @anime.created_at.strftime('%Y-%m-%d %H:%M:%S')
         tr#anime_updated_at
           th 更新日時
-          td = @anime.updated_at
+          td = @anime.updated_at.strftime('%Y-%m-%d %H:%M:%S')
     #term-detail
       = render 'admin/anime_terms/terms_table', anime: @anime
     #episode-detail

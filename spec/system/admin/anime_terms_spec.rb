@@ -12,16 +12,16 @@ RSpec.describe 'admin/anime_terms', type: :system do
     end
     it '表示値が正しい' do
       visit admin_anime_path(anime)
-      tds = all('#term-detail tbody tr')
-      expect(tds[0]).to have_content(term1.year)
-      expect(tds[0]).to have_content(term1.season_ja)
-      expect(tds[0]).to have_content(Term.seasons.invert[term1.season])
-      expect(tds[1]).to have_content(term2.year)
-      expect(tds[1]).to have_content(term2.season_ja)
-      expect(tds[1]).to have_content(Term.seasons.invert[term2.season])
-      expect(tds[2]).to have_content(term3.year)
-      expect(tds[2]).to have_content(term3.season_ja)
-      expect(tds[2]).to have_content(Term.seasons.invert[term3.season])
+      trs = all('#term-detail tbody tr')
+      expect(trs[0]).to have_content(term1.year)
+      expect(trs[0]).to have_content(term1.season_ja)
+      expect(trs[0]).to have_content(Term.seasons.invert[term1.season])
+      expect(trs[1]).to have_content(term2.year)
+      expect(trs[1]).to have_content(term2.season_ja)
+      expect(trs[1]).to have_content(Term.seasons.invert[term2.season])
+      expect(trs[2]).to have_content(term3.year)
+      expect(trs[2]).to have_content(term3.season_ja)
+      expect(trs[2]).to have_content(Term.seasons.invert[term3.season])
     end
   end
   describe '放送時期編集機能(アニメ詳細機能内)' do
@@ -43,14 +43,14 @@ RSpec.describe 'admin/anime_terms', type: :system do
         select season, from: 'anime_terms_attributes_0_season'
         click_on '更新'
         expect(current_path).to eq admin_anime_path(anime)
-        tds = all('#term-detail tbody tr')
-        expect(tds[0]).to have_content(year)
-        expect(tds[0]).to have_content(season)
-        expect(tds[1]).to have_content(term2.year)
-        expect(tds[1]).to have_content(term2.season_ja)
-        expect(tds[2]).to have_content(term3.year)
-        expect(tds[2]).to have_content(term3.season_ja)
-        expect(tds.length).to eq 3
+        trs = all('#term-detail tbody tr')
+        expect(trs[0]).to have_content(year)
+        expect(trs[0]).to have_content(season)
+        expect(trs[1]).to have_content(term2.year)
+        expect(trs[1]).to have_content(term2.season_ja)
+        expect(trs[2]).to have_content(term3.year)
+        expect(trs[2]).to have_content(term3.season_ja)
+        expect(trs.length).to eq 3
       end
       it '1行追加で更新できる' do
         visit edit_admin_anime_term_path(anime)
@@ -63,16 +63,16 @@ RSpec.describe 'admin/anime_terms', type: :system do
         end
         click_on '更新'
         expect(current_path).to eq admin_anime_path(anime)
-        tds = all('#term-detail tbody tr')
-        expect(tds[0]).to have_content(term1.year)
-        expect(tds[0]).to have_content(term1.season_ja)
-        expect(tds[1]).to have_content(term2.year)
-        expect(tds[1]).to have_content(term2.season_ja)
-        expect(tds[2]).to have_content(term3.year)
-        expect(tds[2]).to have_content(term3.season_ja)
-        expect(tds[3]).to have_content(year)
-        expect(tds[3]).to have_content(season)
-        expect(tds.length).to eq 4
+        trs = all('#term-detail tbody tr')
+        expect(trs[0]).to have_content(term1.year)
+        expect(trs[0]).to have_content(term1.season_ja)
+        expect(trs[1]).to have_content(term2.year)
+        expect(trs[1]).to have_content(term2.season_ja)
+        expect(trs[2]).to have_content(term3.year)
+        expect(trs[2]).to have_content(term3.season_ja)
+        expect(trs[3]).to have_content(year)
+        expect(trs[3]).to have_content(season)
+        expect(trs.length).to eq 4
       end
       it '放送時期を削除できる' do
         visit edit_admin_anime_term_path(anime)
@@ -81,12 +81,12 @@ RSpec.describe 'admin/anime_terms', type: :system do
         end
         click_on '更新'
         expect(current_path).to eq admin_anime_path(anime)
-        tds = all('#term-detail tbody tr')
-        expect(tds[0]).to have_content(term2.year)
-        expect(tds[0]).to have_content(term2.season_ja)
-        expect(tds[1]).to have_content(term3.year)
-        expect(tds[1]).to have_content(term3.season_ja)
-        expect(tds.length).to eq 2
+        trs = all('#term-detail tbody tr')
+        expect(trs[0]).to have_content(term2.year)
+        expect(trs[0]).to have_content(term2.season_ja)
+        expect(trs[1]).to have_content(term3.year)
+        expect(trs[1]).to have_content(term3.season_ja)
+        expect(trs.length).to eq 2
       end
     end
     context '特殊処理' do
@@ -98,14 +98,14 @@ RSpec.describe 'admin/anime_terms', type: :system do
         end
         click_on '更新'
         expect(current_path).to eq admin_anime_path(anime)
-        tds = all('#term-detail tbody tr')
-        expect(tds[0]).to have_content(term1.year)
-        expect(tds[0]).to have_content(term1.season_ja)
-        expect(tds[1]).to have_content(term2.year)
-        expect(tds[1]).to have_content(term2.season_ja)
-        expect(tds[2]).to have_content(term3.year)
-        expect(tds[2]).to have_content(term3.season_ja)
-        expect(tds.length).to eq 3
+        trs = all('#term-detail tbody tr')
+        expect(trs[0]).to have_content(term1.year)
+        expect(trs[0]).to have_content(term1.season_ja)
+        expect(trs[1]).to have_content(term2.year)
+        expect(trs[1]).to have_content(term2.season_ja)
+        expect(trs[2]).to have_content(term3.year)
+        expect(trs[2]).to have_content(term3.season_ja)
+        expect(trs.length).to eq 3
       end
       it '追加行の季節を空欄にしたとき、その行は登録されない' do
         visit edit_admin_anime_term_path(anime)
@@ -113,26 +113,26 @@ RSpec.describe 'admin/anime_terms', type: :system do
         (all('.term-year')[3]).set(2018)
         click_on '更新'
         expect(current_path).to eq admin_anime_path(anime)
-        tds = all('#term-detail tbody tr')
-        expect(tds[0]).to have_content(term1.year)
-        expect(tds[0]).to have_content(term1.season_ja)
-        expect(tds[1]).to have_content(term2.year)
-        expect(tds[1]).to have_content(term2.season_ja)
-        expect(tds[2]).to have_content(term3.year)
-        expect(tds[2]).to have_content(term3.season_ja)
-        expect(tds.length).to eq 3
+        trs = all('#term-detail tbody tr')
+        expect(trs[0]).to have_content(term1.year)
+        expect(trs[0]).to have_content(term1.season_ja)
+        expect(trs[1]).to have_content(term2.year)
+        expect(trs[1]).to have_content(term2.season_ja)
+        expect(trs[2]).to have_content(term3.year)
+        expect(trs[2]).to have_content(term3.season_ja)
+        expect(trs.length).to eq 3
       end
       it '登録済の年を空欄にしたとき、その行は削除される' do
         visit edit_admin_anime_term_path(anime)
         fill_in 'anime_terms_attributes_0_year', with: ''
         click_on '更新'
         expect(current_path).to eq admin_anime_path(anime)
-        tds = all('#term-detail tbody tr')
-        expect(tds[0]).to have_content(term2.year)
-        expect(tds[0]).to have_content(term2.season_ja)
-        expect(tds[1]).to have_content(term3.year)
-        expect(tds[1]).to have_content(term3.season_ja)
-        expect(tds.length).to eq 2
+        trs = all('#term-detail tbody tr')
+        expect(trs[0]).to have_content(term2.year)
+        expect(trs[0]).to have_content(term2.season_ja)
+        expect(trs[1]).to have_content(term3.year)
+        expect(trs[1]).to have_content(term3.season_ja)
+        expect(trs.length).to eq 2
       end
     end
   end

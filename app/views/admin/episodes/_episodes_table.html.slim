@@ -16,7 +16,7 @@ table.table.table-bordered
       tr id="episode_#{episode.id}"
         td.text-center.align-middle = episode.num
         td.text-center.align-middle = episode.subtitle
-        td.text-center.align-middle = episode.broadcast_datetime
+        td.text-center.align-middle = episode.broadcast_datetime.strftime('%Y-%m-%d %H:%M')
         td.text-center.align-middle = episode.air_time
         td.text-center.align-middle = episode.active
         // TODO: 後ほどhelper
