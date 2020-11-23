@@ -6,12 +6,12 @@ h4.my-auto 放送時期
         th.text-center width="35%" scope='col' 年
         th.text-center width="35%" scope='col' 季節
         th.text-center width="30%" scope='col'
-    tbody#test
+    tbody#terms_tbody
       .form-group
         = f.fields_for :terms do |term|
           = render 'term_fields', f: term
   .text-center
     = link_to_add_association '1行追加', f, :terms, class: 'btn btn-default',
-        data: { association_insertion_node: '#test', association_insertion_method: 'append' }
+        data: { association_insertion_node: '#terms_tbody', association_insertion_method: 'append' }
   .text-center
     = f.submit '更新', class: 'btn btn-primary mt-4'

@@ -22,14 +22,14 @@ h4.my-auto エピソード
           | 時間
           span.red （必須）
         th.text-center width="15%" scope='col' 公開
-    tbody#test
+    tbody#episodes_tbody
       .form-group
         = f.fields_for :episodes, @anime.episodes.sort_by(&:num) do |episode|
           = render 'episode_fields', { f: episode, anime: @anime, readonly: true }
   .text-center
     = link_to_add_association '1行追加', f, :episodes, class: 'btn btn-default',
         render_options: {locals: { anime: @anime, readonly: false }},
-        data: { association_insertion_node: '#test', association_insertion_method: 'append' }
+        data: { association_insertion_node: '#episodes_tbody', association_insertion_method: 'append' }
   .text-center
     = f.submit '更新', class: 'btn btn-primary mt-4'
 

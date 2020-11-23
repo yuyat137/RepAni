@@ -6,7 +6,7 @@ class Admin::AnimesController < Admin::BaseController
   end
 
   def show
-    @anime = Anime.includes(episodes: :tweets).find(params[:id])
+    @anime = Anime.preload(episodes: :tweets).find(params[:id])
   end
 
   def edit
