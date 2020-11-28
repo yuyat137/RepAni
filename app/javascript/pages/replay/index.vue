@@ -86,6 +86,7 @@ export default {
           this.processTimeJustBeforeMsec = this.$refs.timer.$data.progressTimeMsec
         } else {
           this.stackTweets = []
+          this.fetchLastTweet = false
         }
       }
     )
