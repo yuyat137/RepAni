@@ -12,7 +12,7 @@
           :max="100"
           :interval="0.1"
         />
-        <p>{{ formatProgressTime }}/{{ formatMaxTime }}</p>
+        <p>{{ displayBarTime }}/{{ displayMaxTime }}</p>
       </div>
     </v-col>
     <div class="ml-2">
@@ -61,10 +61,13 @@ import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 require("moment-duration-format");
 
-const ONE_PERCENT = 1
+const ONE_VALUE = 1
 const MINUTES_TO_SECONDS = 60
 const SECONDS_TO_MSEC = 1000
 const CONVERTING_PERCENT_AND_PROPORTION = 100
+
+//NOTE: 変数名 => Timeは12:00:00のような時刻を、Msecはミリ秒を表すという使い分けをしています
+//NOTE: 時刻計算方法 => (バーのミリ秒) = (スタート時のミリ秒) + (今の時刻 - スタートした時刻).ミリ秒に変換
 
 export default {
   name: "Timer",
@@ -80,32 +83,32 @@ export default {
   data() {
     return {
       value: 0,
-      startTimerTime: "",
-      momentBeforeValue: 0,
-      formatMaxTime: "",
-      accumulatedTimeMsecByTimerStart: 0,
-      formatProgressTime: "00:00:00",
-      maxAirTimeMsec: "",
-      progressTimeMsec: 0,
+      prevValue: 0,
+      startingTime: "",
+      msecWhenStarted: 0,
+      displayMaxTime: "",
+      displayBarTime: "00:00:00",
+      maxAirMsec: "",
+      barMsec: 0,
       timerOn: false,
       timerObj: "",
     }
   },
   watch: {
     value: function() {
-      if(this.userOperateProgressBar()) {
+      if(this.userOperateBar()) {
         this.timerStop()
       }
       if(!this.timerOn) {
-        this.formatProgressTime = moment.duration(this.convertValueToMsec()).format("hh:mm:ss", { trim: false, trunc: true })
-        this.accumulatedTimeMsecByTimerStart = this.progressTimeMsec = this.convertValueToMsec()
+        this.displayBarTime = moment.duration(this.convertValueToMsec()).format("hh:mm:ss", { trim: false, trunc: true })
+        this.msecWhenStarted = this.barMsec = this.convertValueToMsec()
       }
-      this.momentBeforeValue = this.value
+      this.prevValue = this.value
     }
   },
   async created() {
-    this.maxAirTimeMsec = this.episode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC
-    this.formatMaxTime = moment.duration(this.maxAirTimeMsec).format("hh:mm:ss", { trim: false, trunc: true })
+    this.maxAirMsec = this.episode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC
+    this.displayMaxTime = moment.duration(this.maxAirMsec).format("hh:mm:ss", { trim: false, trunc: true })
     this.timerObj = setInterval(()=>{
       if(this.timerOn){
         this.timer()
@@ -113,53 +116,53 @@ export default {
     }, 100)
   },
   methods: {
-    getProgressTimeMsec() {
-      return this.getProgressTimeMsec
-    },
     timer() {
-      if(this.progressTimeMsec < this.episode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC) {
+      if(this.barMsec < this.episode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC) {
         let moment = require('moment')
-        this.progressTimeMsec = this.accumulatedTimeMsecByTimerStart + Number(moment.duration(moment().diff(this.startTimerTime)).format("S", { useGrouping: false }))
-        this.formatProgressTime = moment.duration(this.progressTimeMsec).format("hh:mm:ss", { trim: false, trunc: true })
-        this.moveProgressBar()
+        this.barMsec = this.msecWhenStarted + Number(moment.duration(moment().diff(this.startingTime)).format("S", { useGrouping: false }))
+        this.displayBarTime = moment.duration(this.barMsec).format("hh:mm:ss", { trim: false, trunc: true })
+        this.moveBar()
       } else {
         this.timerStop()
       }
     },
     timerStart() {
       this.timerOn = true
-      this.startTimerTime = moment()
+      this.startingTime = moment()
     },
     timerStop() {
       this.timerOn = false
-      this.accumulatedTimeMsecByTimerStart = this.progressTimeMsec
+      this.msecWhenStarted = this.barMsec
     },
-    moveProgressBar() {
-      this.value = (this.progressTimeMsec / this.maxAirTimeMsec * CONVERTING_PERCENT_AND_PROPORTION)
+    moveBar() {
+      this.value = (this.barMsec / this.maxAirMsec * CONVERTING_PERCENT_AND_PROPORTION)
     },
-    userOperateProgressBar() {
-      if(Math.abs(this.momentBeforeValue - this.value) > ONE_PERCENT){
+    userOperateBar() {
+      let diffValue = Math.abs(this.prevValue - this.value)
+      if(diffValue > ONE_VALUE){
         return true
       } else {
         return false
       }
     },
     convertValueToMsec() {
-      return (this.maxAirTimeMsec * (this.value / CONVERTING_PERCENT_AND_PROPORTION))
+      return (this.maxAirMsec * (this.value / CONVERTING_PERCENT_AND_PROPORTION))
     },
     moveFewSeconds(fewSeconds) {
       this.timerOn = false
-      let minTime = 0
-      let maxTime = this.maxAirTimeMsec
-      let timeAfterMoveMsec = this.progressTimeMsec + fewSeconds * SECONDS_TO_MSEC
-      if(timeAfterMoveMsec < minTime) {
-        timeAfterMoveMsec = minTime
-      } else if(timeAfterMoveMsec > maxTime) {
-        timeAfterMoveMsec = maxTime
+      // TODO: maxMsecは今のところ文字列が入ってないか、minMsecはそもそも変数として定義する必要あるのか
+      let minMsec = 0
+      let maxMsec = this.maxAirMsec
+      let moveMsec = fewSeconds * SECONDS_TO_MSEC
+      let msecAfterMove = this.barMsec + moveMsec
+      if(msecAfterMove < minMsec) {
+        msecAfterMove = minMsec
+      } else if(msecAfterMove > maxMsec) {
+        msecAfterMove = maxMsec
       }
-      this.accumulatedTimeMsecByTimerStart = this.progressTimeMsec = timeAfterMoveMsec
-      this.formatProgressTime = moment.duration(this.progressTimeMsec).format("hh:mm:ss", { trim: false, trunc: true })
-      this.moveProgressBar()
+      this.msecWhenStarted = this.barMsec = msecAfterMove
+      this.displayBarTime = moment.duration(this.barMsec).format("hh:mm:ss", { trim: false, trunc: true })
+      this.moveBar()
     },
   },
 }
