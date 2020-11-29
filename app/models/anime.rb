@@ -56,10 +56,10 @@ class Anime < ApplicationRecord
 
       if value[:id].blank?
         episodes.create(num: value[:num], subtitle: value[:subtitle], air_time: value[:air_time],
-                        broadcast_datetime: value[:broadcast_datetime], active: value[:active])
+                        broadcast_datetime: value[:broadcast_datetime], public: value[:public])
       else
         episodes.find(value[:id]).update!(num: value[:num], subtitle: value[:subtitle], air_time: value[:air_time],
-                                          broadcast_datetime: value[:broadcast_datetime], active: value[:active])
+                                          broadcast_datetime: value[:broadcast_datetime], public: value[:public])
       end
     end
     true

@@ -2,8 +2,8 @@ require 'rails_helper'
 RSpec.describe 'admin/anime_episodes', type: :system do
   describe 'エピソード詳細機能(アニメ詳細機能内)' do
     let!(:anime) { create(:anime) }
-    let!(:episode1) { create(:episode, anime_id: anime.id, active: true) }
-    let!(:episode2) { create(:episode, anime_id: anime.id, active: false) }
+    let!(:episode1) { create(:episode, anime_id: anime.id, public: true) }
+    let!(:episode2) { create(:episode, anime_id: anime.id, public: false) }
     context '表示値確認' do
       it '表示値が正しい' do
         create(:tweet, episode_id: episode2.id)
@@ -52,8 +52,8 @@ RSpec.describe 'admin/anime_episodes', type: :system do
   end
   describe 'エピソード編集機能(アニメ詳細機能内)' do
     let!(:anime) { create(:anime) }
-    let!(:episode1) { create(:episode, anime_id: anime.id, num: 1, active: true) }
-    let!(:episode2) { create(:episode, anime_id: anime.id, num: 2, active: false) }
+    let!(:episode1) { create(:episode, anime_id: anime.id, num: 1, public: true) }
+    let!(:episode2) { create(:episode, anime_id: anime.id, num: 2, public: false) }
     context '正常処理' do
       it '登録済のエピソードを更新できること' do
         visit edit_admin_anime_episode_path(anime)
@@ -63,7 +63,7 @@ RSpec.describe 'admin/anime_episodes', type: :system do
         fill_in 'anime_episodes_attributes_0_subtitle', with: subtitle
         fill_in 'anime_episodes_attributes_0_broadcast_datetime', with: broadcast_datetime
         fill_in 'anime_episodes_attributes_0_air_time', with: air_time
-        select '非公開', from: 'anime_episodes_attributes_0_active'
+        select '非公開', from: 'anime_episodes_attributes_0_public'
         click_on '更新'
         trs = all('#episode-detail tbody tr')
         expect(trs[0].text.split[0]).to have_content(episode1.num)

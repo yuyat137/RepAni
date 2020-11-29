@@ -11,10 +11,10 @@ RSpec.describe Episode, type: :model do
     episode.valid?
     expect(episode.errors[:air_time]).to include('を入力してください')
   end
-  it 'activeがないと無効' do
-    episode = build(:episode, active:'')
+  it 'publicがないと無効' do
+    episode = build(:episode, public:'')
     episode.valid?
-    expect(episode.errors[:active]).to include('は一覧にありません')
+    expect(episode.errors[:public]).to include('は一覧にありません')
   end
   it 'アニメと話数の組が重複していると無効' do
     episode1 = create(:episode)
