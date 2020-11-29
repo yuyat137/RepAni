@@ -68,3 +68,6 @@ Style/WhileUntilModifier:
 
 Bundler/OrderedGems:
   Enabled: false
+Lint/ShadowingOuterLocalVariable:
+  Exclude:
+    - 'app/models/tweet.rb'

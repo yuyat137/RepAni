@@ -1,10 +1,10 @@
 FactoryBot.define do
   factory :anime do
-    sequence(:title) { |n| "title_#{n}" }
+    sequence(:title) { |n| "test#{n}_title" }
     public_url { 'http://example.com' }
     default_air_time { 30 }
-    sequence(:twitter_account) { |n| "test_screen_name_#{n}" }
-    sequence(:twitter_hash_tag) { |n| "test_hash_tag_#{n}" }
+    sequence(:twitter_account) { |n| "test#{n}_screen_name" }
+    sequence(:twitter_hash_tag) { |n| "test#{n}_hash_tag" }
     public { true }
   end
   trait :associate_term do

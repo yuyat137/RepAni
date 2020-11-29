@@ -37,6 +37,8 @@ class Tweet < ApplicationRecord
       }
       serial_number += 1
     end
-    Tweet.insert_all(new_tweets)
+    new_tweets.each_slice(3000) do |tweets|
+      Tweet.insert_all(tweets)
+    end
   end
 end

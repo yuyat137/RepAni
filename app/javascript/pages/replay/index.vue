@@ -56,7 +56,7 @@ export default {
       stackTweets: [],
       showTweets: [],
       fetchLastTweet: false,
-      processTimeJustBeforeMsec: 0,
+      prevBarMsec: 0,
     }
   },
   async created() {
@@ -65,12 +65,12 @@ export default {
     this.$watch(
       // 時間が進むにつれツイートを表示
       function () {
-        return this.$refs.timer.$data.progressTimeMsec
+        return this.$refs.timer.$data.barMsec
       },
       function() {
-        if(this.$refs.timer.$data.timerOn && (this.$refs.timer.$data.progressTimeMsec - this.processTimeJustBeforeMsec) > CHECK_INTERVAL_TIME_MSEC) {
+        if(this.$refs.timer.$data.timerOn && (this.$refs.timer.$data.barMsec - this.prevBarMsec) > CHECK_INTERVAL_TIME_MSEC) {
           this.stackToShowTweets()
-          this.processTimeJustBeforeMsec = this.$refs.timer.$data.progressTimeMsec
+          this.prevBarMsec = this.$refs.timer.$data.barMsec
         }
       }
     )
@@ -83,9 +83,10 @@ export default {
       function() {
         if (this.$refs.timer.$data.timerOn) {
           this.showTweets = []
-          this.processTimeJustBeforeMsec = this.$refs.timer.$data.progressTimeMsec
+          this.prevBarMsec = this.$refs.timer.$data.barMsec
         } else {
           this.stackTweets = []
+          this.fetchLastTweet = false
         }
       }
     )
@@ -113,7 +114,8 @@ export default {
     },
     async fetchTweets() {
       // 実際の実装では=とせずstackTweetsに追加するようにする
-      await this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, progress_time_msec: this.$refs.timer.$data.progressTimeMsec}})
+      //TODO: パラメーターのprogressを取りたい
+      await this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, progress_time_msec: this.$refs.timer.$data.barMsec}})
         .then(res => {
           this.stackTweets = res.data.tweets
           this.fetchLastTweet = res.data.fetch_last_tweet
@@ -121,7 +123,7 @@ export default {
         .catch(err => console.log(err.status));
     },
     stackToShowTweets(){
-      while (this.stackTweets[0].progress_time_msec <= this.$refs.timer.$data.progressTimeMsec && !this.showTweets.includes(this.stackTweets[0])) {
+      while (this.stackTweets[0].progress_time_msec <= this.$refs.timer.$data.barMsec && !this.showTweets.includes(this.stackTweets[0])) {
         this.showTweets.unshift(this.stackTweets.shift());
       }
     },

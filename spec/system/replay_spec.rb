@@ -63,20 +63,15 @@ RSpec.describe 'Replay', type: :system do
       sleep(1)
       expect(page).to have_content(tweets[1].text)
     end
-    xit '一度時間を止めると、再作動させた時間に対応するツイートが表示される' do
-      # 何故か再作動時にツイートが表示されない。
-      # 実際の挙動と異なり、原因がわからないので一旦保留
+    it '一度時間を止めると、再作動させた時間に対応するツイートが表示される' do
       visit "/replay/#{episode.id}"
-      sleep(1)
       find("#timer_start").click
       expect(page).to have_content(tweets[0].text)
-      sleep(3)
       find("#move_few_front").click
-      sleep(1)
+      sleep(2)
       find("#timer_start").click
-      sleep(3)
       expect(page).not_to have_content(tweets[0].text)
-      expect(page).to have_content(tweets[15].text)
+      expect(page).to have_content(tweets[11].text)
     end
   end
 end
