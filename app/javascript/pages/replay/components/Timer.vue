@@ -65,6 +65,7 @@ const ONE_VALUE = 1
 const MINUTES_TO_SECONDS = 60
 const SECONDS_TO_MSEC = 1000
 const CONVERTING_PERCENT_AND_PROPORTION = 100
+const MIN_MSEC = 0
 
 //NOTE: 変数名 => Timeは12:00:00のような時刻を、Msecはミリ秒を表すという使い分けをしています
 //NOTE: 時刻計算方法 => (バーのミリ秒) = (スタート時のミリ秒) + (今の時刻 - スタートした時刻).ミリ秒に変換
@@ -87,7 +88,7 @@ export default {
       startingTime: "",
       barMsec: 0,
       displayBarTime: "00:00:00",
-      maxAirMsec: "",
+      maxAirMsec: 0,
       displayMaxTime: "",
       msecWhenStarted: 0,
       timerOn: false,
@@ -98,10 +99,7 @@ export default {
     value: function() {
       if(this.isBarOperated()) {
         this.timerStop()
-      }
-      if(!this.timerOn) {
-        this.displayBarTime = this.msecToDisplayTime(this.convertBarValueToMsec())
-        this.msecWhenStarted = this.barMsec = this.convertBarValueToMsec()
+        this.moveBarProcess(this.convertBarValueToMsec())
       }
       this.prevValue = this.value
     }
@@ -118,9 +116,8 @@ export default {
   methods: {
     timer() {
       if(this.barMsec < this.maxAirMsec) {
-        this.barMsec = this.msecWhenStarted + Number(moment.duration(moment().diff(this.startingTime)).format("S", { useGrouping: false }))
-        this.displayBarTime = this.msecToDisplayTime(this.barMsec)
-        this.moveBar()
+        let msecAfterMove = this.msecWhenStarted + Number(moment.duration(moment().diff(this.startingTime)).format("S", { useGrouping: false }))
+        this.moveBarProcess(msecAfterMove)
       } else {
         this.timerStop()
       }
@@ -133,10 +130,18 @@ export default {
       this.timerOn = false
       this.msecWhenStarted = this.barMsec
     },
-    moveBar() {
+    moveBarProcess(msecAfterMove) {
+      this.barMsec = msecAfterMove
+
+      if(!this.timerOn) {
+        this.msecWhenStarted = this.barMsec
+      }
+
+      this.displayBarTime = this.msecToDisplayTime(this.barMsec)
       this.value = (this.barMsec / this.maxAirMsec * CONVERTING_PERCENT_AND_PROPORTION)
     },
     isBarOperated() {
+      // TODO: ユーザーがプログレスバーを操作したと判断するのは以下のコードで良いのか悩み中
       let diffValue = Math.abs(this.prevValue - this.value)
       if(diffValue > ONE_VALUE){
         return true
@@ -147,21 +152,17 @@ export default {
     convertBarValueToMsec() {
       return (this.maxAirMsec * (this.value / CONVERTING_PERCENT_AND_PROPORTION))
     },
-    moveFewSeconds(fewSeconds) {
-      this.timerOn = false
-      // TODO: maxMsecは今のところ文字列が入ってないか、minMsecはそもそも変数として定義する必要あるのか
-      let minMsec = 0
-      let maxMsec = this.maxAirMsec
-      let moveMsec = fewSeconds * SECONDS_TO_MSEC
-      let msecAfterMove = this.barMsec + moveMsec
-      if(msecAfterMove < minMsec) {
-        msecAfterMove = minMsec
-      } else if(msecAfterMove > maxMsec) {
-        msecAfterMove = maxMsec
+    moveFewSeconds(moveSeconds) {
+      this.timerStop()
+      let msecAfterMove = this.barMsec + moveSeconds * SECONDS_TO_MSEC
+
+      if(msecAfterMove < MIN_MSEC) {
+        msecAfterMove = MIN_MSEC
+      } else if(msecAfterMove > this.maxAirMsec) {
+        msecAfterMove = this.maxAirMsec
       }
-      this.msecWhenStarted = this.barMsec = msecAfterMove
-      this.displayBarTime = this.msecToDisplayTime(this.barMsec)
-      this.moveBar()
+
+      this.moveBarProcess(msecAfterMove)
     },
     msecToDisplayTime(msec) {
       return moment.duration(msec).format("hh:mm:ss", { trim: false, trunc: true })
