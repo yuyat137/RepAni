@@ -4,19 +4,29 @@
       <div class="d-flex justify-space-between">
         <div>
           <div class="d-inline-block">
-            <img :src="tweet.profile_image_url" class="rounded-circle">
+            <img
+              :src="tweet.profile_image_url"
+              class="rounded-circle"
+            >
           </div>
           <div class="d-inline-block">
-            <div class="block">@{{ tweet.screen_name }}</div>
-            <div class="block" style="white-space: nowrap">{{ tweet.name }}</div>
+            <div class="block">
+              @{{ tweet.screen_name }}
+            </div>
+            <div
+              class="block"
+              style="white-space: nowrap"
+            >
+              {{ tweet.name }}
+            </div>
           </div>
         </div>
         <div>
           <img
             src="../../../assets/Twitter_Logo_Blue.png"
-            width = "35px"
-            height = "35px"
-          />
+            width="35px"
+            height="35px"
+          >
         </div>
       </div>
       <p style="white-space: pre-line">
@@ -53,21 +63,21 @@
           <img
             src="../../../assets/reply.png"
             class="ml-2"
-            width = "14px"
-            height = "12px"
-          />
+            width="14px"
+            height="12px"
+          >
           <img
             src="../../../assets/retweet.png"
             class="ml-15"
-            width = "17px"
-            height = "11px"
-          />
+            width="17px"
+            height="11px"
+          >
           <img
             src="../../../assets/favorite.png"
             class="ml-15"
-            width = "14px"
-            height = "12px"
-          />
+            width="14px"
+            height="12px"
+          >
         </div>
         <div>
           {{ tweeted_at() }}
