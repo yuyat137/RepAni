@@ -10,5 +10,5 @@ tr.nested-fields
   td
     = f.number_field :air_time, class: 'form-control episode-air-time', value: 30
   td
-    = f.select :active, { 公開: true, 非公開: false }, {}, { class: 'form-control episode-active' }
+    = f.select :public, { 公開: true, 非公開: false }, {}, { class: 'form-control episode-public' }
 

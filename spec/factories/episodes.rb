@@ -5,6 +5,6 @@ FactoryBot.define do
     sequence(:subtitle) { |n| "test#{n}_subtitle" }
     sequence(:broadcast_datetime) { DateTime.now -1 }
     air_time { 30 }
-    active { true }
+    public { true }
   end
 end
