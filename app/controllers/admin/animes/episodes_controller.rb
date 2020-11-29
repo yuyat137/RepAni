@@ -1,4 +1,4 @@
-class Admin::AnimeEpisodesController < Admin::BaseController
+class Admin::Animes::EpisodesController < Admin::BaseController
   def edit
     @anime = Anime.find(params[:anime_id])
   end
@@ -15,6 +15,8 @@ class Admin::AnimeEpisodesController < Admin::BaseController
   end
 
   def destroy
+    # TODO: 現状、params[:anime_id]を使用しないので違和感がある。
+    #       controller側で違和感をなくすと、routes.rbで違和感が生じる
     @episode = Episode.find(params[:episode_id])
     @episode.destroy
   end
