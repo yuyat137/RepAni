@@ -37,6 +37,6 @@
           th 更新日時
           td = @anime.updated_at.strftime('%Y-%m-%d %H:%M:%S')
     #term-detail
-      = render 'admin/anime_terms/terms_table', anime: @anime
+      = render 'admin/animes/terms/terms_table', anime: @anime
     #episode-detail
-      = render 'admin/episodes/episodes_table', anime: @anime
+      = render 'admin/animes/episodes/episodes_table', anime: @anime

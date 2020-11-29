@@ -1,4 +1,4 @@
-class Admin::AnimeTermsController < Admin::BaseController
+class Admin::Animes::TermsController < Admin::BaseController
   def edit
     @anime = Anime.find(params[:anime_id])
   end

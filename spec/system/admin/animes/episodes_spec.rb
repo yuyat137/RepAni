@@ -1,5 +1,5 @@
 require 'rails_helper'
-RSpec.describe 'admin/anime_episodes', type: :system do
+RSpec.describe 'admin/animes/episodes', type: :system do
   describe 'エピソード詳細機能(アニメ詳細機能内)' do
     let!(:anime) { create(:anime) }
     let!(:episode1) { create(:episode, anime_id: anime.id, public: true) }
@@ -56,7 +56,7 @@ RSpec.describe 'admin/anime_episodes', type: :system do
     let!(:episode2) { create(:episode, anime_id: anime.id, num: 2, public: false) }
     context '正常処理' do
       it '登録済のエピソードを更新できること' do
-        visit edit_admin_anime_episode_path(anime)
+        visit edit_admin_anime_episodes_path(anime)
         subtitle = 'サブタイトル更新'
         broadcast_datetime = DateTime.now - 1.day
         air_time = 55
@@ -75,7 +75,7 @@ RSpec.describe 'admin/anime_episodes', type: :system do
         expect(trs.length).to eq 2
       end
       it 'エピソードを追加して登録できること' do
-        visit edit_admin_anime_episode_path(anime)
+        visit edit_admin_anime_episodes_path(anime)
         click_on '1行追加'
         num = 3
         subtitle = 'サブタイトル追加'
@@ -99,7 +99,7 @@ RSpec.describe 'admin/anime_episodes', type: :system do
         expect(trs.length).to eq 3
       end
       it '話数と時間だけ入力すれば追加登録できること' do
-        visit edit_admin_anime_episode_path(anime)
+        visit edit_admin_anime_episodes_path(anime)
         click_on '1行追加'
         num = 3
         air_time = 15
@@ -113,7 +113,7 @@ RSpec.describe 'admin/anime_episodes', type: :system do
     end
     context '特殊処理' do
       it '既に登録されてる話数は変更できないこと' do
-        visit edit_admin_anime_episode_path(anime)
+        visit edit_admin_anime_episodes_path(anime)
         num = 5
         fill_in 'anime_episodes_attributes_0_num', with: num
         click_on '更新'
@@ -123,7 +123,7 @@ RSpec.describe 'admin/anime_episodes', type: :system do
         expect(trs.length).to eq 2
       end
       it '話数に重複がある場合更新処理は行わないこと' do
-        visit edit_admin_anime_episode_path(anime)
+        visit edit_admin_anime_episodes_path(anime)
         click_on '1行追加'
         subtitle = 'サブタイトル更新'
         # 2行目(話数の重複と関係のない行も更新されないことの確認)
@@ -136,7 +136,7 @@ RSpec.describe 'admin/anime_episodes', type: :system do
         expect(anime.episodes.length).to eq 2
       end
       it '新規追加行の話数が未入力の場合、その行は登録されないこと' do
-        visit edit_admin_anime_episode_path(anime)
+        visit edit_admin_anime_episodes_path(anime)
         click_on '1行追加'
         subtitle = 'サブタイトル追加'
         air_time = 45
@@ -149,7 +149,7 @@ RSpec.describe 'admin/anime_episodes', type: :system do
         expect(trs[1]).not_to have_content(subtitle)
       end
       it '新規追加行の時間が未入力の場合、その行は登録されないこと' do
-        visit edit_admin_anime_episode_path(anime)
+        visit edit_admin_anime_episodes_path(anime)
         click_on '1行追加'
         num = 3
         subtitle = 'サブタイトル追加'
@@ -163,7 +163,7 @@ RSpec.describe 'admin/anime_episodes', type: :system do
         expect(trs[1]).not_to have_content(subtitle)
       end
       it '登録済の行の時間が未入力の場合、その行は更新されないこと' do
-        visit edit_admin_anime_episode_path(anime)
+        visit edit_admin_anime_episodes_path(anime)
         subtitle = 'サブタイトル更新'
         fill_in 'anime_episodes_attributes_0_subtitle', with: subtitle
         fill_in 'anime_episodes_attributes_0_air_time', with: ''
