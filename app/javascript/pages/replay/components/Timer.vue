@@ -85,30 +85,30 @@ export default {
       value: 0,
       prevValue: 0,
       startingTime: "",
-      msecWhenStarted: 0,
-      displayMaxTime: "",
+      barMsec: 0,
       displayBarTime: "00:00:00",
       maxAirMsec: "",
-      barMsec: 0,
+      displayMaxTime: "",
+      msecWhenStarted: 0,
       timerOn: false,
       timerObj: "",
     }
   },
   watch: {
     value: function() {
-      if(this.userOperateBar()) {
+      if(this.isBarOperated()) {
         this.timerStop()
       }
       if(!this.timerOn) {
-        this.displayBarTime = moment.duration(this.convertValueToMsec()).format("hh:mm:ss", { trim: false, trunc: true })
-        this.msecWhenStarted = this.barMsec = this.convertValueToMsec()
+        this.displayBarTime = this.msecToDisplayTime(this.convertBarValueToMsec())
+        this.msecWhenStarted = this.barMsec = this.convertBarValueToMsec()
       }
       this.prevValue = this.value
     }
   },
   async created() {
     this.maxAirMsec = this.episode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC
-    this.displayMaxTime = moment.duration(this.maxAirMsec).format("hh:mm:ss", { trim: false, trunc: true })
+    this.displayMaxTime = this.msecToDisplayTime(this.maxAirMsec)
     this.timerObj = setInterval(()=>{
       if(this.timerOn){
         this.timer()
@@ -117,10 +117,9 @@ export default {
   },
   methods: {
     timer() {
-      if(this.barMsec < this.episode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC) {
-        let moment = require('moment')
+      if(this.barMsec < this.maxAirMsec) {
         this.barMsec = this.msecWhenStarted + Number(moment.duration(moment().diff(this.startingTime)).format("S", { useGrouping: false }))
-        this.displayBarTime = moment.duration(this.barMsec).format("hh:mm:ss", { trim: false, trunc: true })
+        this.displayBarTime = this.msecToDisplayTime(this.barMsec)
         this.moveBar()
       } else {
         this.timerStop()
@@ -137,7 +136,7 @@ export default {
     moveBar() {
       this.value = (this.barMsec / this.maxAirMsec * CONVERTING_PERCENT_AND_PROPORTION)
     },
-    userOperateBar() {
+    isBarOperated() {
       let diffValue = Math.abs(this.prevValue - this.value)
       if(diffValue > ONE_VALUE){
         return true
@@ -145,7 +144,7 @@ export default {
         return false
       }
     },
-    convertValueToMsec() {
+    convertBarValueToMsec() {
       return (this.maxAirMsec * (this.value / CONVERTING_PERCENT_AND_PROPORTION))
     },
     moveFewSeconds(fewSeconds) {
@@ -161,9 +160,12 @@ export default {
         msecAfterMove = maxMsec
       }
       this.msecWhenStarted = this.barMsec = msecAfterMove
-      this.displayBarTime = moment.duration(this.barMsec).format("hh:mm:ss", { trim: false, trunc: true })
+      this.displayBarTime = this.msecToDisplayTime(this.barMsec)
       this.moveBar()
     },
+    msecToDisplayTime(msec) {
+      return moment.duration(msec).format("hh:mm:ss", { trim: false, trunc: true })
+    }
   },
 }
 </script>
