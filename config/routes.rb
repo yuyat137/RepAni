@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       resources :terms, only: %w[edit update], param: :anime_id
       resources :episodes, only: %w[edit update], param: :anime_id
       resources :episodes, only: %w[destroy], param: :episode_id
-      post 'import_tweets/import', to: 'import_tweets#import', as: 'import_tweets'
+      post 'import_tweets/import', to: 'import_tweets#import'
     end
     resources :episodes, only: %w[index]
     resources :terms, only: %w[edit update]
