@@ -1,0 +1,9 @@
+section.content
+  .container-fluid
+    .row
+      .col-md-6
+        .card.card-primary
+          .card-header
+            h3.card-title 今期のアニメ
+          .card-body
+            = link_to '一括インポート', admin_import_animes_import_path, method: :post, class: 'btn btn-primary my-2', id: 'import_now_term'
