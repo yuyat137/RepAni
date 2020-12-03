@@ -1,6 +1,6 @@
 .d-flex.justify-content-between.mb-3
   h4.my-auto エピソード
-  = link_to "編集", edit_admin_anime_episodes_path(anime), class: 'btn btn-outline-primary'
+  = link_to "編集", edit_admin_animes_episode_path(anime), class: 'btn btn-outline-primary'
 table.table.table-bordered
   thead
     tr
@@ -20,9 +20,10 @@ table.table.table-bordered
         td.text-center.align-middle = episode.air_time
         td.text-center.align-middle = episode.public
         // TODO: 後ほどhelper
-        - if episode.tweets.blank?
+        td.text-center.align-middle = link_to (episode.tweets.blank? ?  '未取得': '取得済'), '#'
+        /- if episode.tweets.blank?
           td.text-center.align-middle = link_to '未取得', admin_anime_import_tweets_path
-        - else
+        /- else
           td.text-center.align-middle = link_to '取得済', '#'
-        td.text-center.align-middle = link_to '削除', admin_anime_episode_path(episode.id), method: :delete, class: 'btn btn-danger',
+        td.text-center.align-middle = link_to '削除', admin_animes_episode_path(episode.id), method: :delete, class: 'btn btn-danger',
           data: { confirm: "#{episode.num}話を削除します。\nツイートを取得してる場合、ツイートも削除されますがよろしいですか。" }, remote: true
