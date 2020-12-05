@@ -4,15 +4,17 @@ class Admin::Animes::ImportTweetsController < Admin::BaseController
   end
 
   def import
-    # Anime.all[24].episodes[10].import_associate_tweets(max_tweet_id)
+    # 動作確認まだ
+    # @episode = Episode.find(params[:episode_id])
+    # return unless @episode.tweets.blank?
 
-    # @tweets = ImportAnimesFromApiService.call(params.dig(:import_period, 'year(1i)'), params.dig(:import_period, :season))
-    # if !@animes.blank?
-    #   flash.now[:success] = 'ログ欄のアニメをインポートしました'
+    # @episode.import_associate_tweets(params[:tweet_id])
+
+    # if !@episode.tweets.blank?
+    #   redirect_to '#', success: 'ツイートをインポートしました'
     # else
-    #   flash.now[:danger] = '全てインポート済でした'
+    #   flash.now[:success] = 'ツイートのインポートに失敗しました'
+    #   render :show
     # end
-
-    # render :index
   end
 end
