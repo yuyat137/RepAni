@@ -17,21 +17,22 @@
           = f.text_field :tweet_id, class: 'form-control w-25'
         .text-center
           = f.submit '一括インポート', class: %w[btn btn-primary btn-flat mt-3]
-    h3.text-center.mt-5.mb-3 エピソード情報
-    table.table.table-bordered.w-50.mx-auto
-      thead
-        tr
-          th アニメ
-          td = @episode.anime.title
-        tr
-          th 話数
-          td = "#{@episode.num}話"
-        tr
-          th サブタイトル
-          td = "#{@episode.subtitle}"
-        tr
-          th 放送日時
-          td = @episode.broadcast_date_and_time
-        tr
-          th 放送時間
-          td = "#{@episode.air_time}分"
+    #episode_info
+      .card.w-50.mx-auto.mt-5
+        .card-header エピソード情報
+        table.table.table-striped.mx-auto.mb-0
+          tr
+            th アニメ
+            td = @episode.anime.title
+          tr
+            th 話数
+            td = "#{@episode.num}話"
+          tr
+            th サブタイトル
+            td = "#{@episode.subtitle}"
+          tr
+            th 放送日時
+            td = @episode.broadcast_date_and_time
+          tr
+            th 放送時間
+            td = "#{@episode.air_time}分"
