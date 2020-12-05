@@ -27,6 +27,6 @@ table.table.table-bordered
         - else
           td.text-center.align-middle
             = icon 'fas', 'plus-circle', class:'green mr-1'
-            = link_to '取得済', '#'
+            = link_to '取得済', admin_animes_tweets_path(episode_id: episode.id)
         td.text-center.align-middle = link_to '削除', admin_animes_episode_path(episode.id), method: :delete, class: 'btn btn-danger',
           data: { confirm: "#{episode.num}話を削除します。\nツイートを取得してる場合、ツイートも削除されますがよろしいですか。" }, remote: true

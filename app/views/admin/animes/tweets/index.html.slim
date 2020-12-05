@@ -1,0 +1,24 @@
+.card
+  .card-header.pb-3
+    h4.card-title = 'ツイート一覧'
+  .card-body
+    = paginate @tweets
+    table.table.table-bordered.my-3
+      thead
+        tr
+          th.text-center scope='col' width='5%' ツイートID
+          th.text-center scope='col' width='10%' 名前
+          th.text-center scope='col' width='5%' ユーザー名
+          th.text-center scope='col' width='10%' アイコン
+          th.text-center scope='col' width='60%' 本文
+          th.text-center scope='col' width='10%' ツイート日時
+      tbody
+        - @tweets.each do |tweet|
+          tr id="tweet_#{tweet.id}"
+            td = tweet.tweet_id
+            td = tweet.name
+            td = tweet.screen_name
+            td = image_tag(tweet.profile_image_url)
+            td = tweet.text
+            td = tweet.tweeted_at.strftime('%H:%M')
+    = paginate @tweets
