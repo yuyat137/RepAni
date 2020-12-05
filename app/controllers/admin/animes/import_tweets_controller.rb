@@ -1,5 +1,7 @@
-class Admin::Animes::ImportTweetsController < ApplicationController
-  def show; end
+class Admin::Animes::ImportTweetsController < Admin::BaseController
+  def show
+    @episode = Episode.find(params[:episode_id]).decorate
+  end
 
   def import
     # Anime.all[24].episodes[10].import_associate_tweets(max_tweet_id)

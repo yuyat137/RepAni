@@ -1,9 +1,37 @@
-section.content
-  .container-fluid
-    .row
-      .col-md-6
-        .card.card-primary
-          .card-header
-            h3.card-title 今期のアニメ
-          .card-body
-            = link_to '一括インポート', admin_import_animes_import_path, method: :post, class: 'btn btn-primary my-2', id: 'import_now_term'
+.card
+  .card-header.pb-3
+    h4.card-title = "ツイート取得画面 - #{@episode.anime.title} #{@episode.num}話"
+  .card-body
+    .text-center
+      p 
+        | 下記文字列を
+        = link_to 'Twitter', 'https://twitter.com/home?lang=ja'
+        | で検索し、『最新』タブの一番新しいツイートのIDを入力してください。
+    .text-center.mt-5
+      span.text-center#copy_text = @episode.search_twitter
+      button.btn.btn-default.btn-sm.ml-3#clipboard_copy クリップボードにコピー
+    .mt-3
+      = form_with url: admin_import_animes_import_path,  html: { method: :post }, local: true do |f|
+        .form-group.d-flex.justify-content-center
+          = f.label :tweet_id, 'ツイートID', class: 'mr-3 align-self-center'
+          = f.text_field :tweet_id, class: 'form-control w-25'
+        .text-center
+          = f.submit '一括インポート', class: %w[btn btn-primary btn-flat mt-3]
+    h3.text-center.mt-5.mb-3 エピソード情報
+    table.table.table-bordered.w-50.mx-auto
+      thead
+        tr
+          th アニメ
+          td = @episode.anime.title
+        tr
+          th 話数
+          td = "#{@episode.num}話"
+        tr
+          th サブタイトル
+          td = "#{@episode.subtitle}"
+        tr
+          th 放送日時
+          td = @episode.broadcast_date_and_time
+        tr
+          th 放送時間
+          td = "#{@episode.air_time}分"

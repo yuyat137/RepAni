@@ -21,7 +21,7 @@ table.table.table-bordered
         td.text-center.align-middle = episode.public
         // TODO: 後ほどhelper
         - if episode.tweets.blank?
-          td.text-center.align-middle = link_to '未取得', admin_animes_import_tweets_path
+          td.text-center.align-middle = link_to '未取得', admin_animes_import_tweet_path(episode.id)
         - else
           td.text-center.align-middle = link_to '取得済', '#'
         td.text-center.align-middle = link_to '削除', admin_animes_episode_path(episode.id), method: :delete, class: 'btn btn-danger',
