@@ -21,8 +21,12 @@ table.table.table-bordered
         td.text-center.align-middle = episode.public
         // TODO: 後ほどhelper
         - if episode.tweets.blank?
-          td.text-center.align-middle = link_to '未取得', admin_animes_import_tweet_path(episode.id)
+          td.text-center.align-middle 
+            = icon 'fas', 'minus-circle', class:'red mr-1'
+            = link_to '未取得', admin_animes_import_tweet_path(episode.id)
         - else
-          td.text-center.align-middle = link_to '取得済', '#'
+          td.text-center.align-middle
+            = icon 'fas', 'plus-circle', class:'green mr-1'
+            = link_to '取得済', '#'
         td.text-center.align-middle = link_to '削除', admin_animes_episode_path(episode.id), method: :delete, class: 'btn btn-danger',
           data: { confirm: "#{episode.num}話を削除します。\nツイートを取得してる場合、ツイートも削除されますがよろしいですか。" }, remote: true
