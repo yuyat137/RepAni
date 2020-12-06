@@ -36,6 +36,7 @@ class Admin::AnimesController < Admin::BaseController
   end
 
   def search_params
+    # ここ、なんでこんな書き方してるのか
     params[:search]&.permit(:title, :year, :season, :public)
   end
 end
