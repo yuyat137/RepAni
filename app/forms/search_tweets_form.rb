@@ -13,12 +13,12 @@ class SearchTweetsForm
     relation = Episode.find(episode_id).tweets
 
     if begin_minutes.present? || begin_seconds.present?
-      milliseconds = (begin_minutes.to_i*60 + begin_seconds.to_i)*1000
+      milliseconds = (begin_minutes.to_i * 60 + begin_seconds.to_i) * 1000
       relation = relation.where(progress_time_msec: milliseconds..Float::MAX)
     end
 
     if end_minutes.present? || end_seconds.present?
-      milliseconds = (end_minutes.to_i*60 + end_seconds.to_i)*1000
+      milliseconds = (end_minutes.to_i * 60 + end_seconds.to_i) * 1000
       relation = relation.where(progress_time_msec: Float::MIN..milliseconds)
     end
     relation.order(serial_number: 'asc')
