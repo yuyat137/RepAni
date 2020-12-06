@@ -9,11 +9,13 @@
       = f.select :begin_seconds, @search_form.seconds, {}, { class: 'form-control' }
       span.mx-2 秒
       span.mx-3 〜
-      = f.select :end_minutes, @search_form.minutes, { selected: @search_form.minutes.last }, { class: 'form-control' }
+      = f.select :end_minutes, @search_form.minutes, {}, { class: 'form-control' }
       span.mx-2 分
-      = f.select :end_seconds, @search_form.seconds, { selected: @search_form.seconds.last }, { class: 'form-control' }
+      = f.select :end_seconds, @search_form.seconds, {}, { class: 'form-control' }
       span.mx-2 秒
       = f.submit '検索', class: 'btn btn-default btn-flat ml-3'
+  .mx-auto
+    = button_tag 'リセット', class: 'btn btn-info btn-sm mt-3', id: 'time_reset'
   .card-body
     = paginate @tweets
     table.table.table-bordered.my-3
