@@ -4,15 +4,11 @@
   #search_form.mx-auto
     = form_with model: @search_form, scope: 'search', url: admin_animes_tweets_path, html: { method: :get, class: 'form-inline mt-3' }, local: true do |f|
       = f.hidden_field :episode_id
-      = f.select :begin_hours, @search_form.hours, {}, { class: 'form-control' }
-      span.mx-2 時間
       = f.select :begin_minutes, @search_form.minutes, {}, { class: 'form-control' }
       span.mx-2 分
       = f.select :begin_seconds, @search_form.seconds, {}, { class: 'form-control' }
       span.mx-2 秒
       span.mx-3 〜
-      = f.select :end_hours, @search_form.hours, { selected: @search_form.hours.last }, { class: 'form-control' }
-      span.mx-2 時間
       = f.select :end_minutes, @search_form.minutes, { selected: @search_form.minutes.last }, { class: 'form-control' }
       span.mx-2 分
       = f.select :end_seconds, @search_form.seconds, { selected: @search_form.seconds.last }, { class: 'form-control' }

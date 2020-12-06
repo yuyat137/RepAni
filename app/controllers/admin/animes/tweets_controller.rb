@@ -11,6 +11,6 @@ class Admin::Animes::TweetsController < Admin::BaseController
   private
 
   def search_params
-    params.require(:search).permit(:episode_id, :begin_hours, :begin_minutes, :begin_seconds, :end_hours, :end_minutes, :end_seconds)
+    params.require(:search).permit(:episode_id, :begin_minutes, :begin_seconds, :end_minutes, :end_seconds)
   end
 end
