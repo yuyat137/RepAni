@@ -2,6 +2,10 @@
   .card-header.pb-3
     h4.card-title = 'ツイート一覧'
   .card-body
+    = form_with model: @search_form, scope: 'search', url: admin_animes_tweets_path, html: { method: :get, class: 'form-inline' }, local: true do |f|
+      = f.number_field :begin_at, class: 'form-control mr-2'
+      = f.number_field :end_at, class: 'form-control mr-2'
+      = f.submit '検索', class: %w[btn btn-default btn-flat]
     = paginate @tweets
     table.table.table-bordered.my-3
       thead
@@ -10,8 +14,8 @@
           th.text-center scope='col' width='10%' 名前
           th.text-center scope='col' width='5%' ユーザー名
           th.text-center scope='col' width='10%' アイコン
-          th.text-center scope='col' width='57%' 本文
-          th.text-center scope='col' width='13%' ツイート日時
+          th.text-center scope='col' width='55%' 本文
+          th.text-center scope='col' width='15%' ツイート日時<br>(経過時間)
       tbody
         - @tweets.each do |tweet|
           tr id="tweet_#{tweet.id}"
@@ -20,5 +24,8 @@
             td = tweet.screen_name
             td = image_tag(tweet.profile_image_url)
             td = tweet.text
-            td = tweet.tweeted_at.strftime('%H:%M')
+            td
+              = tweet.tweeted_at.strftime('%H:%M:%S')
+              br
+              = "(#{tweet.decorate.elapsed_time})"
     = paginate @tweets
