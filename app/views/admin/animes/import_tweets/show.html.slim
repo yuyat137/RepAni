@@ -7,7 +7,8 @@
         | 下記文字列を
         = link_to 'Twitter', 'https://twitter.com/home?lang=ja', target: :_blank, rel: :noopener
         | で検索し、『最新』タブの一番新しいツイートのIDを入力してください。
-    .text-center.mt-5
+      p.red = "残りのツイート取得可能数: #{ConfirmTwitterSearchLimitService.call * 100}/45000"
+    .text-center.mt-3
       span.text-center#copy_text = @episode.search_twitter
       button.btn.btn-default.btn-sm.ml-3#clipboard_copy クリップボードにコピー
     .mt-3
@@ -17,7 +18,7 @@
           = f.text_field :tweet_id, class: 'form-control w-25'
         .text-center
           = f.hidden_field :episode_id, value: @episode.id
-          = f.submit '一括インポート', class: %w[btn btn-primary btn-flat mt-3]
+          = f.submit '一括インポート', class: %w[btn btn-primary btn-flat mt-3], data: { confirm: 'ツイートの取得に数分間かかる場合がありますがよろしいですか?'}
     #episode_info
       .card.w-50.mx-auto.mt-5
         .card-header エピソード情報
