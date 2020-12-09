@@ -27,7 +27,7 @@
           th.text-center scope='col' width='10%' アイコン
           th.text-center scope='col' width='45%' 本文
           th.text-center scope='col' width='15%' ツイート日時<br>(経過時間)
-      tbody
+      tbody#tweets_list
         - @tweets.each do |tweet|
           tr id="tweet_#{tweet.id}"
             td = tweet.tweet_id

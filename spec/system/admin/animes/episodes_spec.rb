@@ -1,6 +1,6 @@
 require 'rails_helper'
 RSpec.describe 'admin/animes/episodes', type: :system do
-  describe 'エピソード詳細機能(アニメ詳細機能内)' do
+  describe 'エピソード一覧機能(アニメ詳細機能内)' do
     let!(:anime) { create(:anime) }
     let!(:episode1) { create(:episode, anime_id: anime.id, public: true) }
     let!(:episode2) { create(:episode, anime_id: anime.id, public: false) }
@@ -47,6 +47,23 @@ RSpec.describe 'admin/animes/episodes', type: :system do
         expect(trs[0]).to have_link('削除')
         expect(trs.length).to eq 1
         expect(Tweet.all.length).to eq 0
+      end
+    end
+    context 'ページ遷移確認' do
+      it 'ツイートがないエピソードはツイート取得画面に遷移する' do
+        visit admin_anime_path(anime)
+        within all('#episode-detail tbody tr')[0] do
+          click_on '未取得'
+        end
+        expect(current_path).to eq admin_animes_import_tweet_path(episode1)
+      end
+      it 'ツイートがあるエピソードはツイート一覧画面に遷移する' do
+        create(:tweet, episode_id: episode1.id)
+        visit admin_anime_path(anime)
+        within all('#episode-detail tbody tr')[0] do
+          click_on '取得済'
+        end
+        expect(current_path).to eq admin_animes_tweets_path
       end
     end
   end
