@@ -1,6 +1,8 @@
 .card
   .card-header.pb-3
     h4.card-title = 'アニメ一覧'
+    .card-tools.btn-area
+      = link_to "新規追加", new_admin_anime_path, class: 'btn btn-outline-primary'
   #search_form.mx-auto.my-3
     = form_with model: @search_form, scope: 'search', url: admin_animes_path, html: { method: :get, class: 'form-inline' }, local: true do |f|
       = f.text_field :title, class: 'form-control mr-2'

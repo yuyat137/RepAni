@@ -5,6 +5,21 @@ class Admin::AnimesController < Admin::BaseController
     @animes = @search_form.search.page(params[:page]).preload(:terms)
   end
 
+  def new
+    @anime = Anime.new
+  end
+
+  def create
+    @anime = Anime.register(params[:anime])
+
+    if @anime
+      redirect_to admin_animes_path, success: 'アニメを登録しました'
+    else
+      flash.now[:danger] = 'アニメの登録に失敗しました'
+      render :new
+    end
+  end
+
   def show
     @anime = Anime.find(params[:id])
   end

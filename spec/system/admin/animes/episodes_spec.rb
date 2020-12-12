@@ -58,7 +58,7 @@ RSpec.describe 'admin/animes/episodes', type: :system do
         within all('#episode-detail tbody tr')[0] do
           click_on '未取得'
         end
-        expect(current_path).to eq admin_animes_import_tweet_path(episode1)
+        expect(current_path).to eq new_admin_animes_tweets_import_path
       end
       it 'ツイートがあるエピソードはツイート一覧画面に遷移する' do
         create(:tweet, episode_id: episode1.id)
