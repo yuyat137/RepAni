@@ -8,11 +8,11 @@ RSpec.describe 'admin/animes/import_tweets', type: :system do
         allow(ConfirmTwitterSearchLimitService).to receive(:call).and_return(450)
       end
       it 'twitterで検索する文字列が正しく表示される' do
-        visit admin_animes_import_tweet_path(episode.id)
+        visit new_admin_animes_tweets_import_path(episode_id: episode.id)
         expect(page).to have_content(episode.decorate.search_twitter)
       end
       it 'エピソード情報が正しく表示される' do
-        visit admin_animes_import_tweet_path(episode.id)
+        visit new_admin_animes_tweets_import_path(episode_id: episode.id)
         expect(page).to have_content(anime.title)
         expect(page).to have_content("#{episode.num}話")
         expect(page).to have_content(episode.subtitle)
@@ -31,7 +31,7 @@ RSpec.describe 'admin/animes/import_tweets', type: :system do
         allow(Tweet).to receive(:convert_from_json).and_return(build_list(:tweet, 5, episode_id: episode.id))
       end
       it 'ツイートが正常にインポートできる' do
-        visit admin_animes_import_tweet_path(episode.id)
+        visit new_admin_animes_tweets_import_path(episode_id: episode.id)
         fill_in 'tweet_id', with: '12345'
         click_on '一括インポート'
         page.driver.browser.switch_to.alert.accept
