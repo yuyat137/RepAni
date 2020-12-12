@@ -46,6 +46,7 @@ RSpec.describe 'admin/animes/import_tweets', type: :system do
         click_on '一括インポート'
         page.driver.browser.switch_to.alert.accept
         visit admin_anime_path(anime.id)
+        sleep(1)
         expect(page).not_to have_content('未取得')
         expect(page).to have_content('取得済')
       end
