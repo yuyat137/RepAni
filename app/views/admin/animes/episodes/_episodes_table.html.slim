@@ -23,7 +23,7 @@ table.table.table-bordered
         - if episode.tweets.empty?
           td.text-center.align-middle
             = icon 'fas', 'minus-circle', class:'red mr-1'
-            = link_to '未取得', admin_animes_import_tweet_path(episode.id)
+            = link_to '未取得', new_admin_animes_tweets_import_path(episode_id: episode.id)
         - else
           td.text-center.align-middle
             = icon 'fas', 'plus-circle', class:'green mr-1'
