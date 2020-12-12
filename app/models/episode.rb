@@ -15,4 +15,8 @@ class Episode < ApplicationRecord
       Tweet.import tweets
     end
   end
+
+  def anime_title
+    anime.title
+  end
 end

@@ -1,9 +1,9 @@
 .card
   .card-header.pb-3
-    h4.card-title = "ツイート取得画面 - #{@episode.anime.title} #{@episode.num}話"
+    h4.card-title = "ツイート取得画面 - #{@episode.anime_title} #{@episode.num}話"
   .card-body
     .text-center
-      p 
+      p
         | 下記文字列を
         = link_to 'Twitter', 'https://twitter.com/home?lang=ja', target: :_blank, rel: :noopener
         | で検索し、『最新』タブの一番新しいツイートのIDを入力してください。
@@ -25,7 +25,7 @@
         table.table.table-striped.mx-auto.mb-0
           tr
             th アニメ
-            td = @episode.anime.title
+            td = @episode.anime_title
           tr
             th 話数
             td = "#{@episode.num}話"
