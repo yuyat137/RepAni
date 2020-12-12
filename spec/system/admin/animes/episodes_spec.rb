@@ -50,6 +50,9 @@ RSpec.describe 'admin/animes/episodes', type: :system do
       end
     end
     context 'ページ遷移確認' do
+      before do
+        allow(ConfirmTwitterSearchLimitService).to receive(:call).and_return(450)
+      end
       it 'ツイートがないエピソードはツイート取得画面に遷移する' do
         visit admin_anime_path(anime)
         within all('#episode-detail tbody tr')[0] do
