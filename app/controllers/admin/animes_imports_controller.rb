@@ -9,6 +9,6 @@ class Admin::AnimesImportsController < Admin::BaseController
       flash.now[:danger] = '全てインポート済でした'
     end
 
-    render :index
+    render :new
   end
 end
