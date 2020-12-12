@@ -18,7 +18,6 @@ class Admin::AnimesController < Admin::BaseController
       flash.now[:danger] = 'アニメの登録に失敗しました'
       render :new
     end
-
   end
 
   def show
