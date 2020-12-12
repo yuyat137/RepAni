@@ -32,7 +32,7 @@ class SearchTweetsForm
       milliseconds = (end_minutes.to_i * 60 + end_seconds.to_i) * 1000
       relation = relation.where(progress_time_msec: Float::MIN..milliseconds)
     end
-    relation.order(serial_number: 'asc')
+    relation.order(:tweeted_at)
   end
 
   def minutes

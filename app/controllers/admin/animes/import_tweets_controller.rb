@@ -8,6 +8,10 @@ class Admin::Animes::ImportTweetsController < Admin::BaseController
     return unless @episode.tweets.blank?
 
     @episode.import_associate_tweets(params[:tweet_id])
-    redirect_to admin_animes_tweets_path(episode_id: @episode.id), success: 'ツイートをインポートしました'
+    if @episode.tweets.empty?
+      redirect_to admin_animes_tweets_path(episode_id: @episode.id), success: 'ツイートを取得しました'
+    else
+      redirect_to admin_animes_import_tweets_import_path(episode_id: @episode.id), danger: 'ツイートの取得に失敗しました'
+    end
   end
 end

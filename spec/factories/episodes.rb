@@ -10,7 +10,7 @@ FactoryBot.define do
   trait :with_tweets do
     after(:create) do |episode|
       200.times do |n|
-        create(:tweet, episode_id: episode.id, serial_number: n, progress_time_msec: n * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: n) )
+        create(:tweet, episode_id: episode.id, progress_time_msec: n * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: n) )
       end
     end
   end

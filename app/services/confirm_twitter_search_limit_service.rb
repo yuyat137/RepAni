@@ -11,6 +11,6 @@ class ConfirmTwitterSearchLimitService
       config.consumer_secret     = Settings.dig(:twitter, :consumer_secret)
     end
     twitter_limit_list = Twitter::REST::Request.new(twitter, :get, '/1.1/application/rate_limit_status.json').perform[:resources]
-  twitter_limit_list[:search][:"/search/tweets"][:remaining]
+    twitter_limit_list[:search][:"/search/tweets"][:remaining]
   end
 end
