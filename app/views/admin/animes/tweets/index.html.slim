@@ -1,0 +1,42 @@
+.card
+  .card-header.pb-3
+    h4.card-title = 'ツイート一覧'
+  #search_form.mx-auto
+    = form_with model: @search_form, scope: 'search', url: admin_animes_tweets_path, html: { method: :get, class: 'form-inline mt-3' }, local: true do |f|
+      = f.hidden_field :episode_id
+      = f.select :begin_minutes, @search_form.minutes, {}, { class: 'form-control' }
+      span.mx-2 分
+      = f.select :begin_seconds, @search_form.seconds, {}, { class: 'form-control' }
+      span.mx-2 秒
+      span.mx-3 〜
+      = f.select :end_minutes, @search_form.minutes, {}, { class: 'form-control' }
+      span.mx-2 分
+      = f.select :end_seconds, @search_form.seconds, {}, { class: 'form-control' }
+      span.mx-2 秒
+      = f.submit '検索', class: 'btn btn-default btn-flat ml-3'
+  .mx-auto
+    = button_tag 'リセット', class: 'btn btn-info btn-sm mt-3', id: 'time_reset'
+  .card-body
+    = paginate @tweets
+    table.table.table-bordered.my-3
+      thead
+        tr
+          th.text-center scope='col' width='10%' ツイートID
+          th.text-center scope='col' width='10%' 名前
+          th.text-center scope='col' width='10%' ユーザー名
+          th.text-center scope='col' width='10%' アイコン
+          th.text-center scope='col' width='45%' 本文
+          th.text-center scope='col' width='15%' ツイート日時<br>(経過時間)
+      tbody#tweets_list
+        - @tweets.each do |tweet|
+          tr id="tweet_#{tweet.id}"
+            td = tweet.tweet_id
+            td = tweet.name
+            td = tweet.screen_name
+            td = image_tag(tweet.profile_image_url)
+            td = tweet.text
+            td
+              = tweet.tweeted_at.strftime('%H:%M:%S')
+              br
+              = "(#{tweet.decorate.elapsed_time})"
+    = paginate @tweets

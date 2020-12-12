@@ -11,14 +11,14 @@ class Tweet < ApplicationRecord
   validates :tweeted_at, presence: true
   GET_TWEETS_NUM = 300
 
-  def self.import_tweets(tweets, broadcast_datetime, episode_id)
-    new_tweets = []
+  def self.convert_from_json(json_tweets, broadcast_datetime, episode_id)
+    tweets = []
     serial_number = 1
-    tweets.each do |tweet|
+    json_tweets.each do |tweet|
       next unless tweet[:retweeted_status].nil? && tweet.dig(:user, :protected) == false && tweet[:in_reply_to_user_id].nil?
 
       tweeted_at = tweet[:created_at].in_time_zone('Tokyo')
-      new_tweets << {
+      tweets << {
         episode_id: episode_id,
         tweet_id: tweet[:id],
         progress_time_msec: (tweeted_at - broadcast_datetime).to_i * 1000,
@@ -31,14 +31,10 @@ class Tweet < ApplicationRecord
         image_url2: tweet.dig(:extended_entities, :media, 1, :media_url_https),
         image_url3: tweet.dig(:extended_entities, :media, 2, :media_url_https),
         image_url4: tweet.dig(:extended_entities, :media, 3, :media_url_https),
-        tweeted_at: tweeted_at,
-        created_at: Time.zone.now,
-        updated_at: Time.zone.now
+        tweeted_at: tweeted_at
       }
       serial_number += 1
     end
-    new_tweets.each_slice(3000) do |tweets|
-      Tweet.insert_all(tweets)
-    end
+    tweets
   end
 end

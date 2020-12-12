@@ -8,6 +8,6 @@ FactoryBot.define do
     sequence(:screen_name) { |n| "test#{n}_screen_name" }
     sequence(:profile_image_url) { "https://placeimg.com/48/48/nature" }
     sequence(:text) { |n| "test#{n}_text" }
-    sequence(:tweeted_at) { |n| DateTime.now - n }
+    sequence(:tweeted_at) { |n| (DateTime.now - 1.day).advance(seconds: n) }
   end
 end

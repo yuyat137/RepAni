@@ -7,9 +7,16 @@ class Episode < ApplicationRecord
   validates :public, inclusion: [true, false]
 
   def import_associate_tweets(max_tweet_id)
-    fetched_tweets = SearchTweetsService.call(anime.twitter_hash_tag, max_tweet_id, air_time)
     return unless broadcast_datetime
 
-    Tweet.import_tweets(fetched_tweets, broadcast_datetime, id)
+    json_tweets = SearchTweetsService.call(anime.twitter_hash_tag, max_tweet_id, air_time)
+    new_tweets = Tweet.convert_from_json(json_tweets, broadcast_datetime, id)
+    new_tweets.each_slice(3000) do |tweets|
+      Tweet.import tweets
+    end
+  end
+
+  def anime_title
+    anime.title
   end
 end
