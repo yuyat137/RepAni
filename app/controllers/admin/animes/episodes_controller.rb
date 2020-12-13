@@ -15,7 +15,7 @@ class Admin::Animes::EpisodesController < Admin::BaseController
   end
 
   def destroy
-    @episode = Episode.find(params[:episode_id])
+    @episode = Episode.find(params[:id])
     @episode.destroy
   end
 end
