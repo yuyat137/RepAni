@@ -3,7 +3,7 @@
     h4.card-title = "アニメ詳細画面 - #{@anime.title}"
   .card-body
     #anime-detail-form
-      = form_with model: @anime, url: admin_anime_path(@anime), local: true do |f|
+      = form_with model: @anime, url: admin_anime_path, local: true do |f|
         .form-group
           = f.label :title, 'タイトル'
           span.red （必須）
