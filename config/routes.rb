@@ -3,16 +3,21 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'dashboards#index'
     patch 'animes/switch_public', to: 'animes#switch_public'
-    namespace :animes do
-      resources :terms, only: %w[edit update], param: :anime_id
-      resources :episodes, only: %w[edit update], param: :anime_id
-      resources :episodes, only: %w[destroy], param: :episode_id
-      resources :tweets, only: %w[index]
-      resources 'tweets_imports', only: %w[new create], param: :episode_id
+    resources :animes, shallow: true do
+      scope module: :animes do
+        scope :animes, as: :anime do
+          resources :episodes, only: %w[destroy] do
+            resources :tweets, only: %w[index], module: :episodes
+            resources :tweets_imports, only: %w[new create], module: :episodes
+          end
+        end
+        resource :episodes, only: %w[edit update]
+        resource :terms, only: %w[edit update]
+      end
     end
-    resources :animes
-    resources :episodes, only: %w[index]
-    resources :terms, only: %w[edit update]
+    # ここいらないはず？
+    # resources :episodes, only: %w[index]
+    # resources :terms, only: %w[edit update]
     resources :animes_imports, only: %w[new create]
   end
   namespace :api do

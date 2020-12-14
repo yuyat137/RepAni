@@ -9,7 +9,7 @@ h4.my-auto エピソード
     li.red 必須項目が未入力の行は更新されません
     li.mt-2.red 話数に重複がある場合、更新処理は行いません
     li.mt-2.red 既に登録済の話数は変更できません
-= form_with model: @anime, url: admin_animes_episode_path(@anime.id), method: :put, local: true do |f|
+= form_with model: @anime, url: admin_anime_episodes_path, method: :put, local: true do |f|
   table.table.w-100.mx-auto.mt-4
     thead
       tr

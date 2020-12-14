@@ -2,7 +2,7 @@
   .card-header.pb-3
     h4.card-title = 'ツイート一覧'
   #search_form.mx-auto
-    = form_with model: @search_form, scope: 'search', url: admin_animes_tweets_path, html: { method: :get, class: 'form-inline mt-3' }, local: true do |f|
+    = form_with model: @search_form, scope: 'search', url: admin_anime_episode_tweets_path, html: { method: :get, class: 'form-inline mt-3' }, local: true do |f|
       = f.hidden_field :episode_id
       = f.select :begin_minutes, @search_form.minutes, {}, { class: 'form-control' }
       span.mx-2 分

@@ -1,4 +1,4 @@
-class Admin::Animes::TweetsController < Admin::BaseController
+class Admin::Animes::Episodes::TweetsController < Admin::BaseController
   def index
     @search_form = if params.key?(:search)
                      SearchTweetsForm.new(search_params)
