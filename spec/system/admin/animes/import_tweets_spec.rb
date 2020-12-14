@@ -35,6 +35,7 @@ RSpec.describe 'admin/animes/import_tweets', type: :system do
         fill_in 'tweet_id', with: '12345'
         click_on '一括インポート'
         page.driver.browser.switch_to.alert.accept
+        sleep(1)
         expect(current_path).to eq admin_anime_episode_tweets_path(episode.id)
         expect(page).to have_content(episode.tweets.first.text)
         expect(page).to have_content('ツイートを取得しました')
