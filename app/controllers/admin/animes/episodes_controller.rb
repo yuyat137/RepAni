@@ -5,8 +5,7 @@ class Admin::Animes::EpisodesController < Admin::BaseController
 
   def update
     @anime = Anime.find(params[:anime_id])
-    result = @anime.update_episodes(params.dig(:anime, :episodes_attributes))
-    if result
+    if @anime.update(episode_params)
       redirect_to admin_anime_path(@anime), success: 'エピソードを更新しました'
     else
       flash.now[:danger] = '更新に失敗しました'
@@ -17,5 +16,11 @@ class Admin::Animes::EpisodesController < Admin::BaseController
   def destroy
     @episode = Episode.find(params[:id])
     @episode.destroy
+  end
+
+  private
+
+  def episode_params
+    params.require(:anime).permit(episodes_attributes: [:id, :num, :subtitle, :air_time, :broadcast_datetime, :public, :_destroy])
   end
 end

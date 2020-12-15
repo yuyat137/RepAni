@@ -4,11 +4,6 @@ h4.my-auto エピソード
     - @anime.errors.full_messages.each do |message|
       .my-1 = message
 .mt-4
-  p.red 注意事項
-  ol
-    li.red 必須項目が未入力の行は更新されません
-    li.mt-2.red 話数に重複がある場合、更新処理は行いません
-    li.mt-2.red 既に登録済の話数は変更できません
 = form_with model: @anime, url: admin_anime_episodes_path, method: :put, local: true do |f|
   table.table.w-100.mx-auto.mt-4
     thead
@@ -16,19 +11,20 @@ h4.my-auto エピソード
         th.text-center width="15%" scope='col'
           | 話数
           span.red （必須）
-        th.text-center width="40%" scope='col' サブタイトル
-        th.text-center width="15%" scope='col' 放送日
+        th.text-center width="35%" scope='col' サブタイトル
+        th.text-center width="10%" scope='col' 放送日
         th.text-center width="15%" scope='col'
           | 時間
           span.red （必須）
         th.text-center width="15%" scope='col' 公開
+        th width="10%"
     tbody#episodes_tbody
       .form-group
-        = f.fields_for :episodes, @anime.episodes.sort_by(&:num) do |episode|
-          = render 'episode_fields', { f: episode, anime: @anime, readonly: true }
+        = f.fields_for :episodes, @anime.episodes.sort_by{|i| i.num.to_i} do |episode|
+          = render 'episode_fields', { f: episode, anime: @anime, created: episode.object.id }
   .text-center
     = link_to_add_association '1行追加', f, :episodes, class: 'btn btn-default',
-        render_options: {locals: { anime: @anime, readonly: false }},
+        render_options: {locals: { anime: @anime, created: false }},
         data: { association_insertion_node: '#episodes_tbody', association_insertion_method: 'append' }
   .text-center
     = f.submit '更新', class: 'btn btn-primary mt-4'
