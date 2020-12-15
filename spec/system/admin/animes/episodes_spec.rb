@@ -75,45 +75,36 @@ RSpec.describe 'admin/animes/episodes', type: :system do
     let!(:episode1) { create(:episode, anime_id: anime.id, num: 1, public: true) }
     let!(:episode2) { create(:episode, anime_id: anime.id, num: 2, public: false) }
     context '正常処理' do
-      it '登録済のエピソードを更新できること' do
+      fit '登録済のエピソードを更新できること' do
         visit edit_admin_anime_episodes_path(anime)
         subtitle = 'サブタイトル更新'
-        broadcast_datetime = DateTime.now - 1.day
-        air_time = 55
         fill_in 'anime_episodes_attributes_0_subtitle', with: subtitle
-        fill_in 'anime_episodes_attributes_0_broadcast_datetime', with: broadcast_datetime
-        fill_in 'anime_episodes_attributes_0_air_time', with: air_time
         select '非公開', from: 'anime_episodes_attributes_0_public'
         click_on '更新'
         trs = all('#episode-detail tbody tr')
         expect(trs[0].text.split[0]).to have_content(episode1.num)
         expect(trs[0]).to have_content(subtitle)
-        expect(trs[0]).to have_content(broadcast_datetime.strftime('%Y-%m-%d %H:%M'))
-        expect(trs[0].text.split[4]).to have_content(air_time)
         expect(trs[0]).to have_content('未取得')
         expect(trs[0]).to have_content('false')
         expect(trs.length).to eq 2
       end
       it 'エピソードを追加して登録できること' do
         visit edit_admin_anime_episodes_path(anime)
-        click_on '1行追加'
         num = 3
+        click_on '1行追加'
         subtitle = 'サブタイトル追加'
         broadcast_datetime = DateTime.now - 2.day
         air_time = 15
         (all('.episode-num')[2]).set(num)
         (all('.episode-subtitle')[2]).set(subtitle)
-        (all('.episode-air-time')[2]).set(air_time)
         within all('.nested-fields')[2] do
           find('.episode-broadcast-datetime').set(broadcast_datetime)
           select '非公開'
         end
         click_on '更新'
         trs = all('#episode-detail tbody tr')
-        expect(trs[2].text.split[0]).to have_content(num)
         expect(trs[2]).to have_content(subtitle)
         expect(trs[2]).to have_content(broadcast_datetime.strftime('%Y-%m-%d %H:%M'))
-        expect(trs[2].text.split[4]).to have_content(air_time)
         expect(trs[2]).to have_content('未取得')
         expect(trs[2]).to have_content('false')
         expect(trs.length).to eq 3
@@ -129,6 +120,14 @@ RSpec.describe 'admin/animes/episodes', type: :system do
         trs = all('#episode-detail tbody tr')
         expect(trs[2].text.split[0]).to have_content(num)
         expect(trs.length).to eq 3
+      end
+      it '追加行にのみ削除ボタンがあること' do
+        visit edit_admin_anime_episodes_path(anime)
+        click_on '1行追加'
+        trs = all('#episodes_tbody tr')
+        expect(trs[0]).not_to have_link('削除')
+        expect(trs[1]).not_to have_link('削除')
+        expect(trs[2]).to have_link('削除')
       end
     end
     context '特殊処理' do
@@ -155,20 +154,20 @@ RSpec.describe 'admin/animes/episodes', type: :system do
         expect(page).to have_content('更新に失敗しました')
         expect(anime.episodes.length).to eq 2
       end
-      it '新規追加行の話数が未入力の場合、その行は登録されないこと' do
+      it '新規追加行の話数が未入力の場合、エラーとなること' do
         visit edit_admin_anime_episodes_path(anime)
         click_on '1行追加'
         subtitle = 'サブタイトル追加'
         air_time = 45
+        trs = all('#episodes_tbody tr')
         (all('.episode-subtitle')[2]).set(subtitle)
         (all('.episode-air-time')[2]).set(air_time)
         click_on '更新'
-        trs = all('#episode-detail tbody tr')
-        expect(trs.length).to eq 2
-        expect(trs[0]).not_to have_content(subtitle)
-        expect(trs[1]).not_to have_content(subtitle)
+        expect(page).to have_content('更新に失敗しました')
+        expect(page).to have_content('話数を入力してください')
+        expect(Episode.all.length).to eq 2
       end
-      it '新規追加行の時間が未入力の場合、その行は登録されないこと' do
+      it '新規追加行の時間が未入力の場合、エラーとなること' do
         visit edit_admin_anime_episodes_path(anime)
         click_on '1行追加'
         num = 3
@@ -177,21 +176,38 @@ RSpec.describe 'admin/animes/episodes', type: :system do
         (all('.episode-subtitle')[2]).set(subtitle)
         (all('.episode-air-time')[2]).set('')
         click_on '更新'
-        trs = all('#episode-detail tbody tr')
-        expect(trs.length).to eq 2
-        expect(trs[0]).not_to have_content(subtitle)
-        expect(trs[1]).not_to have_content(subtitle)
+        trs = all('#episodes_tbody tr')
+        expect(page).to have_content('更新に失敗しました')
+        expect(page).to have_content('時間を入力してください')
+        expect(Episode.all.length).to eq 2
       end
-      it '登録済の行の時間が未入力の場合、その行は更新されないこと' do
+      it '登録に失敗したあと、続けて入力して登録できること' do
         visit edit_admin_anime_episodes_path(anime)
+        num = 3
         subtitle = 'サブタイトル更新'
-        fill_in 'anime_episodes_attributes_0_subtitle', with: subtitle
-        fill_in 'anime_episodes_attributes_0_air_time', with: ''
+        air_time = 30
+        broadcast_datetime = DateTime.now - 2.day
+        click_on '1行追加'
+        (all('.episode-num')[2]).set('')
+        (all('.episode-subtitle')[2]).set(subtitle)
+        (all('.episode-broadcast-datetime')[2]).set(broadcast_datetime)
+        (all('.episode-air-time')[2]).set(air_time)
+        click_on '更新'
+        expect(page).to have_content('更新に失敗しました')
+        (all('.episode-num')[0]).set(num)
         click_on '更新'
         trs = all('#episode-detail tbody tr')
-        expect(trs.length).to eq 2
-        expect(trs[0]).not_to have_content(subtitle)
-        expect(trs[0]).to have_content(episode1.subtitle)
+        expect(trs.length).to eq 3
+        expect(current_path).to eq admin_anime_path(anime)
+      end
+      it '登録に失敗したとき、DBに未登録の行だけ削除ボタンがあること' do
+        visit edit_admin_anime_episodes_path(anime)
+        click_on '1行追加'
+        click_on '更新'
+        trs = all('#episodes_tbody tr')
+        expect(trs[0]).to have_link('削除')
+        expect(trs[1]).not_to have_link('削除')
+        expect(trs[2]).not_to have_link('削除')
       end
     end
   end
