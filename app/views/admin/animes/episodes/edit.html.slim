@@ -11,13 +11,15 @@ h4.my-auto エピソード
         th.text-center width="15%" scope='col'
           | 話数
           span.red （必須）
-        th.text-center width="35%" scope='col' サブタイトル
-        th.text-center width="10%" scope='col' 放送日
+        th.text-center width="30%" scope='col' サブタイトル
+        th.text-center width="10%" scope='col'
+          | 放送日
+          span.red （必須）
         th.text-center width="15%" scope='col'
           | 時間
           span.red （必須）
         th.text-center width="15%" scope='col' 公開
-        th width="10%"
+        th width="20%"
     tbody#episodes_tbody
       .form-group
         = f.fields_for :episodes, @anime.episodes.sort_by{|i| i.num.to_i} do |episode|
