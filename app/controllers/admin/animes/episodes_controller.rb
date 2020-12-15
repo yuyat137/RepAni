@@ -21,6 +21,6 @@ class Admin::Animes::EpisodesController < Admin::BaseController
   private
 
   def episodes_params
-    params.require(:anime).permit(episodes_attributes: [:id, :num, :subtitle, :air_time, :broadcast_datetime, :public, :_destroy])
+    params.require(:anime).permit(episodes_attributes: %i[id num subtitle air_time broadcast_datetime public _destroy])
   end
 end
