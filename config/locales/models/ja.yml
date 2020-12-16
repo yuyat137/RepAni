@@ -1,0 +1,7 @@
+ja:
+  activerecord:
+    attributes:
+      episodes:
+        num: 話数
+        broadcast_datetime: 放送日
+        air_time: 時間
