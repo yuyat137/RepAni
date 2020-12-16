@@ -75,7 +75,7 @@ RSpec.describe 'admin/animes/episodes', type: :system do
     let!(:episode1) { create(:episode, anime_id: anime.id, num: 1, public: true) }
     let!(:episode2) { create(:episode, anime_id: anime.id, num: 2, public: false) }
     context '正常処理' do
-      fit '登録済のエピソードを更新できること' do
+      it '登録済のエピソードを更新できること' do
         visit edit_admin_anime_episodes_path(anime)
         subtitle = 'サブタイトル更新'
         fill_in 'anime_episodes_attributes_0_subtitle', with: subtitle
