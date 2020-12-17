@@ -12,6 +12,15 @@ RSpec.describe Anime, type: :model do
     anime.valid?
     expect(anime.errors[:title]).to include('はすでに存在します')
   end
+  it 'デフォルト放送時間がないと無効' do
+    anime = build(:anime, default_air_time:'')
+    anime.valid?
+    expect(anime.errors[:default_air_time]).to include('を入力してください')
+  end
+  it '公開非公開を指定しないと非公開になる' do
+    anime = create(:anime, public:'')
+    expect(anime.public).to be_falsey
+  end
   it 'アニメオブジェクトを削除した時、Term以外の関連オブジェクトは削除される' do
     anime = create(:anime, :associate_all)
     expect(Anime.all.length).to eq 1

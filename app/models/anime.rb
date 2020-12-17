@@ -36,6 +36,6 @@ class Anime < ApplicationRecord
   private
 
   def set_public
-    self.public = :open if public.nil?
+    self.public = false if public.nil?
   end
 end
