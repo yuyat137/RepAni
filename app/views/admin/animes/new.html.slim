@@ -29,11 +29,10 @@
         = f.label :twitter_hash_tag, 'Twitterハッシュタグ'
         = f.text_field :twitter_hash_tag, { class: 'form-control' }
       .form-group
+        = f.label :first_broadcast_datetime, '初放送日'
+        = f.datetime_field :first_broadcast_datetime, { class: 'form-control' }
+      .form-group
         = f.label :public, '公開非公開'
         span.red （必須）
         = f.select :public, { 公開: true, 非公開: false }, {}, { class: 'form-control', required: true }
-      .form-group
-        = f.label :episodes_num, '話数'
-        span.red （必須）
-        = f.number_field :episodes_num, { class: 'form-control', required: true, value: 12 }
       = f.submit '登録', class: 'btn btn-warning', id: 'register_anime'
