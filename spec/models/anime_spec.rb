@@ -12,15 +12,16 @@ RSpec.describe Anime, type: :model do
     anime.valid?
     expect(anime.errors[:title]).to include('はすでに存在します')
   end
-  it 'アニメオブジェクトを削除した時、関連オブジェクトも削除される' do
-    Anime.register({title: 'テスト', year: 2020, season: 2, default_air_time: 30, public: true, episodes_num: 12})
+  it 'アニメオブジェクトを削除した時、Term以外の関連オブジェクトは削除される' do
+    anime = create(:anime, :associate_all)
     expect(Anime.all.length).to eq 1
-    anime = Anime.first
-    expect(anime.terms.length).to be 1
-    expect(anime.episodes.length).to be 12
+    expect(anime.terms.length).not_to eq 0
+    expect(anime.episodes.length).not_to eq 0
+    expect(anime.episodes.first.tweets).not_to eq 0
     anime.destroy
     expect(Anime.all.length).to be 0
     expect(AnimeTerm.all.length).to be 0
     expect(Episode.all.length).to be 0
+    expect(Term.all.length).not_to be 0
   end
 end

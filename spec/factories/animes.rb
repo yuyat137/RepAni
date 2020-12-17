@@ -19,6 +19,13 @@ FactoryBot.define do
       create(:anime_term, anime_id: anime.id, term_id: term.id)
     end
   end
+  trait :associate_all do
+    after(:create) do |anime|
+      term = create(:term)
+      create(:anime_term, anime_id: anime.id, term_id: term.id)
+      create(:episode, :with_tweets, anime_id: anime.id)
+    end
+  end
   trait :public do
     after(:create) do |anime|
       anime.update(public: true)

@@ -139,14 +139,12 @@ RSpec.describe 'admin/animes', type: :system do
         fill_in 'anime_twitter_account', with: twitter_account
         fill_in 'anime_twitter_hash_tag', with: twitter_hash_tag
         select public, from: 'anime_public'
-        fill_in 'anime_episodes_num', with: episodes_num
         find('#register_anime').click
         expect(page).to have_content('アニメを登録しました')
         # TODO: 以下コードは詳細画面ができたら画面から確認する形に移行
         expect(Anime.all.length).to be 1
         anime = Anime.first
         expect(anime.terms.length).to be 1
-        expect(anime.episodes.length).to be episodes_num
         expect(anime.title).to eq title
         expect(anime.terms.first.year).to eq year
         expect(anime.terms.first.season).to eq season
