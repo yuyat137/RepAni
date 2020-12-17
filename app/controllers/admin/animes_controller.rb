@@ -47,7 +47,7 @@ class Admin::AnimesController < Admin::BaseController
   private
 
   def anime_params
-    params.require(:anime).permit(:title, :public_url, :default_air_time, :twitter_account, :twitter_hash_tag, :public)
+    params.require(:anime).permit(:title, :public_url, :default_air_time, :first_broadcast_datetime, :twitter_account, :twitter_hash_tag, :public)
   end
 
   def search_params

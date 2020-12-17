@@ -12,7 +12,9 @@ h4.my-auto エピソード
           | 話数
           span.red （必須）
         th.text-center width="30%" scope='col' サブタイトル
-        th.text-center width="10%" scope='col' 放送日
+        th.text-center width="10%" scope='col'
+          | 放送日
+          span.red （必須）
         th.text-center width="15%" scope='col'
           | 時間
           span.red （必須）
@@ -21,11 +23,13 @@ h4.my-auto エピソード
     tbody#episodes_tbody
       .form-group
         = f.fields_for :episodes, @anime.episodes.sort_by{|i| i.num.to_i} do |episode|
-          = render 'episode_fields', { f: episode, anime: @anime, created: episode.object.id }
+          = render 'episode_fields', { f: episode, air_time: episode.object.air_time,
+            created: episode.object.id, broadcast_datetime: episode.object.broadcast_datetime&.strftime('%Y-%m-%dT%H:%M') }
   .text-center
     = link_to_add_association '1行追加', f, :episodes, class: 'btn btn-default',
-        render_options: {locals: { anime: @anime, created: false }},
-        data: { association_insertion_node: '#episodes_tbody', association_insertion_method: 'append' }
+      render_options: {locals: { anime: @anime, air_time: 30, created: false,
+      broadcast_datetime: @anime.first_broadcast_datetime&.strftime('%Y-%m-%dT%H:%M') }},
+      data: { association_insertion_node: '#episodes_tbody', association_insertion_method: 'append' }
   .text-center
     = f.submit '更新', class: 'btn btn-primary mt-4'
 

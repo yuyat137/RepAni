@@ -5,10 +5,9 @@ tr.nested-fields
   td
     = f.text_field :subtitle, class: 'form-control episode-subtitle'
   td
-    = f.datetime_field :broadcast_datetime, { class: 'form-control episode-broadcast-datetime', value: anime.created_at.strftime("%Y-%m-%dT%H:%M"), readonly: created}
-    // TODO: create_atは仮。アニメ側で放送日を持つようにしたい
+    = f.datetime_field :broadcast_datetime, { class: 'form-control episode-broadcast-datetime', readonly: created, value: broadcast_datetime }
   td
-    = f.number_field :air_time, class: 'form-control episode-air-time', value: 30, readonly: created
+    = f.number_field :air_time, class: 'form-control episode-air-time', readonly: created, value: air_time
   td
     = f.select :public, { 公開: true, 非公開: false }, {}, { class: 'form-control episode-public' }
   td
