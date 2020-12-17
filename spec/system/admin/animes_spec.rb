@@ -200,17 +200,6 @@ RSpec.describe 'admin/animes', type: :system do
         find('#register_anime').click
         expect(page).not_to have_content('アニメを登録しました')
       end
-      it '話数が無いとアニメが登録できない' do
-        visit new_admin_anime_path
-        expect(Anime.all.length).to be 0
-        fill_in 'anime_title', with: title
-        select year, from: 'anime_year_1i'
-        select season_ja, from: 'anime_season'
-        fill_in 'anime_default_air_time', with: default_air_time
-        select public, from: 'anime_public'
-        find('#register_anime').click
-        expect(page).not_to have_content('アニメを登録しました')
-      end
     end
   end
   describe '詳細機能' do
