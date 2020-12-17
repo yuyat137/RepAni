@@ -3,8 +3,8 @@ class Episode < ApplicationRecord
   has_many :tweets, dependent: :destroy
   validates :anime_id, presence: true
   validates :num, presence: true, uniqueness: { scope: :anime_id, case_sensitive: false }
-  validates :air_time, presence: true
   validates :broadcast_datetime, presence: true
+  validates :air_time, presence: true
   validates :public, inclusion: [true, false]
 
   def import_associate_tweets(max_tweet_id)

@@ -6,6 +6,7 @@ class Anime < ApplicationRecord
   accepts_nested_attributes_for :terms, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :episodes, reject_if: :all_blank, allow_destroy: true
   validates :title, presence: true, uniqueness: { case_sensitive: false }
+  validates :default_air_time, presence: true
   validates :public, inclusion: { in: [true, false] }
 
   def self.register(params)
