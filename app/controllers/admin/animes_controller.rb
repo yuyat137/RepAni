@@ -10,9 +10,9 @@ class Admin::AnimesController < Admin::BaseController
   end
 
   def create
-    @anime = Anime.register(params[:anime])
-
-    if @anime
+    @anime = Anime.new(anime_params)
+    if @anime.save
+      @anime.register_term(params.dig(:anime, 'year(1i)'), params.dig(:anime, :season))
       redirect_to admin_animes_path, success: 'アニメを登録しました'
     else
       flash.now[:danger] = 'アニメの登録に失敗しました'
@@ -47,7 +47,7 @@ class Admin::AnimesController < Admin::BaseController
   private
 
   def anime_params
-    params.require(:anime).permit(:title, :public_url, :default_air_time, :twitter_account, :twitter_hash_tag, :public)
+    params.require(:anime).permit(:title, :public_url, :default_air_time, :first_broadcast_datetime, :twitter_account, :twitter_hash_tag, :public)
   end
 
   def search_params

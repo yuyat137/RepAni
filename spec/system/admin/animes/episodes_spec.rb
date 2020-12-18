@@ -109,13 +109,15 @@ RSpec.describe 'admin/animes/episodes', type: :system do
         expect(trs[2]).to have_content('false')
         expect(trs.length).to eq 3
       end
-      it '話数と時間だけ入力すれば追加登録できること' do
+      it '話数と放送時間と時間だけ入力すれば追加登録できること' do
         visit edit_admin_anime_episodes_path(anime)
         click_on '1行追加'
         num = 3
+        broadcast_datetime = DateTime.now - 2.day
         air_time = 15
         (all('.episode-num')[2]).set(num)
         (all('.episode-air-time')[2]).set(air_time)
+        (all('.episode-broadcast-datetime')[2]).set(broadcast_datetime)
         click_on '更新'
         trs = all('#episode-detail tbody tr')
         expect(trs[2].text.split[0]).to have_content(num)

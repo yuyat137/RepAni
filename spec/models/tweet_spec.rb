@@ -1,12 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe Tweet, type: :model do
+  it 'エピソードIDがないと無効' do
+    tweet = build(:tweet, episode_id:'')
+    tweet.valid?
+    expect(tweet.errors[:episode_id]).to include('を入力してください')
+  end
   it 'ツイートIDがないと無効' do
     tweet = build(:tweet, tweet_id:'')
     tweet.valid?
     expect(tweet.errors[:tweet_id]).to include('を入力してください')
   end
-  it '進んだ時間がないと無効' do
+  it '経過時間がないと無効' do
     tweet = build(:tweet, progress_time_msec:'')
     tweet.valid?
     expect(tweet.errors[:progress_time_msec]).to include('を入力してください')

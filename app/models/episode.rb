@@ -1,8 +1,10 @@
 class Episode < ApplicationRecord
+  before_validation :set_public
   belongs_to :anime
   has_many :tweets, dependent: :destroy
   validates :anime_id, presence: true
   validates :num, presence: true, uniqueness: { scope: :anime_id, case_sensitive: false }
+  validates :broadcast_datetime, presence: true
   validates :air_time, presence: true
   validates :public, inclusion: [true, false]
 
@@ -18,5 +20,11 @@ class Episode < ApplicationRecord
 
   def anime_title
     anime.title
+  end
+
+  private
+
+  def set_public
+    self.public = false if public.nil?
   end
 end

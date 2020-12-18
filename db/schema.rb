@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_29_063625) do
+ActiveRecord::Schema.define(version: 2020_12_16_111820) do
 
   create_table "anime_terms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "anime_id", null: false
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2020_11_29_063625) do
     t.boolean "public", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "first_broadcast_datetime"
     t.index ["title"], name: "index_animes_on_title", unique: true
   end
 
@@ -38,9 +39,9 @@ ActiveRecord::Schema.define(version: 2020_11_29_063625) do
     t.bigint "anime_id"
     t.integer "num", null: false
     t.string "subtitle"
-    t.datetime "broadcast_datetime"
+    t.datetime "broadcast_datetime", null: false
     t.integer "air_time", null: false
-    t.boolean "public", default: true
+    t.boolean "public", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["anime_id", "num"], name: "index_episodes_on_anime_id_and_num", unique: true

@@ -12,9 +12,12 @@
           = f.label :public_url, '公式URL'
           = f.text_field :public_url, { class: 'form-control' }
         .form-group
-          = f.label :default_air_time, '放送時間(分)'
+          = f.label :default_air_time, 'デフォルトの放送時間(分)'
           span.red （必須）
           = f.number_field :default_air_time, { class: 'form-control', required: true }
+        .form-group
+          = f.label :first_broadcast_datetime, '初放送日時'
+          = f.datetime_field :first_broadcast_datetime, { class: 'form-control' }
         .form-group
           = f.label :twitter_account, 'Twitterアカウント'
           = f.text_field :twitter_account, { class: 'form-control' }
