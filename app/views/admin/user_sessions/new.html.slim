@@ -1,0 +1,57 @@
+doctype html
+html
+  head
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
+    meta charset="utf-8" /
+    meta content="IE=edge" http-equiv="X-UA-Compatible" /
+    title AdminLTE 3 | Log in
+    meta content="width=device-width, initial-scale=1" name="viewport" /
+    link href="../../plugins/fontawesome-free/css/all.min.css" rel="stylesheet" /
+    link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" /
+    link href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css" rel="stylesheet" /
+    link href="../../dist/css/adminlte.min.css" rel="styleshee" /
+    link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" /
+  body.hold-transition.login-page
+    .login-box
+      .login-logo
+        a href="../../index2.html" 
+          b> Admin
+          | LTE
+      .card
+        .card-body.login-card-body
+          p.login-box-msg Sign in to start your session
+          form action="../../index3.html" method="post" 
+            .input-group.mb-3
+              input.form-control placeholder="Email" type="email" /
+              .input-group-append
+                .input-group-text
+                  span.fas.fa-envelope
+            .input-group.mb-3
+              input.form-control placeholder="Password" type="password" /
+              .input-group-append
+                .input-group-text
+                  span.fas.fa-lock
+            .row
+              .col-8
+                .icheck-primary
+                  input#remember type="checkbox" /
+                  label for="remember" 
+                    | Remember Me
+              .col-4
+                button.btn.btn-primary.btn-block type="submit"  Sign In
+          .social-auth-links.text-center.mb-3
+            p - OR -
+            a.btn.btn-block.btn-primary href="#" 
+              i.fab.fa-facebook.mr-2
+              | Sign in using Facebook
+            a.btn.btn-block.btn-danger href="#" 
+              i.fab.fa-google-plus.mr-2
+              | Sign in using Google+
+          p.mb-1
+            a href="forgot-password.html"  I forgot my password
+          p.mb-0
+            a.text-center href="register.html"  Register a new membership
+    script src="../../plugins/jquery/jquery.min.js" 
+    script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js" 
+    script src="../../dist/js/adminlte.min.js" 
+t

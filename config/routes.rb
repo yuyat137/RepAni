@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       end
     end
     resources :users
+    resources :user_sessions, only: %w[new create]
     resources :animes_imports, only: %w[new create]
   end
   namespace :api do
