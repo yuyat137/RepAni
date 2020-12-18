@@ -1,0 +1,21 @@
+.card
+  .card-header.pb-3
+    h4.card-title = 'ユーザー新規作成'
+  .card-body
+    = form_with model: @user, url: admin_users_path, local: true do |f|
+      .form-group
+        = f.label :name, '名前'
+        = f.text_field :name, class:'form-control'
+      .form-group
+        = f.label :email, 'メールアドレス'
+        = f.email_field :email, class:'form-control'
+      .form-group
+        = f.label :password, 'パスワード'
+        = f.password_field :password, class: 'form-control'
+      .form-group
+        = f.label :password_confirmation, 'パスワード(確認)'
+        = f.password_field :password_confirmation, class: 'form-control'
+      .form-group
+        = f.label :role, '公開非公開'
+        = f.select :role, User.roles_i18n.invert, {}, class: 'form-control'
+      = f.submit '登録', class: 'btn btn-primary', id: 'register'

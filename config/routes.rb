@@ -15,9 +15,7 @@ Rails.application.routes.draw do
         resource :terms, only: %w[edit update]
       end
     end
-    # ここいらないはず？
-    # resources :episodes, only: %w[index]
-    # resources :terms, only: %w[edit update]
+    resources :users
     resources :animes_imports, only: %w[new create]
   end
   namespace :api do

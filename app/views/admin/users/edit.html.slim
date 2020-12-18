@@ -1,0 +1,15 @@
+.card
+  .card-header.pb-3
+    h4.card-title = 'ユーザー編集'
+  .card-body
+    = form_with model: @user, url: admin_user_path, local: true do |f|
+      .form-group
+        = f.label :name, '名前'
+        = f.text_field :name, class:'form-control'
+      .form-group
+        = f.label :email, 'メールアドレス'
+        = f.email_field :email, class:'form-control'
+      .form-group
+        = f.label :role, '公開非公開'
+        = f.select :role, User.roles_i18n.invert, {}, class: 'form-control'
+      = f.submit '更新', class: 'btn btn-primary', id: 'register'
