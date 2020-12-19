@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    title = "#{Settings.sitename} Admin管理画面"
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'admin/application', media: 'all'
+  body.hold-transition.sidebar-mini.layout-fixed
+    .wrapper
+      .content-wrapper.m-0.vh-100
+        = render 'admin/layouts/flash_messages'
+        .container
+          = yield

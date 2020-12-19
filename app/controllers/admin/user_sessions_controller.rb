@@ -1,9 +1,11 @@
 class Admin::UserSessionsController < ApplicationController
+  layout 'admin/layouts/login'
+
   def create
     @user = login(params[:email], params[:password])
 
     if @user
-      redirect_ ack_or_to(admin_root_path, notice: 'ログインしました')
+      redirect_back_or_to admin_root_path, success: 'ログインしました'
     else
       flash.now[:danger] = 'ログインに失敗しました'
       render :new

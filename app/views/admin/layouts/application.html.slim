@@ -10,10 +10,10 @@ html
     .wrapper
       = render 'admin/layouts/sidebar'
       .content-wrapper
+        = render 'admin/layouts/flash_messages'
         section.content-header
           / == breadcrumbs style: :ol, class: 'breadcrumb float-sm-right', separator: '　&rsaquo;　'
         section.content
-          = render 'admin/layouts/flash_messages'
           = yield
       #main-menu-bg
     = javascript_pack_tag 'application-admin'
