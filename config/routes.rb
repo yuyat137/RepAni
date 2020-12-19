@@ -22,8 +22,7 @@ Rails.application.routes.draw do
     resources :animes_imports, only: %w[new create]
   end
   namespace :api do
-    # resources :animes, only: %w[index]
-    resources :animes
+    resources :animes, only: %w[index]
     resources :terms, only: %w[index]
     resources :tweets, only: %w[index]
     resources :episodes, only: %w[index] do
