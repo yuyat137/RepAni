@@ -26,11 +26,3 @@ Twitterのアニメ実況再現アプリ
 ## マーケット
 - アニメをリアタイできなかった人
 - Twitterでの実況を見ながらアニメを楽しみたい人
-
-## 使い方(ローカル：今後管理画面と結びつけたい)
-- `Anime.import_this_term_from_api`クラスメソッドで今期アニメを取得する(取得アニメの年、月を指定可能)
-- `Anime.all[24].import_associate_episodes(12, DateTime.new(2020, 7, 8, 23, 30, 00, "+09:00"))`メソッドでそのアニメに紐づく12話分のEpisodeレコードを作成(第2引数は初放送日時)
-- `Anime.all[24].episodes[10].import_associate_tweets(max_tweet_id)`メソッドでAPIからツイートを取得
-  - 検索例『#rezero until:2020-08-12_23:59:59_JST』
-  - 8/29現在のid("リゼロ")：1298636302493990912
-

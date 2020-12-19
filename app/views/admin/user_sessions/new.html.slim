@@ -1,0 +1,15 @@
+.login-box.login-box-position
+  .login-logo
+    h2 ログイン
+  .card
+    .card-body.login-card-body
+      = form_with url: admin_login_path, local: true do |f|
+        .form-group
+          = f.label :email, 'メールアドレス'
+          = f.email_field :email, class:'form-control'
+        .form-group
+          = f.label :password, 'パスワード'
+          = f.password_field :password, class:'form-control'
+        .actions
+          = f.submit 'ログイン', class:'btn btn-primary'
+

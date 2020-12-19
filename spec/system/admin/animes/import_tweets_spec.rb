@@ -3,9 +3,11 @@ RSpec.describe 'admin/animes/import_tweets', type: :system do
   describe '表示内容' do
     let!(:anime) { create(:anime) }
     let!(:episode) { create(:episode, :with_tweets, anime_id: anime.id) }
+    let!(:admin_user) { create(:user, role: 'admin') }
     context '表示内容' do
       before do
         allow(ConfirmTwitterSearchLimitService).to receive(:call).and_return(450)
+        admin_login_as(admin_user)
       end
       it 'twitterで検索する文字列が正しく表示される' do
         visit new_admin_anime_episode_tweets_import_path(episode.id)
@@ -24,11 +26,13 @@ RSpec.describe 'admin/animes/import_tweets', type: :system do
   describe 'ツイートインポート' do
     let!(:anime) { create(:anime) }
     let!(:episode) { create(:episode, anime_id: anime.id) }
+    let!(:admin_user) { create(:user, role: 'admin') }
     context '正常処理' do
       before do
         allow(ConfirmTwitterSearchLimitService).to receive(:call).and_return(450)
         allow(SearchTweetsService).to receive(:call).and_return('hoge')
         allow(Tweet).to receive(:convert_from_json).and_return(build_list(:tweet, 5, episode_id: episode.id))
+        admin_login_as(admin_user)
       end
       it 'ツイートが正常にインポートできる' do
         visit new_admin_anime_episode_tweets_import_path(episode.id)

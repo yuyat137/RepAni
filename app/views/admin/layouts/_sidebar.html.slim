@@ -2,6 +2,10 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4
   = link_to Settings.sitename, admin_root_path, class: 'brand-link'
   .sidebar
     nav.mt-2
+      .user-panel.mt-3.pb-3.mb-3.d-flex
+        .info
+          = link_to current_user.name, '#'
+    nav.mt-2
       ul.nav.nav-pills.nav-sidebar.flex-column data-accordion="false" data-widget="treeview" role="menu"
         li.nav-item
           = link_to admin_animes_path, class: "nav-link"
@@ -14,6 +18,11 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4
             p = "アニメインポート"
       ul.nav.nav-pills.nav-sidebar.flex-column.mt-3 data-accordion="false" data-widget="treeview" role="menu"
         li.nav-item
-          = link_to '#', method: :delete, class: 'nav-link'
+          = link_to admin_users_path, class: "nav-link"
+            i.nav-icon.fas.fa-user
+            p = "ユーザー管理"
+      ul.nav.nav-pills.nav-sidebar.flex-column.mt-3 data-accordion="false" data-widget="treeview" role="menu"
+        li.nav-item
+          = link_to admin_logout_path, method: :delete, class: 'nav-link'
             i.nav-icon.fas.fa-sign-out-alt
             p ログアウト

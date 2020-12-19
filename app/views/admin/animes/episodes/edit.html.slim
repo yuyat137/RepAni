@@ -1,25 +1,22 @@
 h4.my-auto エピソード
-- if @anime.errors.any?
-  .alert.alert-danger.my-2
-    - @anime.errors.full_messages.each do |message|
-      .my-1 = message
 .mt-4
 = form_with model: @anime, url: admin_anime_episodes_path, method: :put, local: true do |f|
+  = render 'admin/layouts/error_messages', object: @anime
   table.table.w-100.mx-auto.mt-4
     thead
       tr
         th.text-center width="15%" scope='col'
           | 話数
           span.red （必須）
-        th.text-center width="30%" scope='col' サブタイトル
-        th.text-center width="10%" scope='col'
+        th.text-center width="25%" scope='col' サブタイトル
+        th.text-center width="15%" scope='col'
           | 放送日
           span.red （必須）
         th.text-center width="15%" scope='col'
           | 時間
           span.red （必須）
         th.text-center width="15%" scope='col' 公開
-        th width="20%"
+        th width="15%"
     tbody#episodes_tbody
       .form-group
         = f.fields_for :episodes, @anime.episodes.sort_by{|i| i.num.to_i} do |episode|

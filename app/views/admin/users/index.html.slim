@@ -1,0 +1,22 @@
+.card
+  .card-header.pb-3
+    h4.card-title = 'ユーザー一覧'
+    .card-tools.btn-area
+      = link_to "新規追加", new_admin_user_path, class: 'btn btn-outline-primary'
+  .card-body
+    = paginate @users
+    table.table.table-bordered.my-3#users_list
+      thead
+        tr
+          th.text-center scope='col' width='30%' 名前
+          th.text-center scope='col' width='30%' メールアドレス
+          th.text-center scope='col' width='30%' 権限
+          th scope='col' width='10%'
+      tbody
+        - @users.each do |user|
+          tr id="user_#{user.id}"
+            td = link_to user.name, edit_admin_user_path(user)
+            td = user.email
+            td = user.role_i18n
+            td = link_to '削除', admin_user_path(user), class: 'btn btn-danger', method: :delete, data: { confirm: "#{user.name}を削除しますか?" }
+    = paginate @users

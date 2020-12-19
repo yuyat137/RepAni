@@ -5,10 +5,12 @@ RSpec.describe 'admin/animes/terms', type: :system do
     let!(:term1) { create(:term, year: 2019, season: 1) }
     let!(:term2) { create(:term, year: 2020, season: 1) }
     let!(:term3) { create(:term, year: 2020, season: 2) }
+    let!(:admin_user) { create(:user, role: 'admin') }
     before do
       create(:anime_term, anime_id: anime.id, term_id: term1.id)
       create(:anime_term, anime_id: anime.id, term_id: term2.id)
       create(:anime_term, anime_id: anime.id, term_id: term3.id)
+      admin_login_as(admin_user)
     end
     it '表示値が正しい' do
       visit admin_anime_path(anime)
@@ -29,10 +31,12 @@ RSpec.describe 'admin/animes/terms', type: :system do
     let!(:term1) { create(:term, year: 2019, season: 4) }
     let!(:term2) { create(:term, year: 2020, season: 3) }
     let!(:term3) { create(:term, year: 2020, season: 4) }
+    let!(:admin_user) { create(:user, role: 'admin') }
     before do
       create(:anime_term, anime_id: anime.id, term_id: term1.id)
       create(:anime_term, anime_id: anime.id, term_id: term2.id)
       create(:anime_term, anime_id: anime.id, term_id: term3.id)
+      admin_login_as(admin_user)
     end
     context '正常処理' do
       it '登録済の放送時期を更新' do

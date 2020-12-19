@@ -1,0 +1,4 @@
+- if object.errors.any?
+  .alert.alert-danger.my-2
+    - object.errors.full_messages.each do |message|
+      .my-1 = message

@@ -143,6 +143,8 @@ GEM
       dry-equalizer (~> 0.2)
       dry-initializer (~> 3.0)
       dry-schema (~> 1.5)
+    enum_help (0.0.17)
+      activesupport (>= 3.0.0)
     equalizer (0.0.11)
     erubi (1.9.0)
     erubis (2.7.0)
@@ -437,6 +439,7 @@ DEPENDENCIES
   cocoon
   config
   draper
+  enum_help
   factory_bot_rails
   faker
   font-awesome-sass

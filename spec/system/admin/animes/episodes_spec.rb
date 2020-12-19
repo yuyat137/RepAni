@@ -4,6 +4,8 @@ RSpec.describe 'admin/animes/episodes', type: :system do
     let!(:anime) { create(:anime) }
     let!(:episode1) { create(:episode, anime_id: anime.id, public: true) }
     let!(:episode2) { create(:episode, anime_id: anime.id, public: false) }
+    let!(:admin_user) { create(:user, role: 'admin') }
+    before { admin_login_as(admin_user) }
     context '表示値確認' do
       it '表示値が正しい' do
         create(:tweet, episode_id: episode2.id)
@@ -74,6 +76,8 @@ RSpec.describe 'admin/animes/episodes', type: :system do
     let!(:anime) { create(:anime) }
     let!(:episode1) { create(:episode, anime_id: anime.id, num: 1, public: true) }
     let!(:episode2) { create(:episode, anime_id: anime.id, num: 2, public: false) }
+    let!(:admin_user) { create(:user, role: 'admin') }
+    before { admin_login_as(admin_user) }
     context '正常処理' do
       it '登録済のエピソードを更新できること' do
         visit edit_admin_anime_episodes_path(anime)

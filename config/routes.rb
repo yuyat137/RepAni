@@ -15,9 +15,10 @@ Rails.application.routes.draw do
         resource :terms, only: %w[edit update]
       end
     end
-    # ここいらないはず？
-    # resources :episodes, only: %w[index]
-    # resources :terms, only: %w[edit update]
+    resources :users, except: %w[show]
+    get 'login' => 'user_sessions#new'
+    post 'login' => 'user_sessions#create'
+    delete 'logout' => 'user_sessions#destroy'
     resources :animes_imports, only: %w[new create]
   end
   namespace :api do

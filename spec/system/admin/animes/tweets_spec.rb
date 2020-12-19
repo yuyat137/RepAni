@@ -3,6 +3,8 @@ RSpec.describe 'admin/animes/tweets', type: :system do
   describe 'ツイート一覧画面' do
     let!(:anime) { create(:anime) }
     let!(:episode) { create(:episode, :with_tweets, anime_id: anime.id) }
+    let!(:admin_user) { create(:user, role: 'admin') }
+    before { admin_login_as(admin_user) }
     context '表示内容' do
       it 'リストに表示される内容が正しい' do
         visit admin_anime_episode_tweets_path(episode.id)
@@ -21,6 +23,8 @@ RSpec.describe 'admin/animes/tweets', type: :system do
   describe '検索機能' do
     let!(:anime) { create(:anime) }
     let!(:episode) { create(:episode, :with_tweets, anime_id: anime.id) }
+    let!(:admin_user) { create(:user, role: 'admin') }
+    before { admin_login_as(admin_user) }
     context '時間で検索' do
       it '始まり時間で検索できる' do
         # メソッド化しても良いかも
