@@ -3,6 +3,8 @@ RSpec.describe 'admin/animes', type: :system do
   describe '一覧表示機能' do
     let!(:public_anime) { create(:anime, :associate_term, :public, :episodes) }
     let!(:private_anime) { create(:anime, :associate_term, :private, :episodes) }
+    let!(:admin_user) { create(:user, role: 'admin') }
+    before { admin_login_as(admin_user) }
     context 'ページを開いた直後' do
       it '登録済の公開状態のアニメが表示されている' do
         visit admin_animes_path
@@ -47,11 +49,13 @@ RSpec.describe 'admin/animes', type: :system do
   describe '検索機能' do
     let!(:public_anime) { create(:anime, :associate_term, :public, :episodes) }
     let!(:private_anime) { create(:anime, :associate_term, :private, :episodes) }
+    let!(:admin_user) { create(:user, role: 'admin') }
     before do
       public_anime.update(title: 'ごちうさ')
       public_anime.terms.first.update(year: 2020, season: 1, season_ja: '冬')
       private_anime.update(title: 'きんモザ')
       private_anime.terms.first.update(year: 2019, season: 2, season_ja: '春')
+      admin_login_as(admin_user)
     end
     context 'タイトル検索' do
       it 'タイトルで検索できる' do
@@ -127,6 +131,8 @@ RSpec.describe 'admin/animes', type: :system do
     let(:year) { Faker::Time.between_dates(from: Date.today - 5.year, to: Date.today, period: :all).year }
     let(:season) { 'spring' }
     let(:season_ja) { '春' }
+    let!(:admin_user) { create(:user, role: 'admin') }
+    before { admin_login_as(admin_user) }
     context '入力値が正しい' do
       it '指定アニメを登録できる' do
         visit new_admin_anime_path
@@ -204,6 +210,8 @@ RSpec.describe 'admin/animes', type: :system do
   end
   describe '詳細機能' do
     let!(:anime) { create(:anime, :associate_term, :public, :episodes) }
+    let!(:admin_user) { create(:user, role: 'admin') }
+    before { admin_login_as(admin_user) }
     it '初期表示が正しい' do
       visit admin_anime_path(anime)
       within("#anime_id") { expect(page).to have_content(anime.id) }
@@ -226,6 +234,8 @@ RSpec.describe 'admin/animes', type: :system do
     let(:twitter_account) { Faker::Twitter.screen_name }
     let(:twitter_hash_tag) { Faker::Lorem.word }
     let(:public) { '非公開' }
+    let!(:admin_user) { create(:user, role: 'admin') }
+    before { admin_login_as(admin_user) }
     context '更新できる場合' do
       it 'アニメ情報を編集更新できる' do
         visit edit_admin_anime_path(anime)

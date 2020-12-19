@@ -3,6 +3,7 @@
     h4.card-title = 'ユーザー編集'
   .card-body
     = form_with model: @user, url: admin_user_path, local: true do |f|
+      = render 'admin/layouts/error_messages', object: @user
       .form-group
         = f.label :name, '名前'
         = f.text_field :name, class:'form-control'

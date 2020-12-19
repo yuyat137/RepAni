@@ -1,6 +1,8 @@
 require 'rails_helper'
 RSpec.describe 'admin/import_animes', type: :system do
   describe '今期のアニメ' do
+    let!(:admin_user) { create(:user, role: 'admin') }
+    before { admin_login_as(admin_user) }
     it '今期アニメが正しく取得できる', vcr: true do
       visit new_admin_animes_import_path
       expect(Anime.all.length).to be 0
@@ -13,6 +15,8 @@ RSpec.describe 'admin/import_animes', type: :system do
     end
   end
   describe '指定クールのアニメ' do
+    let!(:admin_user) { create(:user, role: 'admin') }
+    before { admin_login_as(admin_user) }
     it '指定クールのアニメが正しく取得できる', vcr: true do
       visit new_admin_animes_import_path
       expect(Anime.all.length).to be 0

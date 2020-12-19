@@ -1,7 +1,7 @@
 class Tweet < ApplicationRecord
   belongs_to :episode
   validates :episode_id, presence: true
-  validates :tweet_id, presence: true, uniqueness: true
+  validates :tweet_id, presence: true, uniqueness: { case_sensitive: false }
   validates :progress_time_msec, presence: true
   validates :serial_number, presence: true
   validates :name, presence: true
