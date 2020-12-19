@@ -2,6 +2,10 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4
   = link_to Settings.sitename, admin_root_path, class: 'brand-link'
   .sidebar
     nav.mt-2
+      .user-panel.mt-3.pb-3.mb-3.d-flex
+        .info
+          = link_to current_user.name, '#'
+    nav.mt-2
       ul.nav.nav-pills.nav-sidebar.flex-column data-accordion="false" data-widget="treeview" role="menu"
         li.nav-item
           = link_to admin_animes_path, class: "nav-link"

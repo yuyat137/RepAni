@@ -1,5 +1,9 @@
-class Admin::UserSessionsController < ApplicationController
+class Admin::UserSessionsController < Admin::BaseController
   layout 'admin/layouts/login'
+  skip_before_action :require_admin_login, only: %i[new create]
+  skip_before_action :require_admin_role, only: %i[new create]
+
+  def new; end
 
   def create
     @user = login(params[:email], params[:password])
