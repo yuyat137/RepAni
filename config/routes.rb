@@ -15,7 +15,7 @@ Rails.application.routes.draw do
         resource :terms, only: %w[edit update]
       end
     end
-    resources :users
+    resources :users, except: %w[show]
     get 'login' => 'user_sessions#new'
     post 'login' => 'user_sessions#create'
     delete 'logout' => 'user_sessions#destroy'

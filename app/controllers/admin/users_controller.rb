@@ -1,5 +1,4 @@
 class Admin::UsersController < Admin::BaseController
-
   def index
     @users = User.all.page(params[:page])
   end
