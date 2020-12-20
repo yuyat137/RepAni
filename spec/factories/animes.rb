@@ -6,6 +6,7 @@ FactoryBot.define do
     sequence(:twitter_account) { |n| "test#{n}_screen_name" }
     sequence(:twitter_hash_tag) { |n| "test#{n}_hash_tag" }
     public { true }
+    first_broadcast_datetime { DateTime.now - 3.month }
   end
   trait :with_term do
     after(:create) do |anime|
