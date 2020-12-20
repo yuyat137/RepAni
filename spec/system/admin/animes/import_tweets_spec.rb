@@ -29,9 +29,13 @@ RSpec.describe 'admin/animes/import_tweets', type: :system do
     let!(:admin_user) { create(:user, role: 'admin') }
     context '正常処理' do
       before do
+        tweets = []
+        tweets << build(:tweet, episode_id: episode.id, progress_time_msec: 1 * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: 1))
+        tweets << build(:tweet, episode_id: episode.id, progress_time_msec: 2 * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: 2))
+        tweets << build(:tweet, episode_id: episode.id, progress_time_msec: 3 * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: 3))
         allow(ConfirmTwitterSearchLimitService).to receive(:call).and_return(450)
         allow(SearchTweetsService).to receive(:call).and_return('hoge')
-        allow(Tweet).to receive(:convert_from_json).and_return(build_list(:tweet, 5, episode_id: episode.id))
+        allow(Tweet).to receive(:convert_from_json).and_return(tweets)
         admin_login_as(admin_user)
       end
       it 'ツイートが正常にインポートできる' do
@@ -44,8 +48,7 @@ RSpec.describe 'admin/animes/import_tweets', type: :system do
         expect(page).to have_content(episode.tweets.first.text)
         expect(page).to have_content('ツイートを取得しました')
       end
-      xit 'ツイートをインポートしたら、エピソード一覧画面にて『未取得』から『取得済』に変わる' do
-        # CircleCIでは何故かエラーとなるのでスキップ対応
+      it 'ツイートをインポートしたら、エピソード一覧画面にて『未取得』から『取得済』に変わる' do
         visit admin_anime_path(anime.id)
         click_on '未取得'
         fill_in 'tweet_id', with: '12345'
