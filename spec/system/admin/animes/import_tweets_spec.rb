@@ -29,10 +29,9 @@ RSpec.describe 'admin/animes/import_tweets', type: :system do
     let!(:admin_user) { create(:user, role: 'admin') }
     context '正常処理' do
       before do
-        tweets = []
-        tweets << build(:tweet, episode_id: episode.id, progress_time_msec: 1 * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: 1))
-        tweets << build(:tweet, episode_id: episode.id, progress_time_msec: 2 * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: 2))
-        tweets << build(:tweet, episode_id: episode.id, progress_time_msec: 3 * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: 3))
+        tweets = 5.times.collect do |i|
+          build(:tweet, episode_id: episode.id, progress_time_msec: i * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: i))
+        end
         allow(ConfirmTwitterSearchLimitService).to receive(:call).and_return(450)
         allow(SearchTweetsService).to receive(:call).and_return('hoge')
         allow(Tweet).to receive(:convert_from_json).and_return(tweets)
