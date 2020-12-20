@@ -176,9 +176,10 @@ RSpec.describe 'admin/animes/episodes', type: :system do
         expect(trs[1]).not_to have_link('削除')
         expect(trs[2]).not_to have_link('削除')
       end
-      xit 'エピソードがない状態で更新すると' do
+      it 'エピソードがない状態で更新すると' do
         visit edit_admin_anime_episodes_path(anime_no_episode)
         click_on '更新'
+        expect(page).to have_content('更新に失敗しました')
       end
     end
   end

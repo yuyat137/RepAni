@@ -5,7 +5,7 @@ class Admin::Animes::EpisodesController < Admin::BaseController
 
   def update
     @anime = Anime.find(params[:anime_id])
-    if @anime.update(episodes_params)
+    if params.key?(:anime) && @anime.update(episodes_params)
       redirect_to admin_anime_path(@anime), success: 'エピソードを更新しました'
     else
       flash.now[:danger] = '更新に失敗しました'
