@@ -1,10 +1,8 @@
 require 'rails_helper'
 RSpec.describe 'Replay', type: :system do
-  let!(:anime) { create(:anime, :associate_now_term, :episodes) }
+  let!(:anime) { create(:anime, :with_now_term, :with_episodes) }
   let!(:episode) { anime.episodes.first }
-  # traitに書き換える
-  let!(:tweets) { 20.times.collect { |i| create(:tweet, episode_id: episode.id, serial_number: i + 1) } }
-
+  let!(:tweets) { 20.times.collect { |i| create(:tweet, episode_id: episode.id, serial_number: i + 1, progress_time_msec: i * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: i)) }}
   describe 'アニメ情報' do
     context 'ページを開いたら' do
       it 'タイトルと話数が表示される' do
@@ -58,7 +56,6 @@ RSpec.describe 'Replay', type: :system do
     it 'タイマーが作動すると時間に応じてツイートが表示される' do
       visit "/replay/#{episode.id}"
       find("#timer_start").click
-      sleep(1)
       expect(page).to have_content(tweets[0].text)
       expect(page).not_to have_content(tweets[1].text)
       sleep(1)

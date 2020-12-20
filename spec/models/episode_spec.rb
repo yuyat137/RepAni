@@ -27,7 +27,7 @@ RSpec.describe Episode, type: :model do
     expect(episode2.errors[:num]).to include('はすでに存在します')
   end
   it 'エピソードを削除すると関連するツイートも削除' do
-    anime = create(:anime, :associate_all)
+    anime = create(:anime, :with_all)
     expect(anime.episodes.first.tweets.length).not_to eq 0
     anime.episodes.first.destroy
     expect(Tweet.all.length).to eq 0

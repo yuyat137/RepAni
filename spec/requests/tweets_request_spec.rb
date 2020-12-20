@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Api::Tweets", type: :request do
-  let!(:anime) { create(:anime, :associate_term, :episodes) }
+  let!(:anime) { create(:anime, :with_term, :with_episodes) }
   let!(:episode) { anime.episodes.first }
 
   context '最後のツイートを取得した場合' do

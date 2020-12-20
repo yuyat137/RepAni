@@ -9,15 +9,15 @@ class SearchTweetsForm
   attribute :end_minutes, :string
   attribute :end_seconds, :string
 
-  def initialize(params)
+  def initialize(*args)
     # TODO: issue#68
     super
-    self.episode_id = params[:episode_id]
+    self.episode_id = args[0][:episode_id]
     episode = Episode.find(episode_id)
-    self.begin_minutes = params['begin_minutes'] || '0'
-    self.begin_seconds = params['begin_seconds'] || '0'
-    self.end_minutes = params['end_minutes'] || (episode.air_time - 1).to_s
-    self.end_seconds = params['end_seconds'] || '59'
+    self.begin_minutes = args[0][:begin_minutes] || '0'
+    self.begin_seconds = args[0][:begin_seconds] || '0'
+    self.end_minutes = args[0][:end_minutes] || (episode.air_time - 1).to_s
+    self.end_seconds = args[0][:end_seconds] || '59'
   end
 
   def search

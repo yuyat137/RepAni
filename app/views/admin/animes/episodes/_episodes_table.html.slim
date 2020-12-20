@@ -11,14 +11,14 @@ table.table.table-bordered
       th.text-center scope='col' width='10%' 公開
       th.text-center scope='col' width='10%' ツイート
       th.text-center scope='col' width='10%'
-  tbody
+  tbody#episodes_list
     - anime.episodes.sort_by(&:num).each do |episode|
       tr id="episode_#{episode.id}"
-        td.text-center.align-middle = episode.num
-        td.text-center.align-middle = episode.subtitle
-        td.text-center.align-middle = episode.broadcast_datetime&.strftime('%Y-%m-%d %H:%M')
-        td.text-center.align-middle = episode.air_time
-        td.text-center.align-middle = episode.public
+        td.text-center.align-middle.episode-num = episode.num
+        td.text-center.align-middle.subtitle = episode.subtitle
+        td.text-center.align-middle.broadcast_datetime = episode.broadcast_datetime&.strftime('%Y-%m-%d %H:%M')
+        td.text-center.align-middle.air_time = episode.air_time
+        td.text-center.align-middle.public = episode.public
         // TODO: 後ほどhelper
         - if episode.tweets.empty?
           td.text-center.align-middle

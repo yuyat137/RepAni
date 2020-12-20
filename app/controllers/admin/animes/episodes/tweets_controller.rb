@@ -1,9 +1,9 @@
 class Admin::Animes::Episodes::TweetsController < Admin::BaseController
   def index
     @search_form = if params.key?(:search)
-                     SearchTweetsForm.new(search_params)
+                     SearchTweetsForm.new(search_params.to_h)
                    else
-                     SearchTweetsForm.new({ episode_id: params[:episode_id] })
+                     SearchTweetsForm.new(episode_id: params[:episode_id])
                    end
     @tweets = @search_form.search.page(params[:page])
   end
