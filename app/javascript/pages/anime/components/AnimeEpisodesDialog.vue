@@ -14,7 +14,7 @@
           </v-card-title>
           <v-card-text>
             <div
-              v-for="episode in episodes"
+              v-for="episode in publicEpisodes"
               :key="episode.id"
             >
               <router-link :to="{ name: 'ReplayIndex', params: { episodeId: episode.id }}">
@@ -44,6 +44,13 @@ export default({
     return {
       dialog: false,
     }
+  },
+  computed: {
+    publicEpisodes() {
+      return this.episodes.filter(episode => {
+        return episode.public == true
+      })
+    },
   },
   methods: {
     open() {

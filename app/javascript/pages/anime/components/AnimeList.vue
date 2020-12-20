@@ -3,7 +3,7 @@
     <v-container class="grey lighten-5">
       <v-row>
         <v-col
-          v-for="anime in animes"
+          v-for="anime in publicAnimes"
           :key="anime.id"
           cols="4"
         >
@@ -38,6 +38,13 @@ export default {
     animes: {
       type: Array,
       required: true
+    },
+  },
+  computed: {
+    publicAnimes () {
+      return this.animes.filter(anime => {
+        return anime.public == true
+      })
     },
   },
   methods: {

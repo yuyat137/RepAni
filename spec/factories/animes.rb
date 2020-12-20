@@ -14,15 +14,18 @@ FactoryBot.define do
       create(:anime_term, anime_id: anime.id, term_id: term.id)
     end
   end
+  trait :with_now_term do
+    after(:create) do |anime|
+      year ||= Date.today.year
+      season ||= (Date.today.month - 1) / 3 + 1
+      term = Term.find_by(year: year, season: season)
+      term = create(:term, :now_true) unless term
+      create(:anime_term, anime_id: anime.id, term_id: term.id)
+    end
+  end
   trait :with_episodes do
     after(:create) do |anime|
       create_list(:episode, 12, anime_id: anime.id)
-    end
-  end
-  trait :with_now_term do
-    after(:create) do |anime|
-      term = create(:term, :now_true)
-      create(:anime_term, anime_id: anime.id, term_id: term.id)
     end
   end
   trait :with_all do
