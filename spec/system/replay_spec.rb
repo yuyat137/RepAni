@@ -1,6 +1,6 @@
 require 'rails_helper'
 RSpec.describe 'Replay', type: :system do
-  let!(:anime) { create(:anime, :associate_now_term, :episodes) }
+  let!(:anime) { create(:anime, :with_now_term, :with_episodes) }
   let!(:episode) { anime.episodes.first }
   # traitに書き換える
   let!(:tweets) { 20.times.collect { |i| create(:tweet, episode_id: episode.id, serial_number: i + 1) } }

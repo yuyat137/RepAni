@@ -22,7 +22,7 @@ RSpec.describe Anime, type: :model do
     expect(anime.public).to be_falsey
   end
   it 'アニメオブジェクトを削除した時、Term以外の関連オブジェクトは削除される' do
-    anime = create(:anime, :associate_all)
+    anime = create(:anime, :with_all)
     expect(Anime.all.length).to eq 1
     expect(anime.terms.length).not_to eq 0
     expect(anime.episodes.length).not_to eq 0

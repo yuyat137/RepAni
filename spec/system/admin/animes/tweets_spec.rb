@@ -27,8 +27,6 @@ RSpec.describe 'admin/animes/tweets', type: :system do
     before { admin_login_as(admin_user) }
     context '時間で検索' do
       it '始まり時間で検索できる' do
-        # メソッド化しても良いかも
-        # 作る場合、シリアルナンバー振り直しても良いかも
         tweet_69_seconds_later = create(:tweet, episode_id: episode.id, progress_time_msec: 69 * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: 69))
         tweet_70_seconds_later = create(:tweet, episode_id: episode.id, progress_time_msec: 70 * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: 70))
         visit admin_anime_episode_tweets_path(episode.id)
@@ -39,8 +37,6 @@ RSpec.describe 'admin/animes/tweets', type: :system do
         expect(page).to have_content(tweet_70_seconds_later.text)
       end
       it '終わり時間で検索できる' do
-        # メソッド化しても良いかも
-        # 作る場合、シリアルナンバー振り直しても良いかも
         tweet_140_seconds_later = create(:tweet, episode_id: episode.id, progress_time_msec: 140 * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: 140))
         tweet_141_seconds_later = create(:tweet, episode_id: episode.id, progress_time_msec: 141 * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: 141))
         visit admin_anime_episode_tweets_path(episode.id)

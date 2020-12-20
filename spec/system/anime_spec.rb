@@ -1,7 +1,7 @@
 require 'rails_helper'
 RSpec.describe 'Anime', type: :system do
-  let!(:anime1) { create(:anime, :associate_now_term, :episodes) }
-  let!(:anime2) { create(:anime, :associate_term, :episodes) }
+  let!(:anime1) { create(:anime, :with_now_term, :with_episodes) }
+  let!(:anime2) { create(:anime, :with_term, :with_episodes) }
   context 'ページを開いた直後' do
     it '今期アニメ情報が画面に表示されている' do
       visit '/anime'

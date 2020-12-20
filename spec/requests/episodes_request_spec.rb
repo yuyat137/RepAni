@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Api::Episodes", type: :request do
-  let!(:anime) { create(:anime, :associate_term, :episodes) }
+  let!(:anime) { create(:anime, :with_term, :with_episodes) }
   let!(:episode) { anime.episodes.first }
   it 'index' do
     get api_episodes_path, params: { id: anime.id }
