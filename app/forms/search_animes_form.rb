@@ -25,11 +25,9 @@ class SearchAnimesForm
       relation = relation.joins(:terms).where(terms: { season: season.to_s })
     end
 
-    if initial_display?
-      self.public = 1
-      relation = relation.where(public: true)
-    elsif select_public_or_private?
-      relation = relation.where(public: convert_public_to_bool)
+    self.public = 1 if public.nil?
+    if !select_public_all?
+      relation = relation.where(public: str_to_bool(public))
     end
 
     relation.order(id: 'desc')
@@ -37,20 +35,11 @@ class SearchAnimesForm
 
   private
 
-  def initial_display?
-    public.nil?
+  def select_public_all?
+    public.to_i == 2
   end
 
-  def select_public_or_private?
-    !public.to_i.zero?
-  end
-
-  def convert_public_to_bool
-    select_num = public.to_i
-    if select_num == 1
-      true
-    elsif select_num == 2
-      false
-    end
+  def str_to_bool(str)
+    ActiveRecord::Type::Boolean.new.cast(str)
   end
 end
