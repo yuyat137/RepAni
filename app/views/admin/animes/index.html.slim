@@ -8,7 +8,7 @@
       = f.text_field :title, class: 'form-control mr-2'
       = f.select :year, Term.pluck(:year).uniq, { include_blank: '年: 全て' }, { class: 'form-control mr-2' }
       = f.select :season, {春: 2, 夏: 3, 秋: 4, 冬: 1}, { include_blank: '季節: 全て' }, { class: 'form-control mr-2' }
-      = f.select :public, {公開: true, 非公開: false}, { include_blank: '公開非公開: 全て' }, { class: 'form-control mr-2' }
+      = f.select :public, {全て: 0, 公開: 1, 非公開: 2 }, {}, { class: 'form-control mr-2' }
       = f.submit '検索', class: %w[btn btn-default btn-flat]
   .card-body
     = paginate @animes
