@@ -9,6 +9,11 @@ class SearchAnimesForm
   attribute :season, :string
   attribute :public, :string
 
+  def initialize(*args)
+    super
+    self.public = '1' if args.dig(0, :public).nil?
+  end
+
   def search
     relation = Anime
 
@@ -25,7 +30,7 @@ class SearchAnimesForm
       relation = relation.joins(:terms).where(terms: { season: season.to_s })
     end
 
-    if public.present?
+    unless select_public_all?
       relation = relation.where(public: str_to_bool(public))
     end
 
@@ -33,6 +38,10 @@ class SearchAnimesForm
   end
 
   private
+
+  def select_public_all?
+    public.to_i == 2
+  end
 
   def str_to_bool(str)
     ActiveRecord::Type::Boolean.new.cast(str)
