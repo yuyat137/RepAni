@@ -6,23 +6,13 @@ RSpec.describe 'admin/animes', type: :system do
     let!(:admin_user) { create(:user, role: 'admin') }
     before { admin_login_as(admin_user) }
     context 'ページを開いた直後' do
-      it '登録済の公開状態のアニメが表示されている' do
+      it '登録済の公開状態のアニメのみ表示されている' do
         visit admin_animes_path
         within("#anime_#{public_anime.id}") do
           expect(page).to have_content(public_anime.title)
-          expect(page).to have_content(public_anime.terms.first.year)
-          expect(page).to have_content(public_anime.terms.first.season_ja)
           expect(page).to have_link('非公開にする')
         end
-      end
-      it '登録済の非公開状態のアニメが表示されている' do
-        visit admin_animes_path
-        within("#anime_#{private_anime.id}") do
-          expect(page).to have_content(private_anime.title)
-          expect(page).to have_content(private_anime.terms.first.year)
-          expect(page).to have_content(private_anime.terms.first.season_ja)
-          expect(page).to have_link('公開する')
-        end
+        expect(page).not_to have_content(private_anime.title)
       end
     end
     context 'アニメ操作' do
@@ -36,6 +26,8 @@ RSpec.describe 'admin/animes', type: :system do
       end
       it '公開する' do
         visit admin_animes_path
+        select '非公開', from: 'search_public'
+        click_on '検索'
         within("#anime_#{private_anime.id}") do
           click_on '公開する'
           expect(page).to have_content('公開')
@@ -139,7 +131,7 @@ RSpec.describe 'admin/animes', type: :system do
         fill_in 'anime_twitter_account', with: twitter_account
         fill_in 'anime_twitter_hash_tag', with: twitter_hash_tag
         find('#anime_first_broadcast_datetime').set(first_broadcast_datetime)
-        select '非公開', from: 'anime_public'
+        select '公開', from: 'anime_public'
         click_on '登録'
         expect(page).to have_content('アニメを登録しました')
         click_on title
