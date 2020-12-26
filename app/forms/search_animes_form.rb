@@ -30,7 +30,7 @@ class SearchAnimesForm
       relation = relation.joins(:terms).where(terms: { season: season.to_s })
     end
 
-    if !select_public_all?
+    unless select_public_all?
       relation = relation.where(public: str_to_bool(public))
     end
 
