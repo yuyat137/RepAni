@@ -10,8 +10,8 @@
         width="70%"
         :clickable=true
         :drag-on-click=true
-        @drag-end=dragBar(value)
         @dragging=dragBar(value)
+        @drag-end=dragBar(value)
       />
       <p>{{ displayBarTime }}/{{ displayMaxTime }}</p>
     </div>
@@ -67,8 +67,8 @@ const SECONDS_TO_MSEC = 1000
 const CONVERTING_PERCENT_AND_PROPORTION = 100
 const MIN_MSEC = 0
 
-//NOTE: 変数名 => Timeは12:00:00のような時刻を、Msecはミリ秒を表すという使い分けをしています
-//NOTE: 時刻計算方法 => (バーのミリ秒) = (スタート時のミリ秒) + (今の時刻 - スタートした時刻).ミリ秒に変換
+//NOTE: 変数名について => 末尾がTimeの変数は12:00:00のような時刻を、末尾がMsecの変数はミリ秒を表しています
+//NOTE: 時刻計算方法 => (バーのミリ秒) = (スタート時のミリ秒) + (今の時刻 - スタートした時刻)のミリ秒
 
 export default {
   name: "Timer",
@@ -97,6 +97,7 @@ export default {
   watch: {
     displayBarTime: function(){
       if(timerOn) {
+        //NOTE: moveBarProcessメソッド内に下記処理を書くと、100ミリ秒ごと実行され、ドラッグ時にドラッグ先のvalueにならない不具合が生じる。
         this.value = (this.barMsec / this.maxAirMsec * CONVERTING_PERCENT_AND_PROPORTION)
       }
     }
