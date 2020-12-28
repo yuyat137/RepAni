@@ -15,7 +15,17 @@
       />
       <p>{{ displayBarTime }}/{{ displayMaxTime }}</p>
     </div>
-    <div class="ml-2">
+    <div class="ml-2 mt-2">
+      <v-btn
+        id="move_few_back"
+        small
+        color="grey lighten-3"
+        @click="moveFewSeconds(-10)"
+        class="mr-3"
+      >
+        <i class="fas fa-backward mr-1"></i>
+        10秒戻る
+      </v-btn>
       <v-btn
         v-if="!timerOn"
         id="timer_start"
@@ -23,7 +33,8 @@
         color="primary"
         @click="timerStart"
       >
-        Start
+        スタート
+        <i class="far fa-play-circle ml-1"></i>
       </v-btn>
       <v-btn
         v-if="timerOn"
@@ -32,26 +43,19 @@
         color="error"
         @click="timerStop"
       >
-        Stop
+        ストップ
+        <i class="far fa-stop-circle ml-1"></i>
       </v-btn>
-      <div class="ml-2 mt-2">
-        <v-btn
-          id="move_few_back"
-          small
-          color="primary"
-          @click="moveFewSeconds(-10)"
-        >
-          10秒戻る
-        </v-btn>
-        <v-btn
-          id="move_few_front"
-          small
-          color="error"
-          @click="moveFewSeconds(10)"
-        >
-          10秒進む
-        </v-btn>
-      </div>
+      <v-btn
+        id="move_few_front"
+        small
+        color="grey lighten-3"
+        @click="moveFewSeconds(10)"
+        class="ml-3"
+      >
+        10秒進む
+        <i class="fas fa-forward ml-1"></i>
+      </v-btn>
     </div>
   </div>
 </template>
@@ -95,7 +99,7 @@ export default {
   },
   watch: {
     displayBarTime: function(){
-      if(timerOn) {
+      if(this.timerOn) {
         //NOTE: moveBarProcessメソッド内に下記処理を書くと、100ミリ秒ごと実行され、ドラッグ時にドラッグ先のvalueにならない不具合が生じる。
         this.value = (this.barMsec / this.maxAirMsec * CONVERTING_PERCENT_AND_PROPORTION)
       }
