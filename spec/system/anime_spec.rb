@@ -32,9 +32,9 @@ RSpec.describe 'Anime', type: :system do
     it '公開中のエピソードのみ表示される' do
       visit '/anime'
       find("#anime_#{anime_public.id}").click
-      expect(page).to have_content("サブタイトルを選んでください")
-      expect(page).to have_link '1'
-      expect(page).not_to have_link '2'
+      expect(page).to have_content anime_public.title
+      expect(page).to have_link '1話'
+      expect(page).not_to have_link '2話'
     end
   end
 end
