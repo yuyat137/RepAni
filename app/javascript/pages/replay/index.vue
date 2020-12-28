@@ -27,10 +27,12 @@
             <Timer
               ref="timer"
               :episode="selectEpisode"
+              id="timer"
             />
             <AnimeInfo
               :anime="selectAnime"
               :episode="selectEpisode"
+              id="anime_info"
             />
           </v-col>
         </v-col>
@@ -163,3 +165,11 @@ export default {
   },
 }
 </script>
+<style scoped>
+#timer {
+  margin-top: 40px;
+}
+#anime_info {
+  margin-top: 60px;
+}
+</style>

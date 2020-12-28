@@ -1,5 +1,5 @@
 <template>
-  <div id="anime_info">
+  <div>
     <p v-if="anime.public_url">
       公式サイト: <a :href="publicUrl" rel="noopener" target="_blank">{{ publicUrl }}</a>
     </p>
@@ -35,13 +35,8 @@ export default {
   },
   methods: {
     displayDateTime (date) {
-      return String(moment(new Date(date)).format("YYYY/MM/DD HH時mm分"))
+      return String(moment(new Date(date)).format("YYYY年MM月DD日  HH時mm分"))
     },
   },
 }
 </script>
-<style scoped>
-#anime_info {
-  margin-top: 50px;
-}
-</style>

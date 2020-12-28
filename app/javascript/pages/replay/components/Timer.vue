@@ -15,7 +15,9 @@
       />
       <p>{{ displayBarTime }}/{{ displayMaxTime }}</p>
     </div>
-    <div class="ml-2 mt-2">
+    <div
+      class="ml-2 pt-3"
+    >
       <v-btn
         id="move_few_back"
         small
