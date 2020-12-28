@@ -28,6 +28,10 @@
               ref="timer"
               :episode="selectEpisode"
             />
+            <AnimeInfo
+              :anime="selectAnime"
+              :episode="selectEpisode"
+            />
           </v-col>
         </v-col>
         <v-col
@@ -49,6 +53,7 @@
 <script>
 import Timer from './components/Timer'
 import Tweet from './components/Tweet'
+import AnimeInfo from './components/AnimeInfo'
 const CHECK_INTERVAL_TIME_MSEC = 300
 
 export default {
@@ -56,6 +61,7 @@ export default {
   components: {
     Timer,
     Tweet,
+    AnimeInfo,
   },
   data() {
     return {
