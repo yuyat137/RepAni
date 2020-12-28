@@ -87,6 +87,7 @@
   </div>
 </template>
 <script>
+//memo:  onError="this.onerror=null;this.src='https://pbs.twimg.com/profile_images/1061815280442105857/RLpkoVSp_normal.jpg';"
 import moment from 'moment';
 require("moment-duration-format");
 
