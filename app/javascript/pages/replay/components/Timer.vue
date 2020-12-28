@@ -61,7 +61,6 @@ import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 require("moment-duration-format");
 
-const ONE_VALUE = 1
 const MINUTES_TO_SECONDS = 60
 const SECONDS_TO_MSEC = 1000
 const CONVERTING_PERCENT_AND_PROPORTION = 100
