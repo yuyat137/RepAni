@@ -1,23 +1,32 @@
 <template>
   <div>
-    <router-link :to="{ name: 'TopIndex' }">
-      Topへ
-    </router-link>
-    <h2>{{ selectTerm.year }}年{{ selectTerm.season_ja }}</h2>
-    <AnimeList
-      :animes="animes"
-      @select-anime="handleShowAnimeEpisodesDialog"
-    />
-    <AnimeEpisodesDialog
-      ref="dialog"
-      :anime="selectAnime"
-      :episodes="episodes"
-    />
-    <h2>シーズン一覧</h2>
-    <TermList
-      :terms="terms"
-      @select-term="handleShowSelectTerm"
-    />
+    <v-container>
+      <v-breadcrumbs :items="items">
+        <template v-slot:item="{ item }">
+          <v-breadcrumbs-item
+            :href="item.href"
+            :disabled="item.disabled"
+          >
+            {{ item.text.toUpperCase() }}
+          </v-breadcrumbs-item>
+        </template>
+      </v-breadcrumbs>
+      <h2>{{ selectTerm.year }}年{{ selectTerm.season_ja }}</h2>
+      <AnimeList
+        :animes="animes"
+        @select-anime="handleShowAnimeEpisodesDialog"
+      />
+      <AnimeEpisodesDialog
+        ref="dialog"
+        :anime="selectAnime"
+        :episodes="episodes"
+      />
+      <h2>放送時期</h2>
+      <TermList
+        :terms="terms"
+        @select-term="handleShowSelectTerm"
+      />
+    </v-container>
   </div>
 </template>
 
@@ -40,6 +49,18 @@ export default {
       selectTerm: new Object,
       selectAnime: new Object,
       episodes: new Array,
+      items: [
+        {
+          text: 'トップ',
+          disabled: false,
+          href: '/',
+        },
+        {
+          text: '放送時期',
+          disabled: true,
+          href: '',
+        },
+      ]
     }
   },
   async created() {

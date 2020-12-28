@@ -1,38 +1,48 @@
 <template>
   <div>
-    <v-row>
-      <v-col
-        v-if="selectEpisode"
-        cols="5"
-        offset="1"
-      >
-        <router-link :to="{ name: 'TopIndex' }">
-          Topへ
-        </router-link>
-        <h2>{{ selectAnime.title }}</h2>
-        <h2>
-          {{ selectEpisode.num }}話
-          <span v-if="selectEpisode.subtitle">
-            『{{ selectEpisode.subtitle }}』
-          </span>
-        </h2>
-        <Timer
-          ref="timer"
-          :episode="selectEpisode"
-        />
-      </v-col>
-      <v-col
-        cols="5"
-      >
-        <div
-          v-for="tweet in showTweets"
-          :key="tweet.id"
-          class="my-5"
+    <v-container>
+      <v-row>
+        <v-col
+          v-if="selectEpisode"
+          cols="6"
         >
-          <Tweet :tweet="tweet" />
-        </div>
-      </v-col>
-    </v-row>
+          <v-breadcrumbs :items="items">
+            <template v-slot:item="{ item }">
+              <v-breadcrumbs-item
+                :href="item.href"
+                :disabled="item.disabled"
+              >
+                {{ item.text.toUpperCase() }}
+              </v-breadcrumbs-item>
+            </template>
+          </v-breadcrumbs>
+          <v-col offset="1">
+            <h2>{{ selectAnime.title }}</h2>
+            <h2>
+              {{ selectEpisode.num }}話
+              <span v-if="selectEpisode.subtitle">
+                『{{ selectEpisode.subtitle }}』
+              </span>
+            </h2>
+            <Timer
+              ref="timer"
+              :episode="selectEpisode"
+            />
+          </v-col>
+        </v-col>
+        <v-col
+          cols="5"
+        >
+          <div
+            v-for="tweet in showTweets"
+            :key="tweet.id"
+            class="my-5"
+          >
+            <Tweet :tweet="tweet" />
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -57,6 +67,23 @@ export default {
       showTweets: [],
       fetchLastTweet: false,
       prevBarMsec: 0,
+      items: [
+        {
+          text: 'トップ',
+          disabled: false,
+          href: '/',
+        },
+        {
+          text: '放送時期',
+          disabled: false,
+          href: '/anime',
+        },
+        {
+          text: 'アニメ',
+          disabled: true,
+          href: '',
+        },
+      ]
     }
   },
   async created() {

@@ -9,7 +9,6 @@
           <v-card-title>
             <span class="headline">
               {{ anime.title }}<br>
-              サブタイトルを選んでください
             </span>
           </v-card-title>
           <v-card-text>
@@ -18,7 +17,7 @@
               :key="episode.id"
             >
               <router-link :to="{ name: 'ReplayIndex', params: { episodeId: episode.id }}">
-                {{ episode.num }}
+                {{ episode.num }}話 {{ displayTitle(episode) }}
               </router-link>
             </div>
           </v-card-text>
@@ -56,6 +55,9 @@ export default({
     open() {
       this.dialog = true;
     },
+    displayTitle(episode) {
+      return '「' + episode.subtitle + '」'
+    }
   }
 })
 </script>

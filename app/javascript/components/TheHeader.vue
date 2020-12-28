@@ -4,7 +4,11 @@
       color="primary"
       dark
     >
-      <v-toolbar-title>リプアニ</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link :to="{ name: 'TopIndex' }" class="title-color headline">
+          リプアニ
+        </router-link>
+      </v-toolbar-title>
     </v-app-bar>
   </div>
 </template>
@@ -18,3 +22,9 @@ export default({
   },
 })
 </script>
+
+<style scoped>
+.title-color {
+  color: #f8f8ff;
+}
+</style>

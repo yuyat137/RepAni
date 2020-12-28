@@ -1,20 +1,16 @@
 <template>
   <div>
-    <v-col
-      md="6"
-      offset-md="3"
-    >
-      <div width="60%">
-        <vue-slider
-          v-model="value"
-          :tooltip="'none'"
-          :min="0"
-          :max="100"
-          :interval="0.1"
-        />
-        <p>{{ displayBarTime }}/{{ displayMaxTime }}</p>
-      </div>
-    </v-col>
+    <div class="my-5">
+      <vue-slider
+        v-model="value"
+        :tooltip="'none'"
+        :min="0"
+        :max="100"
+        :interval="0.1"
+        width="70%"
+      />
+      <p>{{ displayBarTime }}/{{ displayMaxTime }}</p>
+    </div>
     <div class="ml-2">
       <v-btn
         v-if="!timerOn"
