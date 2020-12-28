@@ -8,6 +8,10 @@
         :max="100"
         :interval="0.1"
         width="70%"
+        :clickable=true
+        :drag-on-click=true
+        @drag-end=dragBar(value)
+        @dragging=dragBar(value)
       />
       <p>{{ displayBarTime }}/{{ displayMaxTime }}</p>
     </div>
@@ -80,7 +84,6 @@ export default {
   data() {
     return {
       value: 0,
-      prevValue: 0,
       startingTime: "",
       barMsec: 0,
       displayBarTime: "00:00:00",
@@ -92,12 +95,10 @@ export default {
     }
   },
   watch: {
-    value: function() {
-      if(this.isBarOperated()) {
-        this.timerStop()
-        this.moveBarProcess(this.convertBarValueToMsec())
+    displayBarTime: function(){
+      if(timerOn) {
+        this.value = (this.barMsec / this.maxAirMsec * CONVERTING_PERCENT_AND_PROPORTION)
       }
-      this.prevValue = this.value
     }
   },
   async created() {
@@ -126,6 +127,10 @@ export default {
       this.timerOn = false
       this.msecWhenStarted = this.barMsec
     },
+    dragBar(value){
+      this.timerStop()
+      this.moveBarProcess(this.convertBarValueToMsec(value))
+    },
     moveBarProcess(msecAfterMove) {
       this.barMsec = msecAfterMove
 
@@ -134,19 +139,9 @@ export default {
       }
 
       this.displayBarTime = this.msecToDisplayTime(this.barMsec)
-      this.value = (this.barMsec / this.maxAirMsec * CONVERTING_PERCENT_AND_PROPORTION)
     },
-    isBarOperated() {
-      // TODO: ユーザーがプログレスバーを操作したと判断するのは以下のコードで良いのか悩み中
-      let diffValue = Math.abs(this.prevValue - this.value)
-      if(diffValue > ONE_VALUE){
-        return true
-      } else {
-        return false
-      }
-    },
-    convertBarValueToMsec() {
-      return (this.maxAirMsec * (this.value / CONVERTING_PERCENT_AND_PROPORTION))
+    convertBarValueToMsec(value) {
+      return (this.maxAirMsec * (value / CONVERTING_PERCENT_AND_PROPORTION))
     },
     moveFewSeconds(moveSeconds) {
       this.timerStop()
