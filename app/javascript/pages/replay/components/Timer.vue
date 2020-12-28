@@ -121,6 +121,7 @@ export default {
       }
     },
     timerStart() {
+      this.msecWhenStarted = this.barMsec
       this.timerOn = true
       this.startingTime = moment()
     },
@@ -134,11 +135,6 @@ export default {
     },
     moveBarProcess(msecAfterMove) {
       this.barMsec = msecAfterMove
-
-      if(!this.timerOn) {
-        this.msecWhenStarted = this.barMsec
-      }
-
       this.displayBarTime = this.msecToDisplayTime(this.barMsec)
     },
     convertBarValueToMsec(value) {
