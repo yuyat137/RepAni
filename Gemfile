@@ -46,11 +46,14 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console', '>= 3.3.0'
   gem 'capistrano'
+  gem 'ed25519'
+  gem 'bcrypt_pbkdf'
   gem 'capistrano-rbenv'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
-  gem 'capistrano3-puma'
+  gem 'capistrano3-puma', '< 5'
   gem 'capistrano-nginx'
+  # gem 'capistrano-yarn'
 end
 
 group :test do

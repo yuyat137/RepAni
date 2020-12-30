@@ -1,11 +1,11 @@
 lock '~> 3.14.1'
-set :application, 'repani'
+set :application, 'RepAni'
 set :repo_url, 'git@github.com:estsn122/RepAni.git'
 set :user, 'yuya'
 # Default branch is :master
 # deploy時にブランチを選択したい場合は、以下のコメント部分を外す
-ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :deploy_to, '/var/www/repani'
+# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
+set :deploy_to, '/var/www/RepAni'
 set :linked_files, %w[config/master.key config/database.yml]
 set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets public/system vendor/bundle]
 set :rbenv_ruby, File.read('.ruby-version').strip
@@ -17,6 +17,7 @@ set :puma_pid, "#{shared_path}/tmp/pids/puma.pid"
 set :puma_access_log, "#{release_path}/log/puma.error.log"
 set :puma_error_log, "#{shared_path}/log/puma.access.log"
 set :puma_preload_app, true
+
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
   task :make_dirs do
@@ -25,8 +26,9 @@ namespace :puma do
       execute "mkdir #{shared_path}/tmp/pids -p"
     end
   end
-  before :start, :make_dirs
+  before :config, :make_dirs
 end
+
 namespace :deploy do
   desc 'upload important files'
   task :upload do
@@ -35,7 +37,7 @@ namespace :deploy do
       sudo %(chown -R #{fetch(:user)}.#{fetch(:user)} /var/www/#{fetch(:application)})
       sudo :mkdir, '-p', '/etc/nginx/sites-enabled'
       sudo :mkdir, '-p', '/etc/nginx/sites-available'
-      # upload!('config/database.yml', "#{shared_path}/config/database.yml")
+      upload!('config/database.yml', "#{shared_path}/config/database.yml")
       upload!('config/master.key', "#{shared_path}/config/master.key")
     end
   end
