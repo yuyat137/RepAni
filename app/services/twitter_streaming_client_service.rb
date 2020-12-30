@@ -6,7 +6,7 @@ class TwitterStreamingClientService
   end
 
   def call(hashtag)
-    hashtag = '#' + hashtag unless hashtag.include?('#')
+    hashtag = "##{hashtag unless hashtag.include?('#')}"
 
     twitter = Twitter::Streaming::Client.new do |config|
       config.consumer_key        = Settings.dig(:twitter, :consumer_key)

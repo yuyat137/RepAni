@@ -18,8 +18,8 @@ class SearchAnimesForm
     relation = Anime
 
     if title.present?
-      relation = relation.where('title LIKE ?', '%' + NKF.nkf('-h1 -w', title.to_s) + '%') \
-                         .or(relation.where('title LIKE ?', '%' + NKF.nkf('-h2 -w', title.to_s) + '%'))
+      relation = relation.where('title LIKE ?', "%#{NKF.nkf('-h1 -w', title.to_s)}%") \
+                         .or(relation.where('title LIKE ?', "%#{NKF.nkf('-h2 -w', title.to_s)}%"))
     end
 
     if year.present?

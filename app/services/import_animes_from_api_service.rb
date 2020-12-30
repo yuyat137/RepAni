@@ -10,7 +10,7 @@ class ImportAnimesFromApiService
   def call(year, season_num)
     term = Term.fetch_now_or_select_term(year, season_num)
 
-    api_end_point = SHANGRILA_API_URI + term.year.to_s + '/' + term.season_before_type_cast.to_s
+    api_end_point = SHANGRILA_API_URI + "#{term.year}/#{term.season_before_type_cast}"
     response = Net::HTTP.get_response URI.parse(api_end_point)
     return if response.code != RESPONSE_SUCCESS
 
