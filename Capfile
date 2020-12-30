@@ -6,6 +6,7 @@ require 'capistrano/bundler'
 require 'capistrano/rails/migrations'
 require 'capistrano/rails/assets'
 require 'capistrano/scm/git'
+require 'capistrano/yarn'
 require 'capistrano/puma'
 require 'capistrano/nginx'
 
