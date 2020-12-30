@@ -54,4 +54,3 @@ namespace :deploy do
 end
 after 'deploy:published', 'nginx:restart'
 before 'deploy:migrate', 'deploy:db_create'
-
