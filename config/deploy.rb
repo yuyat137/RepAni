@@ -37,7 +37,7 @@ namespace :deploy do
       sudo %(chown -R #{fetch(:user)}.#{fetch(:user)} /var/www/#{fetch(:application)})
       sudo :mkdir, '-p', '/etc/nginx/sites-enabled'
       sudo :mkdir, '-p', '/etc/nginx/sites-available'
-      upload!('config/database.yml', "#{shared_path}/config/database.yml")
+      # upload!('config/database.yml', "#{shared_path}/config/database.yml")
       upload!('config/master.key', "#{shared_path}/config/master.key")
     end
   end
