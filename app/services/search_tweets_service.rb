@@ -13,7 +13,7 @@ class SearchTweetsService
   end
 
   def call(hashtag, max_tweet_id, air_time_min)
-    hashtag = '#' + hashtag unless hashtag.include?('#')
+    hashtag = "##{hashtag unless hashtag.include?('#')}"
     twitter = twitter_rest_client
 
     fetched_tweets = fetch_tweets_at_anime_broadcast(twitter, hashtag, max_tweet_id, air_time_min)
