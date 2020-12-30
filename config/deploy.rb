@@ -26,6 +26,7 @@ namespace :puma do
       execute "mkdir #{shared_path}/tmp/pids -p"
     end
   end
+  # before :start, :make_dirs
   before :config, :make_dirs
 end
 
