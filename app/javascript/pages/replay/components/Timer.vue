@@ -8,10 +8,26 @@
         :max="100"
         :interval="0.1"
         width="70%"
+        :clickable=true
+        :drag-on-click=true
+        @dragging=dragBar(value)
+        @drag-end=dragBar(value)
       />
       <p>{{ displayBarTime }}/{{ displayMaxTime }}</p>
     </div>
-    <div class="ml-2">
+    <div
+      class="ml-2 pt-3"
+    >
+      <v-btn
+        id="move_few_back"
+        small
+        color="grey lighten-3"
+        @click="moveFewSeconds(-10)"
+        class="mr-3"
+      >
+        <i class="fas fa-backward mr-1"></i>
+        10秒戻る
+      </v-btn>
       <v-btn
         v-if="!timerOn"
         id="timer_start"
@@ -19,7 +35,8 @@
         color="primary"
         @click="timerStart"
       >
-        Start
+        スタート
+        <i class="far fa-play-circle ml-1"></i>
       </v-btn>
       <v-btn
         v-if="timerOn"
@@ -28,26 +45,19 @@
         color="error"
         @click="timerStop"
       >
-        Stop
+        ストップ
+        <i class="far fa-stop-circle ml-1"></i>
       </v-btn>
-      <div class="ml-2 mt-2">
-        <v-btn
-          id="move_few_back"
-          small
-          color="primary"
-          @click="moveFewSeconds(-10)"
-        >
-          10秒戻る
-        </v-btn>
-        <v-btn
-          id="move_few_front"
-          small
-          color="error"
-          @click="moveFewSeconds(10)"
-        >
-          10秒進む
-        </v-btn>
-      </div>
+      <v-btn
+        id="move_few_front"
+        small
+        color="grey lighten-3"
+        @click="moveFewSeconds(10)"
+        class="ml-3"
+      >
+        10秒進む
+        <i class="fas fa-forward ml-1"></i>
+      </v-btn>
     </div>
   </div>
 </template>
@@ -57,14 +67,13 @@ import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 require("moment-duration-format");
 
-const ONE_VALUE = 1
 const MINUTES_TO_SECONDS = 60
 const SECONDS_TO_MSEC = 1000
 const CONVERTING_PERCENT_AND_PROPORTION = 100
 const MIN_MSEC = 0
 
-//NOTE: 変数名 => Timeは12:00:00のような時刻を、Msecはミリ秒を表すという使い分けをしています
-//NOTE: 時刻計算方法 => (バーのミリ秒) = (スタート時のミリ秒) + (今の時刻 - スタートした時刻).ミリ秒に変換
+//NOTE: 変数名について => 末尾がTimeの変数は12:00:00のような時刻を、末尾がMsecの変数はミリ秒を表しています
+//NOTE: 時刻計算方法 => (バーのミリ秒) = (スタート時のミリ秒) + (今の時刻 - スタートした時刻)のミリ秒
 
 export default {
   name: "Timer",
@@ -80,7 +89,6 @@ export default {
   data() {
     return {
       value: 0,
-      prevValue: 0,
       startingTime: "",
       barMsec: 0,
       displayBarTime: "00:00:00",
@@ -92,12 +100,11 @@ export default {
     }
   },
   watch: {
-    value: function() {
-      if(this.isBarOperated()) {
-        this.timerStop()
-        this.moveBarProcess(this.convertBarValueToMsec())
+    displayBarTime: function(){
+      if(this.timerOn) {
+        //NOTE: moveBarProcessメソッド内に下記処理を書くと、100ミリ秒ごと実行され、ドラッグ時にドラッグ先のvalueにならない不具合が生じる。
+        this.value = (this.barMsec / this.maxAirMsec * CONVERTING_PERCENT_AND_PROPORTION)
       }
-      this.prevValue = this.value
     }
   },
   async created() {
@@ -119,6 +126,7 @@ export default {
       }
     },
     timerStart() {
+      this.msecWhenStarted = this.barMsec
       this.timerOn = true
       this.startingTime = moment()
     },
@@ -126,27 +134,16 @@ export default {
       this.timerOn = false
       this.msecWhenStarted = this.barMsec
     },
+    dragBar(value){
+      this.timerStop()
+      this.moveBarProcess(this.convertBarValueToMsec(value))
+    },
     moveBarProcess(msecAfterMove) {
       this.barMsec = msecAfterMove
-
-      if(!this.timerOn) {
-        this.msecWhenStarted = this.barMsec
-      }
-
       this.displayBarTime = this.msecToDisplayTime(this.barMsec)
-      this.value = (this.barMsec / this.maxAirMsec * CONVERTING_PERCENT_AND_PROPORTION)
     },
-    isBarOperated() {
-      // TODO: ユーザーがプログレスバーを操作したと判断するのは以下のコードで良いのか悩み中
-      let diffValue = Math.abs(this.prevValue - this.value)
-      if(diffValue > ONE_VALUE){
-        return true
-      } else {
-        return false
-      }
-    },
-    convertBarValueToMsec() {
-      return (this.maxAirMsec * (this.value / CONVERTING_PERCENT_AND_PROPORTION))
+    convertBarValueToMsec(value) {
+      return (this.maxAirMsec * (value / CONVERTING_PERCENT_AND_PROPORTION))
     },
     moveFewSeconds(moveSeconds) {
       this.timerStop()

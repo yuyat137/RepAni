@@ -18,37 +18,37 @@ RSpec.describe 'Replay', type: :system do
         visit "/replay/#{episode.id}"
         expect(page).to have_content("00:00:00/00:#{anime.default_air_time}:00")
       end
-      it 'Startボタンを押すとタイマーが動く' do
+      it 'スタートボタンを押すとタイマーが動く' do
         visit "/replay/#{episode.id}"
         find("#timer_start").click
         sleep(1)
         expect(page).not_to have_content("00:00:00/00:#{anime.default_air_time}:00")
-        expect(page).not_to have_content("START")
-        expect(page).to have_content("STOP")
+        expect(page).not_to have_content("スタート")
+        expect(page).to have_content("ストップ")
       end
       it 'Stopボタンを押すとタイマーが止まる' do
         visit "/replay/#{episode.id}"
         find("#timer_start").click
         sleep(1)
         find("#timer_stop").click
-        expect(page).to have_content("START")
-        expect(page).not_to have_content("STOP")
+        expect(page).to have_content("スタート")
+        expect(page).not_to have_content("ストップ")
       end
       it '10秒戻るボタンを押すとタイマーが止まる' do
         visit "/replay/#{episode.id}"
         find("#timer_start").click
         sleep(1)
         find("#move_few_back").click
-        expect(page).to have_content("START")
-        expect(page).not_to have_content("STOP")
+        expect(page).to have_content("スタート")
+        expect(page).not_to have_content("ストップ")
       end
       it '10秒進むボタンを押すとタイマーが止まる' do
         visit "/replay/#{episode.id}"
         find("#timer_start").click
         sleep(1)
         find("#move_few_back").click
-        expect(page).to have_content("START")
-        expect(page).not_to have_content("STOP")
+        expect(page).to have_content("スタート")
+        expect(page).not_to have_content("ストップ")
       end
     end
   end
