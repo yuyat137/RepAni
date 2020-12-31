@@ -8,6 +8,7 @@ class Episode < ApplicationRecord
   validates :air_time, presence: true
   validates :public, inclusion: [true, false]
 
+  # 
   def import_associate_tweets(max_tweet_id)
     return unless broadcast_datetime
 
