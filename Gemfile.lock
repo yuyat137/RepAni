@@ -488,7 +488,7 @@ DEPENDENCIES
   html2slim
   jbuilder (~> 2.7)
   kaminari
-  listen (~> 3.2)
+  listen
   mysql2
   pry-byebug
   pry-rails

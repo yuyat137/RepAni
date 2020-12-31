@@ -30,6 +30,7 @@ gem 'cocoon'
 gem 'seed-fu'
 gem 'draper'
 gem 'enum_help'
+gem 'listen'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
@@ -41,7 +42,6 @@ end
 
 group :development do
   gem 'foreman'
-  gem 'listen', '~> 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console', '>= 3.3.0'

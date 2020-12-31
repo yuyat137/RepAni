@@ -40,8 +40,19 @@ namespace :deploy do
       end
     end
   end
+  desc 'webpacker'
+  task :webpacker do
+    on roles(:app) do
+      within release_path do
+        # yarn install --check-files
+        execute :yarn, :install, '--check-files'
+        execute :rails, 'webpacker:compile'
+      end
+    end
+  end
   before :starting, :upload
   before 'check:linked_files', 'puma:nginx_config'
 end
 after 'deploy:published', 'nginx:restart'
 before 'deploy:migrate', 'deploy:db_create'
+after 'nginx:restart', 'deploy:webpacker'
