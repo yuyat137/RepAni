@@ -9,6 +9,7 @@ Rails.application.routes.draw do
           resources :episodes, only: %w[destroy] do
             resources :tweets, only: %w[index], module: :episodes
             resources :tweets_imports, only: %w[new create], module: :episodes
+            get 'more_import' => 'episodes/tweets_imports#more_import'
           end
         end
         resource :episodes, only: %w[edit update]
