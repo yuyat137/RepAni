@@ -22,12 +22,10 @@ class ImportTweetsService
 
   # TODO: 原因不明だが、たまに画像を取得できないツイートがあることを確認済み
   def fetch_tweets_at_anime_broadcast(max_tweet_id)
-    count = 0
     new_tweets = []
 
     # ツイート取得
     fetch_tweets = @twitter.search(@hashtag, max_id: max_tweet_id).attrs[:statuses]
-    count += 100
     last_tweet = fetch_tweets.last
     # ツイートを時間で抽出
     fetch_tweets = extract_tweets(fetch_tweets)
@@ -35,8 +33,11 @@ class ImportTweetsService
     fetch_tweets = Tweet.convert_from_json(fetch_tweets, @episode.broadcast_datetime, @episode.id)
     # ツイートを結合
     new_tweets.concat(fetch_tweets)
+    Tweet.import new_tweets
+    count = 0
+    new_tweets = []
 
-    while calculate_diff_tweeted_sec(last_tweet) > 0
+    while (calculate_diff_tweeted_sec(last_tweet) >= 0) do
       # ツイート取得
       fetch_tweets = @twitter.search(@hashtag, max_id: last_tweet[:id] - 1).attrs[:statuses]
       count += 100
@@ -54,6 +55,9 @@ class ImportTweetsService
         new_tweets = []
       end
     end
+    unless new_tweets.blank?
+      Tweet.import new_tweets
+    end
   end
 
   # ここのメソッド名後で変更
@@ -67,7 +71,7 @@ class ImportTweetsService
     start_time = @episode.broadcast_datetime
     extracted_tweets = []
     fetched_tweets.each do |tweet|
-      extracted_tweets << tweet if start_time < DateTime.parse(tweet[:created_at])
+      extracted_tweets << tweet if start_time <= DateTime.parse(tweet[:created_at])
     end
     extracted_tweets
   end
