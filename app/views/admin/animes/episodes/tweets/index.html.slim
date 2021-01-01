@@ -14,8 +14,10 @@
       = f.select :end_seconds, @search_form.seconds, {}, { class: 'form-control' }
       span.mx-2 秒
       = f.submit '検索', class: 'btn btn-default btn-flat ml-3'
-  .mx-auto
+  .d-flex.justify-content-around
+    .div
     = button_tag 'リセット', class: 'btn btn-info btn-sm mt-3', id: 'time_reset'
+    = link_to 'ツイート追加取得', admin_anime_episode_more_import_path(episode_id: @search_form.episode_id), class: 'btn btn-warning btn-sm mt-3'
   .card-body
     = paginate @tweets
     table.table.table-bordered.my-3
