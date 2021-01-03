@@ -6,7 +6,7 @@ RSpec.describe 'admin/animes/import_tweets', type: :system do
     let!(:admin_user) { create(:user, role: 'admin') }
     context '表示内容' do
       before do
-        allow(ConfirmTwitterSearchLimitService).to receive(:call).and_return(450)
+        allow(ConfirmTwitterLimitService).to receive(:call).and_return(450)
         admin_login_as(admin_user)
       end
       it 'twitterで検索する文字列が正しく表示される' do

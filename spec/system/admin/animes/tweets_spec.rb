@@ -26,7 +26,7 @@ RSpec.describe 'admin/animes/tweets', type: :system do
     let!(:admin_user) { create(:user, role: 'admin') }
     before { admin_login_as(admin_user) }
     context '時間で検索' do
-      it '始まり時間で検索できる' do
+      xit '始まり時間で検索できる' do
         tweet_69_seconds_later = create(:tweet, episode_id: episode.id, progress_time_msec: 69 * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: 69))
         tweet_70_seconds_later = create(:tweet, episode_id: episode.id, progress_time_msec: 70 * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: 70))
         visit admin_anime_episode_tweets_path(episode.id)

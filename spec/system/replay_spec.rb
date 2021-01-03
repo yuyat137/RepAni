@@ -2,7 +2,7 @@ require 'rails_helper'
 RSpec.describe 'Replay', type: :system do
   let!(:anime) { create(:anime, :with_now_term, :with_episodes) }
   let!(:episode) { anime.episodes.first }
-  let!(:tweets) { 20.times.collect { |i| create(:tweet, episode_id: episode.id, serial_number: i + 1, progress_time_msec: i * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: i)) }}
+  let!(:tweets) { 20.times.collect { |i| create(:tweet, episode_id: episode.id, progress_time_msec: i * 1000, tweeted_at: episode.broadcast_datetime.advance(seconds: i)) }}
   describe 'アニメ情報' do
     context 'ページを開いたら' do
       it 'タイトルと話数が表示される' do
