@@ -31,7 +31,6 @@ class ImportTweetsService
     fetch_tweets = @twitter.search(@hashtag, max_id: tweet_id).attrs[:statuses]
     return if fetch_tweets.blank?
 
-    last_tweet = fetch_tweets.last
     # ツイートを時間で抽出
     in_time_tweets = return_in_time(fetch_tweets)
     # ツイートの型を変換
@@ -42,7 +41,7 @@ class ImportTweetsService
   end
 
   def import_all?(tweeted_at)
-    calculate_diff_sec(tweeted_at, @episode.broadcast_datetime) < 0
+    calculate_diff_sec(tweeted_at, @episode.broadcast_datetime).negative?
   end
 
   def calculate_diff_sec(subtrahend_datetime, minuend_datetime)
