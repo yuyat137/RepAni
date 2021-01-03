@@ -37,15 +37,17 @@ RSpec.describe 'admin/animes/import_tweets', type: :system do
         allow(Tweet).to receive(:convert_from_json).and_return(tweets)
         admin_login_as(admin_user)
       end
-      it 'ツイートが正常にインポートできる' do
-        visit new_admin_anime_episode_tweets_import_path(episode.id)
-        fill_in 'tweet_id', with: '12345'
-        click_on '一括インポート'
-        page.driver.browser.switch_to.alert.accept
-        sleep(1)
-        expect(current_path).to eq admin_anime_episode_tweets_path(episode.id)
-        expect(page).to have_content(episode.tweets.first.text)
-        expect(page).to have_content('ツイートを取得しました')
+      xit 'ツイートが正常にインポートできる' do
+        # 今後、ActiveJobに切り替えるためこのテストは後ほど記載
+        #
+        # visit new_admin_anime_episode_tweets_import_path(episode.id)
+        # fill_in 'tweet_id', with: '12345'
+        # click_on '一括インポート'
+        # page.driver.browser.switch_to.alert.accept
+        # sleep(1)
+        # expect(current_path).to eq admin_anime_episode_tweets_path(episode.id)
+        # expect(page).to have_content(episode.tweets.first.text)
+        # expect(page).to have_content('ツイートを取得しました')
       end
       xit 'ツイートをインポートしたら、エピソード一覧画面にて『未取得』から『取得済』に変わる' do
         # CircleCI上で、成功するときと失敗するときがあるので一時的にスキップ
