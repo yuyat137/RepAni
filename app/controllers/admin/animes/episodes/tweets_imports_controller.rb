@@ -1,6 +1,7 @@
 class Admin::Animes::Episodes::TweetsImportsController < Admin::BaseController
   def new
     @episode = Episode.find(params[:episode_id]).decorate
+    @twitter_search_limit = ConfirmTwitterLimitService.call(:search)
   end
 
   def create
