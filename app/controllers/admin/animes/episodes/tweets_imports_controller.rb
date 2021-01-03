@@ -5,9 +5,15 @@ class Admin::Animes::Episodes::TweetsImportsController < Admin::BaseController
   end
 
   def create
-    @episode = Episode.find(params[:episode_id])
+    @episode = Episode.find(params[:episode_id]).decorate
     ImportTweetsService.call(@episode.id, params[:tweet_id])
-    redirect_to admin_anime_episode_tweets_path(@episode.id), success: 'ツイートを取得しました'
+    unless @episode.tweets.empty?
+      redirect_to admin_anime_episode_tweets_path(@episode.id), success: 'ツイートを取得しました'
+    else
+      @twitter_search_limit = ConfirmTwitterLimitService.call(:search)
+      flash.now[:danger] = 'ツイートが取得できませんでした'
+      render :new
+    end
   end
 
   def more_import

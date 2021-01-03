@@ -26,6 +26,8 @@ class ImportTweetsService
 
     # ツイート取得
     fetch_tweets = @twitter.search(@hashtag, max_id: max_tweet_id).attrs[:statuses]
+    return if fetch_tweets.blank?
+
     last_tweet = fetch_tweets.last
     # ツイートを時間で抽出
     fetch_tweets = extract_tweets(fetch_tweets)
