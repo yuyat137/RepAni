@@ -112,28 +112,21 @@ export default {
     this.$watch(
       // タイマーが止まったらstackTweetsを空にする
       // タイマーが始めったらshowTweetsを空にする
-      function () {
-        return this.$refs.timer.$data.timerOn
-      },
-      function() {
-        if (this.$refs.timer.$data.timerOn) {
-          this.showTweets = []
-          this.prevBarMsec = this.$refs.timer.$data.barMsec
-        } else {
-          this.stackTweets = []
-          this.fetchLastTweet = false
-        }
-      }
-    )
-    this.$watch(
       // タイマースタート時、もしくはstackTweetsが少なくなったら補充
       function () {
         /* return this.$refs.timer.$data.timerOn || this.$refs.timer.$data.stackTweets < 100 */
         return this.$refs.timer.$data.timerOn
       },
       function() {
-        if(!this.fetchLastTweet) {
-          this.fetchTweets()
+        if (this.$refs.timer.$data.timerOn) {
+          this.showTweets = []
+          this.prevBarMsec = this.$refs.timer.$data.barMsec
+          if(!this.fetchLastTweet) {
+            this.fetchTweets()
+          }
+        } else {
+          this.stackTweets = []
+          this.fetchLastTweet = false
         }
       }
     )
@@ -150,10 +143,15 @@ export default {
     async fetchTweets() {
       // 実際の実装では=とせずstackTweetsに追加するようにする
       //TODO: パラメーターのprogressを取りたい
-      await this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, progress_time_msec: this.$refs.timer.$data.barMsec}})
+      let tweet_id = ""
+      if(this.stackTweets.length) {
+        tweet_id = this.stackTweets.last.id
+      }
+      await this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, tweet_id: tweet_id, progress_time_msec: this.$refs.timer.$data.barMsec}})
         .then(res => {
           this.stackTweets = res.data.tweets
           this.fetchLastTweet = res.data.fetch_last_tweet
+          res = null
         })
         .catch(err => console.log(err.status));
     },

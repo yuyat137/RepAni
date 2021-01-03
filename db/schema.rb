@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_18_095734) do
+ActiveRecord::Schema.define(version: 2021_01_03_075541) do
 
   create_table "anime_terms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "anime_id", null: false
@@ -62,7 +62,6 @@ ActiveRecord::Schema.define(version: 2020_12_18_095734) do
     t.bigint "episode_id"
     t.bigint "tweet_id", null: false
     t.bigint "progress_time_msec", null: false
-    t.bigint "serial_number", null: false
     t.string "name", null: false
     t.string "screen_name", null: false
     t.string "profile_image_url", null: false
