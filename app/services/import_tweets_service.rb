@@ -22,44 +22,29 @@ class ImportTweetsService
 
   # TODO: 原因不明だが、たまに画像を取得できないツイートがあることを確認済み
   def fetch_tweets_at_anime_broadcast(max_tweet_id)
-    new_tweets = []
+    fetch_last_tweet_id = max_tweet_id
 
+    begin
+      last_tweet = fetch_and_import_tweets(fetch_last_tweet_id)
+      return if last_tweet.nil?
+
+      fetch_last_tweet_id = last_tweet[:id] - 1
+    end while calculate_diff_tweeted_sec(last_tweet) >= 0
+  end
+
+  def fetch_and_import_tweets(tweet_id)
     # ツイート取得
-    fetch_tweets = @twitter.search(@hashtag, max_id: max_tweet_id).attrs[:statuses]
+    fetch_tweets = @twitter.search(@hashtag, max_id: tweet_id).attrs[:statuses]
     return if fetch_tweets.blank?
 
     last_tweet = fetch_tweets.last
     # ツイートを時間で抽出
     fetch_tweets = extract_tweets(fetch_tweets)
     # ツイートの型を変換
-    fetch_tweets = Tweet.convert_from_json(fetch_tweets, @episode.broadcast_datetime, @episode.id)
-    # ツイートを結合
-    new_tweets.concat(fetch_tweets)
+    new_tweets = Tweet.convert_from_json(fetch_tweets, @episode.broadcast_datetime, @episode.id)
     Tweet.import new_tweets
-    count = 0
-    new_tweets = []
 
-    while calculate_diff_tweeted_sec(last_tweet) >= 0
-      # ツイート取得
-      fetch_tweets = @twitter.search(@hashtag, max_id: last_tweet[:id] - 1).attrs[:statuses]
-      count += 100
-      last_tweet = fetch_tweets.last
-      # ツイートを時間で抽出
-      fetch_tweets = extract_tweets(fetch_tweets)
-      # ツイートの型を変換
-      fetch_tweets = Tweet.convert_from_json(fetch_tweets, @episode.broadcast_datetime, @episode.id)
-      # ツイートを結合
-      new_tweets.concat(fetch_tweets)
-
-      next unless count > IMPORT_TWEETS_NUM
-
-      Tweet.import new_tweets
-      count = 0
-      new_tweets = []
-    end
-    return if new_tweets.blank?
-
-    Tweet.import new_tweets
+    fetch_tweets.last
   end
 
   # ここのメソッド名後で変更
