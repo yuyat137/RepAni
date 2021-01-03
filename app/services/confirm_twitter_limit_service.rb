@@ -13,7 +13,7 @@ class ConfirmTwitterLimitService
     twitter_limit_list = Twitter::REST::Request.new(twitter, :get, '/1.1/application/rate_limit_status.json').perform[:resources]
 
     case args
-    when :search then
+    when :search
       twitter_limit_list[:search][:"/search/tweets"][:remaining]
     else
       twitter_limit_list

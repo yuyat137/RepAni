@@ -37,7 +37,7 @@ class ImportTweetsService
     count = 0
     new_tweets = []
 
-    while (calculate_diff_tweeted_sec(last_tweet) >= 0) do
+    while calculate_diff_tweeted_sec(last_tweet) >= 0
       # ツイート取得
       fetch_tweets = @twitter.search(@hashtag, max_id: last_tweet[:id] - 1).attrs[:statuses]
       count += 100
@@ -49,15 +49,15 @@ class ImportTweetsService
       # ツイートを結合
       new_tweets.concat(fetch_tweets)
 
-      if count > IMPORT_TWEETS_NUM
-        Tweet.import new_tweets
-        count = 0
-        new_tweets = []
-      end
-    end
-    unless new_tweets.blank?
+      next unless count > IMPORT_TWEETS_NUM
+
       Tweet.import new_tweets
+      count = 0
+      new_tweets = []
     end
+    return if new_tweets.blank?
+
+    Tweet.import new_tweets
   end
 
   # ここのメソッド名後で変更
