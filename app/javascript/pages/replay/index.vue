@@ -110,21 +110,21 @@ export default {
       }
     )
     this.$watch(
-      // タイマーが止まったらstackTweetsを空にする
-      // タイマーが始めったらshowTweetsを空にする
-      // タイマースタート時、もしくはstackTweetsが少なくなったら補充
       function () {
+        // タイマースタート時、もしくはstackTweetsが少なくなったら補充
         /* return this.$refs.timer.$data.timerOn || this.$refs.timer.$data.stackTweets < 100 */
         return this.$refs.timer.$data.timerOn
       },
       function() {
         if (this.$refs.timer.$data.timerOn) {
+          // タイマーが始めったらshowTweetsを空にする
           this.showTweets = []
           this.prevBarMsec = this.$refs.timer.$data.barMsec
-          if(!this.fetchLastTweet) {
-            this.fetchTweets()
-          }
+          // ここのif文不要な気がする。
+          //if(!this.fetchLastTweet) {
+          this.fetchTweets()
         } else {
+          // タイマーが止まったらstackTweetsを空にする
           this.stackTweets = []
           this.fetchLastTweet = false
         }
