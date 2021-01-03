@@ -73,6 +73,7 @@ Rails.application.configure do
     logger           = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    $stdout.sync = true
   end
 
   # Do not dump schema after migrations.
