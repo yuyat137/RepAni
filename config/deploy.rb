@@ -4,7 +4,7 @@ set :repo_url, 'git@github.com:estsn122/RepAni.git'
 set :user, 'yuya'
 # Default branch is :master
 # deploy時にブランチを選択したい場合は、以下のコメント部分を外す
-ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
+# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 set :deploy_to, '/var/www/RepAni'
 set :linked_files, %w[config/master.key config/database.yml]
 set :linked_dirs, %w[log tmp/pids tmp/cache tmp/sockets public/system vendor/bundle]
@@ -44,7 +44,6 @@ namespace :deploy do
   task :webpacker do
     on roles(:app) do
       within release_path do
-        # yarn install --check-files
         execute :yarn, :install, '--check-files'
         execute :rails, 'webpacker:compile'
       end
