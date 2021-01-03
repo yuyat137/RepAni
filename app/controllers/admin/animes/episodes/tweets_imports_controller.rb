@@ -18,8 +18,8 @@ class Admin::Animes::Episodes::TweetsImportsController < Admin::BaseController
 
   def more_import
     @episode = Episode.find(params[:episode_id])
-    tweet_id = @episode.tweets.order(:tweet_id).first.tweet_id - 1
-    ImportTweetsService.call(@episode.id, tweet_id)
+    tweets_min_id = @episode.tweets.order(:tweet_id).first.tweet_id
+    ImportTweetsService.call(@episode.id, tweets_min_id - 1)
     redirect_to admin_anime_episode_tweets_path(@episode.id), success: 'ツイートを取得しました'
   end
 end

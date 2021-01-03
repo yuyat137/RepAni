@@ -98,7 +98,6 @@ export default {
     await this.fetchAnimeAndEpisode()
     await this.fetchTweets()
     this.$watch(
-      // 時間が進むにつれツイートを表示
       function () {
         return this.$refs.timer.$data.barMsec
       },
@@ -111,8 +110,6 @@ export default {
     )
     this.$watch(
       function () {
-        // タイマースタート時、もしくはstackTweetsが少なくなったら補充
-        /* return this.$refs.timer.$data.timerOn || this.$refs.timer.$data.stackTweets < 100 */
         return this.$refs.timer.$data.timerOn
       },
       function() {
@@ -120,8 +117,6 @@ export default {
           // タイマーが始めったらshowTweetsを空にする
           this.showTweets = []
           this.prevBarMsec = this.$refs.timer.$data.barMsec
-          // ここのif文不要な気がする。
-          //if(!this.fetchLastTweet) {
           this.fetchTweets()
         } else {
           // タイマーが止まったらstackTweetsを空にする
@@ -130,6 +125,17 @@ export default {
         }
       }
     )
+    /*
+    this.$watch(
+      function () {
+        return (this.$refs.timer.$data.stackTweets < 100) && (!this.fetchLastTweet)
+      },
+      function() {
+        // ここのメソッド内は未実装
+        // ツイート追加で取得する
+      }
+    )
+    */
   },
   methods: {
     async fetchAnimeAndEpisode() {
