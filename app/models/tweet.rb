@@ -8,7 +8,6 @@ class Tweet < ApplicationRecord
   validates :profile_image_url, presence: true
   validates :text, presence: true
   validates :tweeted_at, presence: true
-  GET_TWEETS_NUM = 300
 
   def self.convert_from_json(json_tweets, broadcast_datetime, episode_id)
     tweets = []
