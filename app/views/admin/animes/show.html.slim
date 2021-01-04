@@ -23,7 +23,7 @@
           td = @anime.default_air_time
         tr#anime_first_broadcast_datetime
           th 初放送日時
-          td = @anime.first_broadcast_datetime&.strftime('%Y-%m-%d %H:%M')
+          td = l @anime.first_broadcast_datetime, format: :default
         tr#anime_twitter_account
           th Twitterアカウント
           td = @anime.twitter_account
@@ -35,10 +35,10 @@
           td = @anime.public
         tr#anime_created_at
           th 登録日時
-          td = @anime.created_at.strftime('%Y-%m-%d %H:%M:%S')
+          td = l @anime.created_at, format: :long
         tr#anime_updated_at
           th 更新日時
-          td = @anime.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+          td = l @anime.updated_at, format: :long
     #term-detail
       = render 'admin/animes/terms/terms_table', anime: @anime
     #episode-detail

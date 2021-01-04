@@ -38,7 +38,7 @@
             td = image_tag(tweet.profile_image_url)
             td = tweet.text
             td
-              = tweet.tweeted_at.strftime('%H:%M:%S')
+              = l tweet.tweeted_at, format: :short
               br
               = "(#{tweet.decorate.elapsed_time})"
     = paginate @tweets

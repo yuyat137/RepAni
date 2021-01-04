@@ -6,3 +6,8 @@ ja:
       previous: '前へ'
       next: '次へ'
       truncate: '...'
+  time:
+    formats:
+      default: '%Y-%m-%d %H:%M'
+      short: '%H:%M:%S'
+      long: '%Y-%m-%d %H:%M:%S'
