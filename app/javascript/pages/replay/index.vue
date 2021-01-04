@@ -98,7 +98,6 @@ export default {
     await this.fetchAnimeAndEpisode()
     await this.fetchTweets()
     this.$watch(
-      // 時間が進むにつれツイートを表示
       function () {
         return this.$refs.timer.$data.barMsec
       },
@@ -110,33 +109,33 @@ export default {
       }
     )
     this.$watch(
-      // タイマーが止まったらstackTweetsを空にする
-      // タイマーが始めったらshowTweetsを空にする
       function () {
         return this.$refs.timer.$data.timerOn
       },
       function() {
         if (this.$refs.timer.$data.timerOn) {
+          // タイマーが始めったらshowTweetsを空にする
           this.showTweets = []
           this.prevBarMsec = this.$refs.timer.$data.barMsec
+          this.fetchTweets()
         } else {
+          // タイマーが止まったらstackTweetsを空にする
           this.stackTweets = []
           this.fetchLastTweet = false
         }
       }
     )
+    /*
     this.$watch(
-      // タイマースタート時、もしくはstackTweetsが少なくなったら補充
       function () {
-        /* return this.$refs.timer.$data.timerOn || this.$refs.timer.$data.stackTweets < 100 */
-        return this.$refs.timer.$data.timerOn
+        return (this.$refs.timer.$data.stackTweets < 100) && (!this.fetchLastTweet)
       },
       function() {
-        if(!this.fetchLastTweet) {
-          this.fetchTweets()
-        }
+        // ここのメソッド内は未実装
+        // ツイート追加で取得する
       }
     )
+    */
   },
   methods: {
     async fetchAnimeAndEpisode() {
@@ -150,10 +149,15 @@ export default {
     async fetchTweets() {
       // 実際の実装では=とせずstackTweetsに追加するようにする
       //TODO: パラメーターのprogressを取りたい
-      await this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, progress_time_msec: this.$refs.timer.$data.barMsec}})
+      let tweet_id = ""
+      if(this.stackTweets.length) {
+        tweet_id = this.stackTweets.last.id
+      }
+      await this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, tweet_id: tweet_id, progress_time_msec: this.$refs.timer.$data.barMsec}})
         .then(res => {
           this.stackTweets = res.data.tweets
           this.fetchLastTweet = res.data.fetch_last_tweet
+          res = null
         })
         .catch(err => console.log(err.status));
     },

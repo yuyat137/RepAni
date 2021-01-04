@@ -8,7 +8,8 @@ class Episode < ApplicationRecord
   validates :air_time, presence: true
   validates :public, inclusion: [true, false]
 
-  # 
+  RETURN_TWEETS_NUM = 300
+
   def import_associate_tweets(max_tweet_id)
     return unless broadcast_datetime
 
@@ -21,6 +22,14 @@ class Episode < ApplicationRecord
 
   def anime_title
     anime.title
+  end
+
+  def return_tweets(over_tweet_id, progress_time_msec)
+    if !over_tweet_id.blank?
+      tweets.where(tweet_id: Range.new(over_tweet_id.to_i + 1, nil)).order(:tweet_id).limit(RETURN_TWEETS_NUM)
+    elsif !progress_time_msec.blank?
+      tweets.where(progress_time_msec: Range.new(progress_time_msec, nil)).order(:tweet_id).limit(RETURN_TWEETS_NUM)
+    end
   end
 
   private
