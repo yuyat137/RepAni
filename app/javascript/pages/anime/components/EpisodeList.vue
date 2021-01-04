@@ -15,8 +15,11 @@
               v-for="episode in episodes"
               :key="episode.id"
               :id="'episode_' + episode.id"
+              @click="goToReplayIndex(episode.id)"
             >
-              <td>{{ episode.num }}話 『{{ episode.subtitle }}』</td>
+              <td>
+                {{ episode.num }}話 『{{ episode.subtitle }}』
+              </td>
             </tr>
           </tbody>
           <tbody v-else-if="anime != null">
@@ -50,5 +53,10 @@ export default {
       })
     },
   },
+  methods: {
+    goToReplayIndex(episodeId) {
+      this.$router.push({ name: 'ReplayIndex', params: { episodeId: episodeId } });
+    }
+  }
 }
 </script>
