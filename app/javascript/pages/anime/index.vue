@@ -44,7 +44,6 @@
 import AnimeList from './components/AnimeList'
 import TermList from './components/TermList'
 import EpisodeList from './components/EpisodeList'
-import AnimeEpisodesDialog from "./components/AnimeEpisodesDialog"
 
 export default {
   name: "AnimeIndex",
@@ -52,7 +51,6 @@ export default {
     AnimeList,
     TermList,
     EpisodeList,
-    AnimeEpisodesDialog,
   },
   data() {
     return {
