@@ -20,7 +20,7 @@
             @select-term="handleShowSelectTerm"
           />
         </v-col>
-        <v-col cols="6">
+        <v-col cols="5">
           <h2>アニメ</h2>
           <AnimeList
             :animes="animes"
@@ -28,7 +28,7 @@
             @select-anime="handleShowAnimeEpisodesDialog"
           />
         </v-col>
-        <v-col cols="3">
+        <v-col cols="4">
           <h2>エピソード</h2>
           <EpisodeList
             :anime="selectAnime"
