@@ -11,20 +11,26 @@
           </v-breadcrumbs-item>
         </template>
       </v-breadcrumbs>
-      <h2>{{ selectTerm.year }}年{{ selectTerm.season_ja }}</h2>
-      <AnimeList
-        :animes="animes"
-        @select-anime="handleShowAnimeEpisodesDialog"
-      />
+      <v-row>
+        <v-col cols="3">
+          <h2>放送時期</h2>
+          <TermList
+            :terms="terms"
+            @select-term="handleShowSelectTerm"
+          />
+        </v-col>
+        <v-col cols="6">
+          <h2>{{ selectTerm.year }}年{{ selectTerm.season_ja }}</h2>
+          <AnimeList
+            :animes="animes"
+            @select-anime="handleShowAnimeEpisodesDialog"
+          />
+        </v-col>
+      </v-row>
       <AnimeEpisodesDialog
         ref="dialog"
         :anime="selectAnime"
         :episodes="episodes"
-      />
-      <h2>放送時期</h2>
-      <TermList
-        :terms="terms"
-        @select-term="handleShowSelectTerm"
       />
     </v-container>
   </div>

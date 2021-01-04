@@ -2,27 +2,23 @@
   <div>
     <v-container class="grey lighten-5">
       <v-row>
-        <v-col
+        <v-card
+          :id="'term_' + term.id"
+          class="rounded-lg mt-3 mx-auto"
           v-for="term in terms"
           :key="term.id"
-          cols="3"
+          outlined
+          @click="handleSelectTerm(term)"
         >
-          <v-card
-            :id="'term_' + term.id"
-            class="rounded-xl"
-            outlined
-            @click="handleSelectTerm(term)"
-          >
-            <v-list-item three-line>
-              <v-list-item-content>
-                <v-list-item-title class="headline mb-1">
-                  {{ term.year }}年{{ term.season_ja }}アニメ
-                </v-list-item-title>
-              </v-list-item-content>
-              <v-card-actions />
-            </v-list-item>
-          </v-card>
-        </v-col>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="headline mb-1">
+                {{ term.year }}年{{ term.season_ja }}アニメ
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-card-actions />
+          </v-list-item>
+        </v-card>
       </v-row>
     </v-container>
   </div>

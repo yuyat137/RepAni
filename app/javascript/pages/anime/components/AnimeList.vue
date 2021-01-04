@@ -1,29 +1,27 @@
 <template>
   <div>
-    <v-container class="grey lighten-5">
-      <v-row>
-        <v-col
-          v-for="anime in publicAnimes"
-          :key="anime.id"
-          cols="4"
-        >
-          <v-card
-            :id="'anime_' + anime.id"
-            class=""
-            outlined
-            @click="handleSelectAnime(anime)"
-          >
-            <v-list-item three-line>
-              <v-list-item-content>
-                <v-list-item-title class="headline mb-1">
-                  {{ anime.title }}
-                </v-list-item-title>
-              </v-list-item-content>
-              <v-card-actions />
-            </v-list-item>
-          </v-card>
-        </v-col>
-      </v-row>
+    <v-container>
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">
+                タイトル
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="anime in publicAnimes"
+              :key="anime.id"
+              @click="handleSelectAnime(anime)"
+              :id="'anime_' + anime.id"
+            >
+              <td>{{ anime.title }}</td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
     </v-container>
   </div>
 </template>
