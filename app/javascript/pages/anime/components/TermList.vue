@@ -28,12 +28,12 @@
 <script>
 export default {
   name: "TermList",
-  data() {
-    return {
-      selectTerm: ""
-    }
-  },
   props: {
+    // selectTermを親から受け取ってるのは、初期表示時に対応するため
+    selectTerm: {
+      type: Object,
+      required: true
+    },
     terms: {
       type: Array,
       required: true
@@ -41,7 +41,6 @@ export default {
   },
   methods: {
     handleSelectTerm(term) {
-      this.selectTerm = term
       this.$emit('select-term', term)
     }
   },

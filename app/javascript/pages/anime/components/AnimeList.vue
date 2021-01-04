@@ -15,7 +15,7 @@
               v-for="anime in publicAnimes"
               :key="anime.id"
               @click="handleSelectAnime(anime)"
-              :class="anime.id == selectAnime.id ? 'indigo lighten-4' : ''"
+              :class="changeColor(anime)"
               :id="'anime_' + anime.id"
             >
               <td>{{ anime.title }}</td>
@@ -30,12 +30,11 @@
 <script>
 export default {
   name: "AnimeList",
-  data() {
-    return {
-      selectAnime: ""
-    }
-  },
   props: {
+    selectAnime: {
+      type: Object,
+      required: true
+    },
     animes: {
       type: Array,
       required: true
@@ -50,9 +49,14 @@ export default {
   },
   methods: {
     handleSelectAnime(anime) {
-      this.selectAnime = anime
       this.$emit('select-anime', anime)
-    }
+    },
+    changeColor(anime) {
+      // selectAnimeを親から受け取ってるのは、放送時期を変えた時にリセットするため
+      if (this.selectAnime && this.selectAnime.id == anime.id) {
+        return 'indigo lighten-4'
+      }
+    },
   },
 }
 </script>
