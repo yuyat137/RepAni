@@ -7,7 +7,7 @@
         | 下記文字列を
         = link_to 'Twitter', 'https://twitter.com/home?lang=ja', target: :_blank, rel: :noopener
         | で検索し、『最新』タブの一番新しいツイートのIDを入力してください。
-      p.red = "残りのツイート取得可能数: #{ConfirmTwitterSearchLimitService.call * 100}/45000"
+      p.red = "残りのツイート取得可能数: #{@twitter_search_limit * 100}/45000"
     .text-center.mt-3
       span.text-center#copy_text = @episode.search_twitter
       button.btn.btn-default.btn-sm.ml-3#clipboard_copy クリップボードにコピー

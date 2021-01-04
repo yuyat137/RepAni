@@ -5,7 +5,7 @@ RSpec.describe "Api::Tweets", type: :request do
   let!(:episode) { anime.episodes.first }
 
   context '最後のツイートを取得した場合' do
-    let!(:tweets) { 20.times.collect { |i| create(:tweet, episode_id: episode.id, serial_number: i + 1) } }
+    let!(:tweets) { 20.times.collect { |i| create(:tweet, episode_id: episode.id) } }
     it 'index' do
       get api_tweets_path, params: { episode_id: episode.id, progress_time_msec: 0 }
       json = JSON.parse(response.body)
@@ -16,7 +16,7 @@ RSpec.describe "Api::Tweets", type: :request do
     end
   end
   context '最後のツイートを取得しない場合' do
-    let!(:tweets) { 301.times.collect { |i| create(:tweet, episode_id: episode.id, serial_number: i + 1) } }
+    let!(:tweets) { 301.times.collect { |i| create(:tweet, episode_id: episode.id) } }
     it 'index' do
       get api_tweets_path, params: { episode_id: episode.id, progress_time_msec: 0 }
       json = JSON.parse(response.body)
