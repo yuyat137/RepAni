@@ -20,18 +20,20 @@
           />
         </v-col>
         <v-col cols="6">
-          <h2>{{ selectTerm.year }}年{{ selectTerm.season_ja }}</h2>
+          <h2>アニメ</h2>
           <AnimeList
             :animes="animes"
             @select-anime="handleShowAnimeEpisodesDialog"
           />
         </v-col>
+        <v-col cols="3">
+          <h2>エピソード</h2>
+          <EpisodeList
+            :anime="selectAnime"
+            :episodes="episodes"
+          />
+        </v-col>
       </v-row>
-      <AnimeEpisodesDialog
-        ref="dialog"
-        :anime="selectAnime"
-        :episodes="episodes"
-      />
     </v-container>
   </div>
 </template>
@@ -39,6 +41,7 @@
 <script>
 import AnimeList from './components/AnimeList'
 import TermList from './components/TermList'
+import EpisodeList from './components/EpisodeList'
 import AnimeEpisodesDialog from "./components/AnimeEpisodesDialog"
 
 export default {
@@ -46,6 +49,7 @@ export default {
   components: {
     AnimeList,
     TermList,
+    EpisodeList,
     AnimeEpisodesDialog,
   },
   data() {
@@ -83,7 +87,6 @@ export default {
     async handleShowAnimeEpisodesDialog(anime) {
       this.selectAnime = anime;
       this.fetchEpisodes();
-      this.$refs.dialog.open();
     },
     fetchEpisodes() {
       this.$axios.get("episodes", { params: this.selectAnime })
@@ -100,6 +103,9 @@ export default {
       }
     },
     handleShowSelectTerm(term) {
+      this.episodes = [];
+      this.selectAnime = null;
+      this.selectTerm = term;
       this.$axios.get("animes", { params: term })
         .then(res => this.animes = res.data)
         .catch(err => console.log(err.status));

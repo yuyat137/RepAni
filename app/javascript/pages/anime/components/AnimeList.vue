@@ -6,7 +6,7 @@
           <thead>
             <tr>
               <th class="text-left">
-                タイトル
+                アニメ
               </th>
             </tr>
           </thead>
