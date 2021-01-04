@@ -18,6 +18,16 @@ set :puma_access_log, "#{release_path}/log/puma.error.log"
 set :puma_error_log, "#{shared_path}/log/puma.access.log"
 set :puma_preload_app, true
 
+namespace :puma do
+  desc 'Create Directories for Puma Pids and Socket'
+  task :make_dirs do
+    on roles(:app) do
+      execute "mkdir #{shared_path}/tmp/sockets -p"
+      execute "mkdir #{shared_path}/tmp/pids -p"
+    end
+  end
+  before :start, :make_dirs
+end
 namespace :deploy do
   desc 'upload important files'
   task :upload do
