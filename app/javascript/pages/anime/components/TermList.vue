@@ -9,6 +9,7 @@
           :key="term.id"
           outlined
           @click="handleSelectTerm(term)"
+          :color="term.id == selectTerm.id ? 'indigo lighten-4' : ''"
         >
           <v-list-item>
             <v-list-item-content>
@@ -27,6 +28,11 @@
 <script>
 export default {
   name: "TermList",
+  data() {
+    return {
+      selectTerm: ""
+    }
+  },
   props: {
     terms: {
       type: Array,
@@ -35,6 +41,7 @@ export default {
   },
   methods: {
     handleSelectTerm(term) {
+      this.selectTerm = term
       this.$emit('select-term', term)
     }
   },

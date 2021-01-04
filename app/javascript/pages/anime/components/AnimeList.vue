@@ -15,6 +15,7 @@
               v-for="anime in publicAnimes"
               :key="anime.id"
               @click="handleSelectAnime(anime)"
+              :class="anime.id == selectAnime.id ? 'indigo lighten-4' : ''"
               :id="'anime_' + anime.id"
             >
               <td>{{ anime.title }}</td>
@@ -29,6 +30,11 @@
 <script>
 export default {
   name: "AnimeList",
+  data() {
+    return {
+      selectAnime: ""
+    }
+  },
   props: {
     animes: {
       type: Array,
@@ -44,6 +50,7 @@ export default {
   },
   methods: {
     handleSelectAnime(anime) {
+      this.selectAnime = anime
       this.$emit('select-anime', anime)
     }
   },
