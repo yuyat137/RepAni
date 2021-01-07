@@ -5,7 +5,7 @@
         <v-card
           :id="'term_' + term.id"
           class="rounded-lg mt-3 mx-auto"
-          v-for="term in terms"
+          v-for="term in sortedTerms"
           :key="term.id"
           outlined
           @click="handleSelectTerm(term)"
@@ -37,6 +37,21 @@ export default {
     terms: {
       type: Array,
       required: true
+    },
+  },
+  computed: {
+    sortedTerms () {
+      const orderRule = ['winter', 'spring', 'summer', 'autumn']
+      return this.terms.sort(function(a,b){
+        console.log("orderRule.indexOf(a)")
+        console.log(orderRule.indexOf(a))
+        console.log(a)
+        if(a.year < b.year) return 1;
+        if(a.year > b.year) return -1;
+        if(orderRule.indexOf(a.season) < orderRule.indexOf(b.season)) return 1;
+        if(orderRule.indexOf(a.season) > orderRule.indexOf(b.season)) return -1;
+        return 0;
+      });
     },
   },
   methods: {
