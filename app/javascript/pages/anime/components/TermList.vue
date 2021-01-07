@@ -43,9 +43,6 @@ export default {
     sortedTerms () {
       const orderRule = ['winter', 'spring', 'summer', 'autumn']
       return this.terms.sort(function(a,b){
-        console.log("orderRule.indexOf(a)")
-        console.log(orderRule.indexOf(a))
-        console.log(a)
         if(a.year < b.year) return 1;
         if(a.year > b.year) return -1;
         if(orderRule.indexOf(a.season) < orderRule.indexOf(b.season)) return 1;

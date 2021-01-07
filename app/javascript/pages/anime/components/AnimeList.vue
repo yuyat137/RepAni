@@ -12,7 +12,7 @@
           </thead>
           <tbody>
             <tr
-              v-for="anime in publicAnimes"
+              v-for="anime in sortedAnimes"
               :key="anime.id"
               @click="handleSelectAnime(anime)"
               :class="changeColor(anime)"
@@ -45,6 +45,13 @@ export default {
       return this.animes.filter(anime => {
         return anime.public == true
       })
+    },
+    sortedAnimes () {
+      return this.publicAnimes.sort(function(a,b){
+        if(a.title < b.title) return -1;
+        if(a.title > b.title) return 1;
+        return 0;
+      });
     },
   },
   methods: {
