@@ -204,7 +204,7 @@ export default {
   margin-top: 40px;
 }
 #anime_info {
-  margin-top: 60px;
+  margin-top: 40px;
 }
 #toOtherEpisode {
   margin-left: 100px;
