@@ -10,7 +10,7 @@
               </th>
             </tr>
           </thead>
-          <tbody v-if="episodes.length">
+          <tbody v-if="episodes.length" id="episodes_list">
             <tr
               v-for="episode in episodes"
               :key="episode.id"

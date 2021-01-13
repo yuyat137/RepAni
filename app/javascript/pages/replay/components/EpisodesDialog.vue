@@ -16,7 +16,11 @@
               v-for="episode in publicEpisodes"
               :key="episode.id"
             >
-              <a @click="toOtherEpisode(episode)">
+              <a
+                @click="toOtherEpisode(episode)"
+                :id="'episode_' + episode.num"
+                class="other-episode"
+              >
                 {{ episode.num }}話 {{ displayTitle(episode) }}
               </a>
             </div>
