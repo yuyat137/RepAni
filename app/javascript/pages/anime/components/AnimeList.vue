@@ -13,10 +13,10 @@
           <tbody>
             <tr
               v-for="anime in sortedPublicAnimes"
-              :key="anime.id"
-              @click="handleSelectAnime(anime)"
-              :class="changeColor(anime)"
               :id="'anime_' + anime.id"
+              :key="anime.id"
+              :class="changeColor(anime)"
+              @click="handleSelectAnime(anime)"
             >
               <td>{{ anime.title }}</td>
             </tr>
@@ -47,7 +47,7 @@ export default {
       })
     },
     sortedPublicAnimes () {
-      return this.publicAnimes.sort(function(a,b){
+      return this.publicAnimes.slice().sort(function(a,b){
         if(a.title < b.title) return -1;
         if(a.title > b.title) return 1;
         return 0;

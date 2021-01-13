@@ -16,7 +16,7 @@
           <h2>放送時期</h2>
           <TermList
             :terms="terms"
-            :selectTerm="selectTerm"
+            :select-term="selectTerm"
             @select-term="handleShowSelectTerm"
           />
         </v-col>
@@ -24,7 +24,7 @@
           <h2>アニメ</h2>
           <AnimeList
             :animes="animes"
-            :selectAnime="selectAnime"
+            :select-anime="selectAnime"
             @select-anime="handleShowAnimeEpisodesDialog"
           />
         </v-col>

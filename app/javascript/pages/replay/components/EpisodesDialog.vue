@@ -17,9 +17,9 @@
               :key="episode.id"
             >
               <a
-                @click="toOtherEpisode(episode)"
                 :id="'episode_' + episode.num"
                 class="other-episode"
+                @click="toOtherEpisode(episode)"
               >
                 {{ episode.num }}話 {{ displayTitle(episode) }}
               </a>
@@ -53,7 +53,6 @@ export default({
       return this.episodes.filter(episode => {
         return episode.public == true
       })
-      this.dialog = false
     },
   },
   methods: {

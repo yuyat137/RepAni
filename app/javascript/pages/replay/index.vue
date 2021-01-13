@@ -25,19 +25,19 @@
               </span>
             </h2>
             <Timer
+              id="timer"
               ref="timer"
               :episode="selectEpisode"
-              id="timer"
             />
             <AnimeInfo
+              id="anime_info"
               :anime="selectAnime"
               :episode="selectEpisode"
-              id="anime_info"
             />
             <v-btn
+              id="toOtherEpisode"
               small
               color="success"
-              id="toOtherEpisode"
               @click="handleShowEpisodesDialog"
             >
               別の話へ
@@ -80,11 +80,6 @@ export default {
     AnimeInfo,
     EpisodesDialog,
   },
-  watch: {
-    $route (to, from) {
-      this.init()
-    }
-  },
   data() {
     return {
       episodeId: this.$route.params.episodeId,
@@ -113,6 +108,11 @@ export default {
           href: '',
         },
       ]
+    }
+  },
+  watch: {
+    $route (to, from) {
+      this.init()
     }
   },
   created() {

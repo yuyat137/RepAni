@@ -10,11 +10,14 @@
               </th>
             </tr>
           </thead>
-          <tbody v-if="episodes.length" id="episodes_list">
+          <tbody
+            v-if="episodes.length"
+            id="episodes_list"
+          >
             <tr
               v-for="episode in episodes"
-              :key="episode.id"
               :id="'episode_' + episode.id"
+              :key="episode.id"
               @click="goToReplayIndex(episode.id)"
             >
               <td>

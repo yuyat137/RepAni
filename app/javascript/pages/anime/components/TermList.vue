@@ -3,13 +3,13 @@
     <v-container class="grey lighten-5">
       <v-row>
         <v-card
-          :id="'term_' + term.id"
-          class="rounded-lg mt-3 mx-auto"
           v-for="term in sortedTerms"
+          :id="'term_' + term.id"
           :key="term.id"
+          class="rounded-lg mt-3 mx-auto"
           outlined
-          @click="handleSelectTerm(term)"
           :color="term.id == selectTerm.id ? 'indigo lighten-4' : ''"
+          @click="handleSelectTerm(term)"
         >
           <v-list-item>
             <v-list-item-content>
@@ -42,7 +42,7 @@ export default {
   computed: {
     sortedTerms () {
       const orderRule = ['winter', 'spring', 'summer', 'autumn']
-      return this.terms.sort(function(a,b){
+      return this.terms.slice()/sort(function(a,b){
         if(a.year < b.year) return 1;
         if(a.year > b.year) return -1;
         if(orderRule.indexOf(a.season) < orderRule.indexOf(b.season)) return 1;
