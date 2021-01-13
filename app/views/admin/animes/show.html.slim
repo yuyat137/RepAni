@@ -23,7 +23,9 @@
           td = @anime.default_air_time
         tr#anime_first_broadcast_datetime
           th 初放送日時
-          td = l @anime.first_broadcast_datetime, format: :default
+          td
+            - if @anime.first_broadcast_datetime
+              = l @anime.first_broadcast_datetime, format: :default
         tr#anime_twitter_account
           th Twitterアカウント
           td = @anime.twitter_account
