@@ -15,10 +15,10 @@
       >{{ twitterAccount }}</a>
     </p>
     <p v-if="anime.twitter_hash_tag">
-      Twitterハッシュタグ: #{{ this.anime.twitter_hash_tag }}
+      Twitterハッシュタグ: #{{ anime.twitter_hash_tag }}
     </p>
     <p v-if="episode.broadcast_datetime">
-      ツイート取得日: {{ displayDateTime(this.episode.broadcast_datetime) }}
+      ツイート取得日: {{ displayDateTime(episode.broadcast_datetime) }}
     </p>
   </div>
 </template>
