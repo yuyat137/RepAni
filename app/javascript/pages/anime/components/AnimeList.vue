@@ -33,7 +33,7 @@ export default {
   props: {
     selectAnime: {
       type: Object,
-      required: true
+      required: false
     },
     animes: {
       type: Array,
