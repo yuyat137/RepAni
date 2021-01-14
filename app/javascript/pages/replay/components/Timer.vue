@@ -107,7 +107,7 @@ export default {
       }
     }
   },
-  async created() {
+  created() {
     this.maxAirMsec = this.episode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC
     this.displayMaxTime = this.msecToDisplayTime(this.maxAirMsec)
     this.timerObj = setInterval(()=>{

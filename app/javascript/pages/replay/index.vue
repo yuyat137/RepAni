@@ -83,10 +83,10 @@ export default {
   data() {
     return {
       episodeId: this.$route.params.episodeId,
-      episode: "",
-      episodes: "",
-      selectAnime: "",
+      //selectEpisodeの初期値を{}とすると、Timer.vueにセットされた値が渡るタイミングが遅く、エラーとなる
       selectEpisode: "",
+      episodes: [],
+      selectAnime: {},
       stackTweets: [],
       showTweets: [],
       fetchLastTweet: false,
@@ -175,7 +175,8 @@ export default {
       //TODO: パラメーターのprogressを取りたい
       let tweet_id = ""
       if(this.stackTweets.length) {
-        tweet_id = this.stackTweets.last.id
+        let lastTweet = this.stackTweets[this.stackTweets.length - 1]
+        tweet_id = lastTweet.id
       }
       await this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, tweet_id: tweet_id, progress_time_msec: this.$refs.timer.$data.barMsec}})
         .then(res => {
