@@ -42,7 +42,7 @@ export default {
   computed: {
     sortedTerms () {
       const orderRule = ['winter', 'spring', 'summer', 'autumn']
-      return this.terms.slice()/sort(function(a,b){
+      return this.terms.slice().sort(function(a,b){
         if(a.year < b.year) return 1;
         if(a.year > b.year) return -1;
         if(orderRule.indexOf(a.season) < orderRule.indexOf(b.season)) return 1;
