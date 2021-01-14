@@ -8,10 +8,10 @@
         :max="100"
         :interval="0.1"
         width="70%"
-        :clickable=true
-        :drag-on-click=true
-        @dragging=dragBar(value)
-        @drag-end=dragBar(value)
+        :clickable="true"
+        :drag-on-click="true"
+        @dragging="dragBar(value)"
+        @drag-end="dragBar(value)"
       />
       <p>{{ displayBarTime }}/{{ displayMaxTime }}</p>
     </div>
@@ -22,10 +22,10 @@
         id="move_few_back"
         small
         color="grey lighten-3"
-        @click="moveFewSeconds(-10)"
         class="mr-3"
+        @click="moveFewSeconds(-10)"
       >
-        <i class="fas fa-backward mr-1"></i>
+        <i class="fas fa-backward mr-1" />
         10秒戻る
       </v-btn>
       <v-btn
@@ -36,7 +36,7 @@
         @click="timerStart"
       >
         スタート
-        <i class="far fa-play-circle ml-1"></i>
+        <i class="far fa-play-circle ml-1" />
       </v-btn>
       <v-btn
         v-if="timerOn"
@@ -46,17 +46,17 @@
         @click="timerStop"
       >
         ストップ
-        <i class="far fa-stop-circle ml-1"></i>
+        <i class="far fa-stop-circle ml-1" />
       </v-btn>
       <v-btn
         id="move_few_front"
         small
         color="grey lighten-3"
-        @click="moveFewSeconds(10)"
         class="ml-3"
+        @click="moveFewSeconds(10)"
       >
         10秒進む
-        <i class="fas fa-forward ml-1"></i>
+        <i class="fas fa-forward ml-1" />
       </v-btn>
     </div>
   </div>

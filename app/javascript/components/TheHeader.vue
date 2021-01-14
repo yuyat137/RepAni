@@ -5,7 +5,10 @@
       dark
     >
       <v-toolbar-title>
-        <router-link :to="{ name: 'TopIndex' }" class="title-color headline">
+        <router-link
+          :to="{ name: 'TopIndex' }"
+          class="title-color headline"
+        >
           リプアニ
         </router-link>
       </v-toolbar-title>

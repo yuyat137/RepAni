@@ -11,21 +11,31 @@
           </v-breadcrumbs-item>
         </template>
       </v-breadcrumbs>
-      <h2>{{ selectTerm.year }}年{{ selectTerm.season_ja }}</h2>
-      <AnimeList
-        :animes="animes"
-        @select-anime="handleShowAnimeEpisodesDialog"
-      />
-      <AnimeEpisodesDialog
-        ref="dialog"
-        :anime="selectAnime"
-        :episodes="episodes"
-      />
-      <h2>放送時期</h2>
-      <TermList
-        :terms="terms"
-        @select-term="handleShowSelectTerm"
-      />
+      <v-row>
+        <v-col cols="3">
+          <h2>放送時期</h2>
+          <TermList
+            :terms="terms"
+            :select-term="selectTerm"
+            @select-term="handleShowSelectTerm"
+          />
+        </v-col>
+        <v-col cols="5">
+          <h2>アニメ</h2>
+          <AnimeList
+            :animes="animes"
+            :select-anime="selectAnime"
+            @select-anime="handleShowAnimeEpisodesDialog"
+          />
+        </v-col>
+        <v-col cols="4">
+          <h2>エピソード</h2>
+          <EpisodeList
+            :anime="selectAnime"
+            :episodes="episodes"
+          />
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
@@ -33,14 +43,14 @@
 <script>
 import AnimeList from './components/AnimeList'
 import TermList from './components/TermList'
-import AnimeEpisodesDialog from "./components/AnimeEpisodesDialog"
+import EpisodeList from './components/EpisodeList'
 
 export default {
   name: "AnimeIndex",
   components: {
     AnimeList,
     TermList,
-    AnimeEpisodesDialog,
+    EpisodeList,
   },
   data() {
     return {
@@ -77,7 +87,6 @@ export default {
     async handleShowAnimeEpisodesDialog(anime) {
       this.selectAnime = anime;
       this.fetchEpisodes();
-      this.$refs.dialog.open();
     },
     fetchEpisodes() {
       this.$axios.get("episodes", { params: this.selectAnime })
@@ -94,6 +103,9 @@ export default {
       }
     },
     handleShowSelectTerm(term) {
+      this.episodes = [];
+      this.selectAnime = null;
+      this.selectTerm = term;
       this.$axios.get("animes", { params: term })
         .then(res => this.animes = res.data)
         .catch(err => console.log(err.status));

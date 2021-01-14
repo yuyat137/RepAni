@@ -25,15 +25,23 @@
               </span>
             </h2>
             <Timer
+              id="timer"
               ref="timer"
               :episode="selectEpisode"
-              id="timer"
             />
             <AnimeInfo
+              id="anime_info"
               :anime="selectAnime"
               :episode="selectEpisode"
-              id="anime_info"
             />
+            <v-btn
+              id="toOtherEpisode"
+              small
+              color="success"
+              @click="handleShowEpisodesDialog"
+            >
+              別の話へ
+            </v-btn>
           </v-col>
         </v-col>
         <v-col
@@ -47,6 +55,11 @@
             <Tweet :tweet="tweet" />
           </div>
         </v-col>
+        <EpisodesDialog
+          ref="dialog"
+          :anime="selectAnime"
+          :episodes="episodes"
+        />
       </v-row>
     </v-container>
   </div>
@@ -56,6 +69,7 @@
 import Timer from './components/Timer'
 import Tweet from './components/Tweet'
 import AnimeInfo from './components/AnimeInfo'
+import EpisodesDialog from './components/EpisodesDialog'
 const CHECK_INTERVAL_TIME_MSEC = 300
 
 export default {
@@ -64,11 +78,13 @@ export default {
     Timer,
     Tweet,
     AnimeInfo,
+    EpisodesDialog,
   },
   data() {
     return {
       episodeId: this.$route.params.episodeId,
       episode: "",
+      episodes: "",
       selectAnime: "",
       selectEpisode: "",
       stackTweets: [],
@@ -94,50 +110,58 @@ export default {
       ]
     }
   },
-  async created() {
-    await this.fetchAnimeAndEpisode()
-    await this.fetchTweets()
-    this.$watch(
-      function () {
-        return this.$refs.timer.$data.barMsec
-      },
-      function() {
-        if(this.$refs.timer.$data.timerOn && (this.$refs.timer.$data.barMsec - this.prevBarMsec) > CHECK_INTERVAL_TIME_MSEC) {
-          this.stackToShowTweets()
-          this.prevBarMsec = this.$refs.timer.$data.barMsec
-        }
-      }
-    )
-    this.$watch(
-      function () {
-        return this.$refs.timer.$data.timerOn
-      },
-      function() {
-        if (this.$refs.timer.$data.timerOn) {
-          // タイマーが始めったらshowTweetsを空にする
-          this.showTweets = []
-          this.prevBarMsec = this.$refs.timer.$data.barMsec
-          this.fetchTweets()
-        } else {
-          // タイマーが止まったらstackTweetsを空にする
-          this.stackTweets = []
-          this.fetchLastTweet = false
-        }
-      }
-    )
-    /*
-    this.$watch(
-      function () {
-        return (this.$refs.timer.$data.stackTweets < 100) && (!this.fetchLastTweet)
-      },
-      function() {
-        // ここのメソッド内は未実装
-        // ツイート追加で取得する
-      }
-    )
-    */
+  watch: {
+    $route (to, from) {
+      this.init()
+    }
+  },
+  created() {
+    this.init()
   },
   methods: {
+    async init(){
+      await this.fetchAnimeAndEpisode()
+      await this.fetchTweets()
+      this.$watch(
+        function () {
+          return this.$refs.timer.$data.barMsec
+        },
+        function() {
+          if(this.$refs.timer.$data.timerOn && (this.$refs.timer.$data.barMsec - this.prevBarMsec) > CHECK_INTERVAL_TIME_MSEC) {
+            this.stackToShowTweets()
+            this.prevBarMsec = this.$refs.timer.$data.barMsec
+          }
+        }
+      )
+      this.$watch(
+        function () {
+          return this.$refs.timer.$data.timerOn
+        },
+        function() {
+          if (this.$refs.timer.$data.timerOn) {
+            // タイマーが始めったらshowTweetsを空にする
+            this.showTweets = []
+            this.prevBarMsec = this.$refs.timer.$data.barMsec
+            this.fetchTweets()
+          } else {
+            // タイマーが止まったらstackTweetsを空にする
+            this.stackTweets = []
+            this.fetchLastTweet = false
+          }
+        }
+      )
+      /*
+      this.$watch(
+        function () {
+          return (this.$refs.timer.$data.stackTweets < 100) && (!this.fetchLastTweet)
+        },
+        function() {
+          // ここのメソッド内は未実装
+          // ツイート追加で取得する
+        }
+      )
+      */
+    },
     async fetchAnimeAndEpisode() {
       await this.$axios.get("episodes/info", {params: {episode_id: this.$route.params.episodeId }})
         .then(res => {
@@ -166,6 +190,12 @@ export default {
         this.showTweets.unshift(this.stackTweets.shift());
       }
     },
+    async handleShowEpisodesDialog() {
+      await this.$axios.get("episodes", { params: this.selectAnime })
+        .then(res => this.episodes = res.data)
+        .catch(err => console.log(err.status));
+      this.$refs.dialog.open();
+    },
   },
 }
 </script>
@@ -174,6 +204,9 @@ export default {
   margin-top: 40px;
 }
 #anime_info {
-  margin-top: 60px;
+  margin-top: 40px;
+}
+#toOtherEpisode {
+  margin-left: 100px;
 }
 </style>

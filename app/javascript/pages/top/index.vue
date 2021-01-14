@@ -5,7 +5,10 @@
         <v-col
           cols="6"
         >
-          <img src="../../assets/undraw_replay.png" width="100%" />
+          <img
+            src="../../assets/undraw_replay.png"
+            width="100%"
+          >
         </v-col>
         <v-col
           cols="4"
@@ -14,8 +17,8 @@
             :to="{ name: 'AnimeIndex' }"
           >
             <v-card
-              height='20%'
-              class='headline my-5 d-flex align-center'
+              height="20%"
+              class="headline my-5 d-flex align-center"
               color="#70bee6"
               dark
             >
@@ -25,8 +28,8 @@
             </v-card>
           </router-link>
           <v-card
-            height='20%'
-            class='headline my-5 d-flex align-center'
+            height="20%"
+            class="headline my-5 d-flex align-center"
             color="#0174DF"
             dark
           >
@@ -35,8 +38,8 @@
             </p>
           </v-card>
           <v-card
-            height='20%'
-            class='headline my-5 d-flex align-center'
+            height="20%"
+            class="headline my-5 d-flex align-center"
             color="#52cc7a"
             dark
           >
