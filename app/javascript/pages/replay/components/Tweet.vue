@@ -5,7 +5,7 @@
         <div>
           <div class="d-inline-block">
             <img
-              :src="image_path"
+              :src="profileImagePath"
               class="rounded-circle"
               @error="replaceImage"
               width="40px"
@@ -103,7 +103,7 @@ export default {
   },
   data() {
     return {
-      image_path : this.tweet.profile_image_url
+      profileImagePath : this.tweet.profile_image_url
     }
   },
   methods: {
@@ -111,7 +111,7 @@ export default {
       return String(moment(new Date(this.tweet.tweeted_at)).format("YYYY/MM/DD HH:mm:ss"))
     },
     replaceImage () {
-      this.image_path = require("../../../assets/no_image.png")
+      this.profileImagePath = require("../../../assets/no_image.png")
     }
   }
 }

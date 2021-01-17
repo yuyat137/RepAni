@@ -139,7 +139,7 @@ export default {
         },
         function() {
           if (this.$refs.timer.$data.timerOn) {
-            // タイマーが始めったらshowTweetsを空にする
+            // タイマーが始まったらshowTweetsを空にする
             this.showTweets = []
             this.prevBarMsec = this.$refs.timer.$data.barMsec
             this.fetchTweets()
@@ -187,6 +187,8 @@ export default {
         .catch(err => console.log(err.status));
     },
     stackToShowTweets(){
+      if (this.stackTweets.length == 0) return
+
       while (this.stackTweets[0].progress_time_msec <= this.$refs.timer.$data.barMsec && !this.showTweets.includes(this.stackTweets[0])) {
         this.showTweets.unshift(this.stackTweets.shift());
       }
