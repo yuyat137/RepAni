@@ -5,8 +5,11 @@
         <div>
           <div class="d-inline-block">
             <img
-              :src="tweet.profile_image_url"
+              :src="image_path"
               class="rounded-circle"
+              @error="replaceImage"
+              width="40px"
+              height="40px"
             >
           </div>
           <div class="d-inline-block">
@@ -87,7 +90,6 @@
   </div>
 </template>
 <script>
-//memo:  onError="this.onerror=null;this.src='https://pbs.twimg.com/profile_images/1061815280442105857/RLpkoVSp_normal.jpg';"
 import moment from 'moment';
 require("moment-duration-format");
 
@@ -101,11 +103,15 @@ export default {
   },
   data() {
     return {
+      image_path : this.tweet.profile_image_url
     }
   },
   methods: {
     tweeted_at() {
       return String(moment(new Date(this.tweet.tweeted_at)).format("YYYY/MM/DD HH:mm:ss"))
+    },
+    replaceImage () {
+      this.image_path = require("../../../assets/no_image.png")
     }
   }
 }
