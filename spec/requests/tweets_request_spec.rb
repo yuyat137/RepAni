@@ -12,7 +12,7 @@ RSpec.describe "Api::Tweets", type: :request do
       expect(response).to have_http_status(200)
       expect(json['tweets'].length).to eq(tweets.length)
       expect(json['tweets'].first['text']).to eq(tweets.first.text)
-      expect(json['fetch_last_tweet']).to be true
+      expect(json['last_tweet_exists']).to be true
     end
   end
   context '最後のツイートを取得しない場合' do
@@ -23,7 +23,7 @@ RSpec.describe "Api::Tweets", type: :request do
       expect(response).to have_http_status(200)
       expect(json['tweets'].length).to eq(300)
       expect(json['tweets'].first['text']).to eq(tweets.first.text)
-      expect(json['fetch_last_tweet']).to be false
+      expect(json['last_tweet_exists']).to be false
     end
   end
 end
