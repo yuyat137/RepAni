@@ -71,6 +71,7 @@ import Tweet from './components/Tweet'
 import AnimeInfo from './components/AnimeInfo'
 import EpisodesDialog from './components/EpisodesDialog'
 const CHECK_INTERVAL_TIME_MSEC = 300
+const CUT_SHOW_TWEETS_NUM = 30
 
 export default {
   name: "ReplayIndex",
@@ -130,6 +131,9 @@ export default {
           if(this.$refs.timer.$data.timerOn && (this.$refs.timer.$data.barMsec - this.prevBarMsec) > CHECK_INTERVAL_TIME_MSEC) {
             this.stackToShowTweets()
             this.prevBarMsec = this.$refs.timer.$data.barMsec
+            this.removeSomeShowTweets()
+            // 既に削除された画像のリンクにアクセスした際、エラーログが表示されて大量のログがブラウザに残るため
+            console.clear()
           }
         }
       )
@@ -203,6 +207,11 @@ export default {
         .catch(err => console.log(err.status));
       this.$refs.dialog.open();
     },
+    removeSomeShowTweets(){
+      while(this.showTweets.length > CUT_SHOW_TWEETS_NUM) {
+        this.showTweets.splice((this.showTweets.length - 10), 10)
+      }
+    }
   },
 }
 </script>
