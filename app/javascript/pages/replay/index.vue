@@ -89,8 +89,9 @@ export default {
       selectAnime: {},
       stackTweets: [],
       showTweets: [],
-      fetchLastTweet: false,
+      lastTweetExists: false,
       prevBarMsec: 0,
+      isFetchTweets: false,
       items: [
         {
           text: 'トップ',
@@ -121,7 +122,6 @@ export default {
   methods: {
     async init(){
       await this.fetchAnimeAndEpisode()
-      await this.fetchTweets()
       this.$watch(
         function () {
           return this.$refs.timer.$data.barMsec
@@ -142,25 +142,23 @@ export default {
             // タイマーが始まったらshowTweetsを空にする
             this.showTweets = []
             this.prevBarMsec = this.$refs.timer.$data.barMsec
-            this.fetchTweets()
           } else {
             // タイマーが止まったらstackTweetsを空にする
             this.stackTweets = []
-            this.fetchLastTweet = false
+            this.lastTweetExists = false
           }
         }
       )
-      /*
       this.$watch(
         function () {
-          return (this.$refs.timer.$data.stackTweets < 100) && (!this.fetchLastTweet)
+          return (this.$refs.timer.$data.timerOn) &&
+                 (this.stackTweets.length < 100) &&
+                 (!this.lastTweetExists)
         },
         function() {
-          // ここのメソッド内は未実装
-          // ツイート追加で取得する
+          this.fetchTweets()
         }
       )
-      */
     },
     async fetchAnimeAndEpisode() {
       await this.$axios.get("episodes/info", {params: {episode_id: this.$route.params.episodeId }})
@@ -171,6 +169,10 @@ export default {
         .catch(err => console.log(err.status));
     },
     async fetchTweets() {
+      if (this.isFetchTweets) return
+
+      this.isFetchTweets = true
+
       // 実際の実装では=とせずstackTweetsに追加するようにする
       //TODO: パラメーターのprogressを取りたい
       let tweet_id = ""
@@ -180,11 +182,13 @@ export default {
       }
       await this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, tweet_id: tweet_id, progress_time_msec: this.$refs.timer.$data.barMsec}})
         .then(res => {
-          this.stackTweets = res.data.tweets
-          this.fetchLastTweet = res.data.fetch_last_tweet
+          this.stackTweets.push(...res.data.tweets)
+          this.lastTweetExists = res.data.last_tweet_exists
           res = null
         })
         .catch(err => console.log(err.status));
+
+      this.isFetchTweets = false
     },
     stackToShowTweets(){
       if (this.stackTweets.length == 0) return
