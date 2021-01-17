@@ -42,7 +42,7 @@ export default {
   props: {
     anime: {
       type: Object,
-      required: true
+      required: false
     },
     episodes: {
       type: Array,
