@@ -8,10 +8,10 @@
         :max="100"
         :interval="0.1"
         width="70%"
-        :clickable=true
-        :drag-on-click=true
-        @dragging=dragBar(value)
-        @drag-end=dragBar(value)
+        :clickable="true"
+        :drag-on-click="true"
+        @dragging="dragBar"
+        @drag-end="dragBar"
       />
       <p>{{ displayBarTime }}/{{ displayMaxTime }}</p>
     </div>
@@ -22,10 +22,10 @@
         id="move_few_back"
         small
         color="grey lighten-3"
-        @click="moveFewSeconds(-10)"
         class="mr-3"
+        @click="moveFewSeconds(-10)"
       >
-        <i class="fas fa-backward mr-1"></i>
+        <i class="fas fa-backward mr-1" />
         10秒戻る
       </v-btn>
       <v-btn
@@ -36,7 +36,7 @@
         @click="timerStart"
       >
         スタート
-        <i class="far fa-play-circle ml-1"></i>
+        <i class="far fa-play-circle ml-1" />
       </v-btn>
       <v-btn
         v-if="timerOn"
@@ -46,17 +46,17 @@
         @click="timerStop"
       >
         ストップ
-        <i class="far fa-stop-circle ml-1"></i>
+        <i class="far fa-stop-circle ml-1" />
       </v-btn>
       <v-btn
         id="move_few_front"
         small
         color="grey lighten-3"
-        @click="moveFewSeconds(10)"
         class="ml-3"
+        @click="moveFewSeconds(10)"
       >
         10秒進む
-        <i class="fas fa-forward ml-1"></i>
+        <i class="fas fa-forward ml-1" />
       </v-btn>
     </div>
   </div>
@@ -99,15 +99,7 @@ export default {
       timerObj: "",
     }
   },
-  watch: {
-    displayBarTime: function(){
-      if(this.timerOn) {
-        //NOTE: moveBarProcessメソッド内に下記処理を書くと、100ミリ秒ごと実行され、ドラッグ時にドラッグ先のvalueにならない不具合が生じる。
-        this.value = (this.barMsec / this.maxAirMsec * CONVERTING_PERCENT_AND_PROPORTION)
-      }
-    }
-  },
-  async created() {
+  created() {
     this.maxAirMsec = this.episode.air_time * MINUTES_TO_SECONDS * SECONDS_TO_MSEC
     this.displayMaxTime = this.msecToDisplayTime(this.maxAirMsec)
     this.timerObj = setInterval(()=>{
@@ -134,13 +126,19 @@ export default {
       this.timerOn = false
       this.msecWhenStarted = this.barMsec
     },
-    dragBar(value){
+    dragBar(){
       this.timerStop()
+      // NOTE:画面のバーのレイアウトより、何%進んだかを取得している(この値はvalueと一致する)
+      //      以下のように実装しないと、画面では50%くらい進んでも、this.valueにはドラッグ前の値が入っていて、
+      //      スタートボタンを押した瞬間、ドラッグ前の時間に戻るという不具合が発生するため。
+      //      恐らく原因は、100ミリ秒ごとにthis.valueを更新しているので、ドラッグしても、その次の瞬間this.value値が更新されるため
+      let value = document.getElementsByClassName("vue-slider-dot-focus")[0].getAttribute("aria-valuetext")
       this.moveBarProcess(this.convertBarValueToMsec(value))
     },
     moveBarProcess(msecAfterMove) {
       this.barMsec = msecAfterMove
       this.displayBarTime = this.msecToDisplayTime(this.barMsec)
+      this.value = (this.barMsec / this.maxAirMsec * CONVERTING_PERCENT_AND_PROPORTION)
     },
     convertBarValueToMsec(value) {
       return (this.maxAirMsec * (value / CONVERTING_PERCENT_AND_PROPORTION))

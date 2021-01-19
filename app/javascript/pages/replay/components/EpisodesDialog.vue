@@ -16,9 +16,13 @@
               v-for="episode in publicEpisodes"
               :key="episode.id"
             >
-              <router-link :to="{ name: 'ReplayIndex', params: { episodeId: episode.id }}">
+              <a
+                :id="'episode_' + episode.num"
+                class="other-episode"
+                @click="toOtherEpisode(episode)"
+              >
                 {{ episode.num }}話 {{ displayTitle(episode) }}
-              </router-link>
+              </a>
             </div>
           </v-card-text>
         </v-card>
@@ -28,7 +32,7 @@
 </template>
 <script>
 export default({
-  name: 'AnimeEpisodesDialog',
+  name: 'EpisodesDialog',
   props: {
     anime: {
       required: true,
@@ -57,7 +61,11 @@ export default({
     },
     displayTitle(episode) {
       return '「' + episode.subtitle + '」'
-    }
+    },
+    toOtherEpisode(episode) {
+      this.dialog = false
+      this.$router.push({ name: 'ReplayIndex', params: { episodeId: episode.id }})
+    },
   }
 })
 </script>

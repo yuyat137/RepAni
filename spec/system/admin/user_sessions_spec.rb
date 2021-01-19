@@ -46,8 +46,9 @@ RSpec.describe 'admin/user_sessions', type: :system do
     it 'ログアウトできる' do
       visit admin_root_path
       click_on 'ログアウト'
-      expect(page).to have_content('ログアウトしました')
       expect(current_path).to eq root_path
+      visit admin_root_path
+      expect(page).to have_content('ログインしてください')
     end
   end
   describe 'ログイン制御' do

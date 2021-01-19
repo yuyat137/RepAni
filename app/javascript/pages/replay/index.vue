@@ -25,15 +25,23 @@
               </span>
             </h2>
             <Timer
+              id="timer"
               ref="timer"
               :episode="selectEpisode"
-              id="timer"
             />
             <AnimeInfo
+              id="anime_info"
               :anime="selectAnime"
               :episode="selectEpisode"
-              id="anime_info"
             />
+            <v-btn
+              id="toOtherEpisode"
+              small
+              color="success"
+              @click="handleShowEpisodesDialog"
+            >
+              別の話へ
+            </v-btn>
           </v-col>
         </v-col>
         <v-col
@@ -47,6 +55,11 @@
             <Tweet :tweet="tweet" />
           </div>
         </v-col>
+        <EpisodesDialog
+          ref="dialog"
+          :anime="selectAnime"
+          :episodes="episodes"
+        />
       </v-row>
     </v-container>
   </div>
@@ -56,7 +69,9 @@
 import Timer from './components/Timer'
 import Tweet from './components/Tweet'
 import AnimeInfo from './components/AnimeInfo'
+import EpisodesDialog from './components/EpisodesDialog'
 const CHECK_INTERVAL_TIME_MSEC = 300
+const CUT_SHOW_TWEETS_NUM = 30
 
 export default {
   name: "ReplayIndex",
@@ -64,17 +79,20 @@ export default {
     Timer,
     Tweet,
     AnimeInfo,
+    EpisodesDialog,
   },
   data() {
     return {
       episodeId: this.$route.params.episodeId,
-      episode: "",
-      selectAnime: "",
+      //selectEpisodeの初期値を{}とすると、Timer.vueにセットされた値が渡るタイミングが遅く、エラーとなる
       selectEpisode: "",
+      episodes: [],
+      selectAnime: {},
       stackTweets: [],
       showTweets: [],
-      fetchLastTweet: false,
+      lastTweetExists: false,
       prevBarMsec: 0,
+      isFetchTweets: false,
       items: [
         {
           text: 'トップ',
@@ -94,50 +112,58 @@ export default {
       ]
     }
   },
-  async created() {
-    await this.fetchAnimeAndEpisode()
-    await this.fetchTweets()
-    this.$watch(
-      function () {
-        return this.$refs.timer.$data.barMsec
-      },
-      function() {
-        if(this.$refs.timer.$data.timerOn && (this.$refs.timer.$data.barMsec - this.prevBarMsec) > CHECK_INTERVAL_TIME_MSEC) {
-          this.stackToShowTweets()
-          this.prevBarMsec = this.$refs.timer.$data.barMsec
-        }
-      }
-    )
-    this.$watch(
-      function () {
-        return this.$refs.timer.$data.timerOn
-      },
-      function() {
-        if (this.$refs.timer.$data.timerOn) {
-          // タイマーが始めったらshowTweetsを空にする
-          this.showTweets = []
-          this.prevBarMsec = this.$refs.timer.$data.barMsec
-          this.fetchTweets()
-        } else {
-          // タイマーが止まったらstackTweetsを空にする
-          this.stackTweets = []
-          this.fetchLastTweet = false
-        }
-      }
-    )
-    /*
-    this.$watch(
-      function () {
-        return (this.$refs.timer.$data.stackTweets < 100) && (!this.fetchLastTweet)
-      },
-      function() {
-        // ここのメソッド内は未実装
-        // ツイート追加で取得する
-      }
-    )
-    */
+  watch: {
+    $route (to, from) {
+      this.init()
+    }
+  },
+  created() {
+    this.init()
   },
   methods: {
+    async init(){
+      await this.fetchAnimeAndEpisode()
+      this.$watch(
+        function () {
+          return this.$refs.timer.$data.barMsec
+        },
+        function() {
+          if(this.$refs.timer.$data.timerOn && (this.$refs.timer.$data.barMsec - this.prevBarMsec) > CHECK_INTERVAL_TIME_MSEC) {
+            this.stackToShowTweets()
+            this.prevBarMsec = this.$refs.timer.$data.barMsec
+            this.removeSomeShowTweets()
+            // 既に削除された画像のリンクにアクセスした際、エラーログが表示されて大量のログがブラウザに残るため
+            console.clear()
+          }
+        }
+      )
+      this.$watch(
+        function () {
+          return this.$refs.timer.$data.timerOn
+        },
+        function() {
+          if (this.$refs.timer.$data.timerOn) {
+            // タイマーが始まったらshowTweetsを空にする
+            this.showTweets = []
+            this.prevBarMsec = this.$refs.timer.$data.barMsec
+          } else {
+            // タイマーが止まったらstackTweetsを空にする
+            this.stackTweets = []
+            this.lastTweetExists = false
+          }
+        }
+      )
+      this.$watch(
+        function () {
+          return (this.$refs.timer.$data.timerOn) &&
+                 (this.stackTweets.length < 100) &&
+                 (!this.lastTweetExists)
+        },
+        function() {
+          this.fetchTweets()
+        }
+      )
+    },
     async fetchAnimeAndEpisode() {
       await this.$axios.get("episodes/info", {params: {episode_id: this.$route.params.episodeId }})
         .then(res => {
@@ -147,25 +173,45 @@ export default {
         .catch(err => console.log(err.status));
     },
     async fetchTweets() {
+      if (this.isFetchTweets) return
+
+      this.isFetchTweets = true
+
       // 実際の実装では=とせずstackTweetsに追加するようにする
       //TODO: パラメーターのprogressを取りたい
       let tweet_id = ""
       if(this.stackTweets.length) {
-        tweet_id = this.stackTweets.last.id
+        let lastTweet = this.stackTweets[this.stackTweets.length - 1]
+        tweet_id = lastTweet.id
       }
       await this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, tweet_id: tweet_id, progress_time_msec: this.$refs.timer.$data.barMsec}})
         .then(res => {
-          this.stackTweets = res.data.tweets
-          this.fetchLastTweet = res.data.fetch_last_tweet
+          this.stackTweets.push(...res.data.tweets)
+          this.lastTweetExists = res.data.last_tweet_exists
           res = null
         })
         .catch(err => console.log(err.status));
+
+      this.isFetchTweets = false
     },
     stackToShowTweets(){
+      if (this.stackTweets.length == 0) return
+
       while (this.stackTweets[0].progress_time_msec <= this.$refs.timer.$data.barMsec && !this.showTweets.includes(this.stackTweets[0])) {
         this.showTweets.unshift(this.stackTweets.shift());
       }
     },
+    async handleShowEpisodesDialog() {
+      await this.$axios.get("episodes", { params: this.selectAnime })
+        .then(res => this.episodes = res.data)
+        .catch(err => console.log(err.status));
+      this.$refs.dialog.open();
+    },
+    removeSomeShowTweets(){
+      while(this.showTweets.length > CUT_SHOW_TWEETS_NUM) {
+        this.showTweets.splice((this.showTweets.length - 10), 10)
+      }
+    }
   },
 }
 </script>
@@ -174,6 +220,9 @@ export default {
   margin-top: 40px;
 }
 #anime_info {
-  margin-top: 60px;
+  margin-top: 40px;
+}
+#toOtherEpisode {
+  margin-left: 100px;
 }
 </style>
