@@ -18,6 +18,7 @@
           <div id="to_anime_list">
             <router-link
               :to="{ name: 'AnimeIndex' }"
+              class="text-decoration-none"
             >
               <v-card
                 class="headline d-flex align-center"
