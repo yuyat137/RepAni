@@ -15,7 +15,7 @@
             id="episodes_list"
           >
             <tr
-              v-for="episode in episodes"
+              v-for="episode in publicEpisodes"
               :id="'episode_' + episode.id"
               :key="episode.id"
               @click="goToReplayIndex(episode.id)"

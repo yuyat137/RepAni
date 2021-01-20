@@ -19,7 +19,7 @@ RSpec.describe 'Replay', type: :system do
         click_on '別の話へ'
         other_episode = anime.episodes.last
         find("#episode_#{other_episode.num}").click
-        expect(page).to have_content("#{other_episode.num}話 『#{other_episode.subtitle}』")
+        expect(page).to have_content("#{other_episode.num}話 「#{other_episode.subtitle}」")
         expect(page).not_to have_content(episode.subtitle)
       end
       it '表示されるエピソード数が正しい' do

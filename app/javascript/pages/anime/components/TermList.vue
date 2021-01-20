@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container class="grey lighten-5">
-      <v-row>
+      <v-row id="terms_list">
         <v-card
           v-for="term in sortedTerms"
           :id="'term_' + term.id"

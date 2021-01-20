@@ -10,7 +10,7 @@
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="animes_list">
             <tr
               v-for="anime in sortedPublicAnimes"
               :id="'anime_' + anime.id"
