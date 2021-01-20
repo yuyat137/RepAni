@@ -13,20 +13,22 @@
         <v-col
           cols="4"
         >
-          <router-link
-            :to="{ name: 'AnimeIndex' }"
-          >
-            <v-card
-              class="headline d-flex align-center"
-              color="#70bee6"
-              height="25%"
-              dark
+          <div id="to_anime_list">
+            <router-link
+              :to="{ name: 'AnimeIndex' }"
             >
-              <p class="mx-auto my-0">
-                アニメを探す
-              </p>
-            </v-card>
-          </router-link>
+              <v-card
+                class="headline d-flex align-center"
+                color="#70bee6"
+                height="25%"
+                dark
+              >
+                <p class="mx-auto my-0">
+                  アニメを探す
+                </p>
+              </v-card>
+            </router-link>
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -38,3 +40,10 @@ export default {
   name: "TopIndex",
 }
 </script>
+
+<style scoped>
+#to_anime_list {
+  margin-top: 200px;
+  height: 80%;
+}
+</style>
