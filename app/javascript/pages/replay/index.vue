@@ -9,8 +9,7 @@
           <v-breadcrumbs :items="items">
             <template v-slot:item="{ item }">
               <v-breadcrumbs-item
-                :href="item.href"
-                :disabled="item.disabled"
+                :to="item.to"
               >
                 {{ item.text.toUpperCase() }}
               </v-breadcrumbs-item>
@@ -96,18 +95,15 @@ export default {
       items: [
         {
           text: 'トップ',
-          disabled: false,
-          href: '/',
+          to: '/',
         },
         {
           text: '放送時期',
-          disabled: false,
-          href: '/anime',
+          to: '/anime',
         },
         {
           text: 'アニメ',
-          disabled: true,
-          href: '',
+          to: '',
         },
       ]
     }
