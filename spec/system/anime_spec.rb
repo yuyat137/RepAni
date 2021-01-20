@@ -24,7 +24,7 @@ RSpec.describe 'Anime', type: :system do
     let!(:private_anime) { create(:anime, :with_now_term, public: false) }
     let!(:term) { create(:term) }
     before do
-      animes = create_list(:anime, 10)
+      animes = create_list(:anime, 10, public: true)
       animes.each { |anime| create(:anime_term, anime_id: anime.id, term_id: term.id) }
     end
     it '公開中のアニメのみ表示される' do
