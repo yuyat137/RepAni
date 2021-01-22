@@ -5,48 +5,33 @@
         <v-col
           cols="6"
         >
-          <img
-            src="../../assets/undraw_replay.png"
-            width="100%"
-          >
+          <div class="text-end align-middle mt-5">
+            <img
+              src="../../assets/undraw_replay.png"
+              width="100%"
+            >
+          </div>
         </v-col>
         <v-col
-          cols="4"
+          cols="6"
         >
-          <router-link
-            :to="{ name: 'AnimeIndex' }"
-          >
-            <v-card
-              height="20%"
-              class="headline my-5 d-flex align-center"
-              color="#70bee6"
-              dark
+          <div id="to_anime_list">
+            <router-link
+              :to="{ name: 'AnimeIndex' }"
+              class="text-decoration-none"
             >
-              <p class="mx-auto my-0">
-                放送時期から探す
-              </p>
-            </v-card>
-          </router-link>
-          <v-card
-            height="20%"
-            class="headline my-5 d-flex align-center"
-            color="#0174DF"
-            dark
-          >
-            <p class="mx-auto my-0">
-              未実装
-            </p>
-          </v-card>
-          <v-card
-            height="20%"
-            class="headline my-5 d-flex align-center"
-            color="#52cc7a"
-            dark
-          >
-            <p class="mx-auto my-0">
-              未実装
-            </p>
-          </v-card>
+              <v-card
+                class="headline d-flex align-center"
+                color="#70bee6"
+                height="25%"
+                dark
+              >
+                <p class="mx-auto my-0">
+                  アニメを探す
+                </p>
+              </v-card>
+            </router-link>
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -58,3 +43,11 @@ export default {
   name: "TopIndex",
 }
 </script>
+
+<style scoped>
+#to_anime_list {
+  margin-top: 200px;
+  height: 80%;
+  width: 80%;
+}
+</style>

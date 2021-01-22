@@ -7,7 +7,7 @@
       <v-toolbar-title>
         <router-link
           :to="{ name: 'TopIndex' }"
-          class="title-color headline"
+          class="title-color headline text-decoration-none"
         >
           リプアニ
         </router-link>
