@@ -26,3 +26,9 @@ Twitterのアニメ実況再現アプリ
 ## マーケット
 - アニメをリアタイできなかった人
 - Twitterでの実況を見ながらアニメを楽しみたい人
+
+## テーブル設計
+<img width="70%" src="erd.png">
+
+## インフラ構成図
+<img width="60%" src="repani.png">
