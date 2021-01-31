@@ -1,5 +1,5 @@
 class Admin::BaseController < ApplicationController
-  protect_from_forgery with: :exception
+  protect_from_forgery
   layout 'admin/layouts/application'
   before_action :require_admin_login
   before_action :require_admin_role
