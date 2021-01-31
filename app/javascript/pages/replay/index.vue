@@ -71,6 +71,7 @@ import AnimeInfo from './components/AnimeInfo'
 import EpisodesDialog from './components/EpisodesDialog'
 const CHECK_INTERVAL_TIME_MSEC = 300
 const CUT_SHOW_TWEETS_NUM = 30
+const CHECK_STACK_TWEETS_NUM = 100
 
 export default {
   name: "ReplayIndex",
@@ -152,7 +153,7 @@ export default {
       this.$watch(
         function () {
           return (this.$refs.timer.$data.timerOn) &&
-                 (this.stackTweets.length < 100) &&
+                 (this.stackTweets.length < CHECK_STACK_TWEETS_NUM) &&
                  (!this.lastTweetExists)
         },
         function() {

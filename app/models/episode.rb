@@ -8,7 +8,7 @@ class Episode < ApplicationRecord
   validates :air_time, presence: true
   validates :public, inclusion: [true, false]
 
-  RETURN_TWEETS_NUM = 300
+  RETURN_TWEETS_NUM = 120
 
   def import_associate_tweets(max_tweet_id)
     return unless broadcast_datetime
