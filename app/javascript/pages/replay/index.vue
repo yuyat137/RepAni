@@ -188,8 +188,8 @@ export default {
           res = null
         })
         .catch(err => console.log(err.status));
-      this.isFetchTweets = false
 
+      this.isFetchTweets = false
     },
     stackToShowTweets(){
       if (this.stackTweets.length == 0) return
