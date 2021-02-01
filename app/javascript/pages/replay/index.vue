@@ -179,7 +179,7 @@ export default {
       let tweet_id = ""
       if(this.stackTweets.length) {
         let lastTweet = this.stackTweets[this.stackTweets.length - 1]
-        tweet_id = lastTweet.id
+        tweet_id = lastTweet.tweet_id
       }
       await this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, tweet_id: tweet_id, progress_time_msec: this.$refs.timer.$data.barMsec}})
         .then(res => {
@@ -188,13 +188,17 @@ export default {
           res = null
         })
         .catch(err => console.log(err.status));
-
       this.isFetchTweets = false
+
     },
     stackToShowTweets(){
       if (this.stackTweets.length == 0) return
 
-      while (this.stackTweets[0].progress_time_msec <= this.$refs.timer.$data.barMsec && !this.showTweets.includes(this.stackTweets[0])) {
+      while (this.stackTweets[0].progress_time_msec <= this.$refs.timer.$data.barMsec) {
+        if (this.showTweets.includes(this.stackTweets[0])) {
+          this.stackTweets.shift()
+          continue
+        }
         this.showTweets.unshift(this.stackTweets.shift());
       }
     },
@@ -208,7 +212,7 @@ export default {
       while(this.showTweets.length > CUT_SHOW_TWEETS_NUM) {
         this.showTweets.splice((this.showTweets.length - 10), 10)
       }
-    }
+    },
   },
 }
 </script>
