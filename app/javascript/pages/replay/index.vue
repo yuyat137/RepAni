@@ -71,6 +71,7 @@ import AnimeInfo from './components/AnimeInfo'
 import EpisodesDialog from './components/EpisodesDialog'
 const CHECK_INTERVAL_TIME_MSEC = 300
 const CUT_SHOW_TWEETS_NUM = 30
+const CHECK_STACK_TWEETS_NUM = 100
 
 export default {
   name: "ReplayIndex",
@@ -152,7 +153,7 @@ export default {
       this.$watch(
         function () {
           return (this.$refs.timer.$data.timerOn) &&
-                 (this.stackTweets.length < 100) &&
+                 (this.stackTweets.length < CHECK_STACK_TWEETS_NUM) &&
                  (!this.lastTweetExists)
         },
         function() {
@@ -178,7 +179,7 @@ export default {
       let tweet_id = ""
       if(this.stackTweets.length) {
         let lastTweet = this.stackTweets[this.stackTweets.length - 1]
-        tweet_id = lastTweet.id
+        tweet_id = lastTweet.tweet_id
       }
       await this.$axios.get("tweets", {params: {episode_id: this.selectEpisode.id, tweet_id: tweet_id, progress_time_msec: this.$refs.timer.$data.barMsec}})
         .then(res => {
@@ -193,7 +194,11 @@ export default {
     stackToShowTweets(){
       if (this.stackTweets.length == 0) return
 
-      while (this.stackTweets[0].progress_time_msec <= this.$refs.timer.$data.barMsec && !this.showTweets.includes(this.stackTweets[0])) {
+      while (this.stackTweets[0].progress_time_msec <= this.$refs.timer.$data.barMsec) {
+        if (this.showTweets.includes(this.stackTweets[0])) {
+          this.stackTweets.shift()
+          continue
+        }
         this.showTweets.unshift(this.stackTweets.shift());
       }
     },
@@ -207,7 +212,7 @@ export default {
       while(this.showTweets.length > CUT_SHOW_TWEETS_NUM) {
         this.showTweets.splice((this.showTweets.length - 10), 10)
       }
-    }
+    },
   },
 }
 </script>
