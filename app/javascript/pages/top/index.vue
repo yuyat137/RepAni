@@ -1,37 +1,100 @@
 <template>
   <div>
     <v-container>
-      <v-row>
+      <v-row id="top">
         <v-col
-          cols="6"
+          cols="4"
+          offset=1
+          id="description"
+          class="d-flex flex-column justify-space-around"
         >
-          <div class="text-end align-middle mt-5">
+          <div class="text-center">
             <img
-              src="../../assets/undraw_replay.png"
-              width="100%"
+              src="../../assets/logo.png"
+              width="80%"
             >
           </div>
-        </v-col>
-        <v-col
-          cols="6"
-        >
-          <div id="to_anime_list">
+          <div>
+            <p class="text-center my-0">
+              アニメ放送時のTLを再現
+            </p>
+          </div>
+          <div id="to_anime_lists">
             <router-link
               :to="{ name: 'AnimeIndex' }"
               class="text-decoration-none"
             >
               <v-card
-                class="headline d-flex align-center"
+                class="headline d-flex align-center mx-auto"
                 color="#70bee6"
-                height="25%"
+                width="70%"
                 dark
               >
-                <p class="mx-auto my-0">
+                <p class="py-3 mx-auto my-0">
                   アニメを探す
                 </p>
               </v-card>
             </router-link>
           </div>
+        </v-col>
+        <v-col
+          cols="7"
+        >
+          <div class="py-5 my-5">
+            <img
+              src="../../assets/repani.png"
+              width="80%"
+            >
+          </div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col
+          cols="4"
+          offset=2
+        >
+          <img
+            src="../../assets/audio_conversation.png"
+            width="100%"
+          >
+        </v-col>
+        <v-col
+          cols="4"
+          class="p-0"
+        >
+          <p class="text-center">皆の反応を見ながらアニメを楽しみたい</p>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col
+          cols="4"
+          offset=2
+        >
+          <p class="text-center">アニメ放送時のTwitterを再現</p>
+        </v-col>
+        <v-col
+          cols="4"
+        >
+          <img
+            src="../../assets/work_chat.png"
+            width="100%"
+          >
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col
+          cols="4"
+          offset=2
+        >
+          <img
+            src="../../assets/happy_announcement.png"
+            width="100%"
+          >
+        </v-col>
+        <v-col
+          cols="4"
+        >
+          <p class="text-center">120%アニメを楽しむ</p>
         </v-col>
       </v-row>
     </v-container>
@@ -45,9 +108,15 @@ export default {
 </script>
 
 <style scoped>
+#top {
+  height: 90vh;
+}
+#description {
+ height: 70%;
+}
 #to_anime_list {
-  margin-top: 200px;
   height: 80%;
   width: 80%;
 }
+
 </style>

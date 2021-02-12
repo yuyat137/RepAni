@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="my-5">
+  <div class="mb-5">
+    <div>
       <vue-slider
         v-model="value"
         :tooltip="'none'"
@@ -161,3 +161,11 @@ export default {
   },
 }
 </script>
+<style>
+.vue-slider-rail {
+  background-color: #90CAF9;
+}
+.vue-slider:hover .vue-slider-rail {
+  background-color: #80DEEA;
+}
+</style>
