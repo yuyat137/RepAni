@@ -42,7 +42,7 @@
         >
           <div class="py-5 my-5">
             <img
-              src="../../assets/repani.png"
+              src="../../assets/messages2.png"
               width="80%"
             >
           </div>
