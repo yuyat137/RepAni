@@ -36,9 +36,10 @@
           cols="7"
         >
           <div class="py-5 my-5">
+          <a href="https://startup-technology.gyazo.com/93d6cd419fc22942f0fffd9d0bb01f04"><img src="https://t.gyazo.com/teams/startup-technology/93d6cd419fc22942f0fffd9d0bb01f04.gif" alt="Image from Gyazo" width="50%"/></a>
             <img
-              src="../../assets/top4.png"
-              width="80%"
+              src="../../assets/mac2.png"
+              width="60%"
             >
           </div>
         </v-col>
@@ -46,27 +47,12 @@
       <v-row>
         <v-col
           cols="4"
-          offset=2
         >
           <img
             src="../../assets/audio_conversation.png"
             width="100%"
           >
-        </v-col>
-        <v-col
-          cols="4"
-          class="d-flex align-center justify-center"
-        >
           <p class="text-h6">皆の反応を見ながらアニメを楽しみたい</p>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col
-          cols="4"
-          offset=2
-          class="d-flex align-center justify-center"
-        >
-          <p class="text-h6">アニメ放送時のTwitterを再現</p>
         </v-col>
         <v-col
           cols="4"
@@ -75,22 +61,15 @@
             src="../../assets/work_chat.png"
             width="100%"
           >
+          <p class="text-h6">アニメ放送時のTwitterを再現</p>
         </v-col>
-      </v-row>
-      <v-row>
         <v-col
           cols="4"
-          offset=2
         >
           <img
             src="../../assets/happy_announcement.png"
             width="100%"
           >
-        </v-col>
-        <v-col
-          cols="4"
-          class="d-flex align-center justify-center"
-        >
           <p class="text-h6">120%アニメを楽しむ</p>
         </v-col>
       </v-row>
