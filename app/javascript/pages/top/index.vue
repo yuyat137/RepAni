@@ -10,14 +10,9 @@
         >
           <div class="text-center">
             <img
-              src="../../assets/logo.png"
-              width="80%"
+              src="../../assets/top7.png"
+              width="100%"
             >
-          </div>
-          <div>
-            <p class="text-center my-0">
-              アニメ放送時のTLを再現
-            </p>
           </div>
           <div id="to_anime_lists">
             <router-link
@@ -42,7 +37,7 @@
         >
           <div class="py-5 my-5">
             <img
-              src="../../assets/messages2.png"
+              src="../../assets/top4.png"
               width="80%"
             >
           </div>
@@ -60,17 +55,18 @@
         </v-col>
         <v-col
           cols="4"
-          class="p-0"
+          class="d-flex align-center justify-center"
         >
-          <p class="text-center">皆の反応を見ながらアニメを楽しみたい</p>
+          <p class="text-h6">皆の反応を見ながらアニメを楽しみたい</p>
         </v-col>
       </v-row>
       <v-row>
         <v-col
           cols="4"
           offset=2
+          class="d-flex align-center justify-center"
         >
-          <p class="text-center">アニメ放送時のTwitterを再現</p>
+          <p class="text-h6">アニメ放送時のTwitterを再現</p>
         </v-col>
         <v-col
           cols="4"
@@ -93,8 +89,9 @@
         </v-col>
         <v-col
           cols="4"
+          class="d-flex align-center justify-center"
         >
-          <p class="text-center">120%アニメを楽しむ</p>
+          <p class="text-h6">120%アニメを楽しむ</p>
         </v-col>
       </v-row>
     </v-container>
