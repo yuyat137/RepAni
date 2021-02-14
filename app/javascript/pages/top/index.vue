@@ -1,14 +1,13 @@
 <template>
   <div>
     <v-container>
-      <v-row id="top">
+      <v-row>
         <v-col
           cols="4"
           offset=1
           id="description"
-          class="d-flex flex-column justify-space-around"
         >
-          <div class="text-center">
+          <div class="text-center mt-5">
             <img
               src="../../assets/logo.png"
               width="80%"
@@ -25,7 +24,7 @@
                 width="70%"
                 dark
               >
-                <p class="py-3 mx-auto my-0">
+                <p class="py-1 mx-auto mt-3">
                   アニメを探す
                 </p>
               </v-card>
@@ -51,9 +50,6 @@ export default {
 </script>
 
 <style scoped>
-#top {
-  height: 90vh;
-}
 #description {
  height: 70%;
 }
