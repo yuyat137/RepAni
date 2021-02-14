@@ -103,7 +103,7 @@ export default {
   },
   data() {
     return {
-      profileImagePath : this.tweet.profile_image_url
+      profileImagePath: this.tweet.profile_image_url
     }
   },
   methods: {
