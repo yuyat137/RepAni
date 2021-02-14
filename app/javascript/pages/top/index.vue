@@ -36,7 +36,7 @@
           cols="7"
         >
           <div class="py-5 my-5">
-          <img src="../../assets/AC画像完成.gif" alt="Image from Gyazo" width="70%"/>
+          <img src="../../assets/top-image.gif" alt="Image from Gyazo" width="70%"/>
           </div>
         </v-col>
       </v-row>
