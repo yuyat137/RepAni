@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container class="grey lighten-5">
+    <v-container>
       <v-row id="terms_list">
         <v-card
           v-for="term in sortedTerms"

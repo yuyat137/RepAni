@@ -122,7 +122,8 @@ export default {
       await this.fetchAnimeAndEpisode()
       this.$watch(
         function () {
-          return this.$refs.timer.$data.barMsec
+          //return this.$refs.timer.$data.barMsec
+          return this.$refs.timer.$data.value
         },
         function() {
           if(this.$refs.timer.$data.timerOn && (this.$refs.timer.$data.barMsec - this.prevBarMsec) > CHECK_INTERVAL_TIME_MSEC) {

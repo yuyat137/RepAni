@@ -28,5 +28,6 @@ export default {
 #app {
   position: relative;
   min-height: 100%;
+  background-color: #f6f7f8;
 }
 </style>
