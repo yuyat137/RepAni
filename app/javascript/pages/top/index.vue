@@ -10,8 +10,8 @@
         >
           <div class="text-center">
             <img
-              src="../../assets/top7.png"
-              width="100%"
+              src="../../assets/logo.png"
+              width="80%"
             >
           </div>
           <div id="to_anime_lists">
