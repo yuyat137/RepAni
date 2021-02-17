@@ -45,6 +45,7 @@
         </v-col>
         <v-col
           cols="5"
+          class="mb-5"
         >
           <div
             v-for="tweet in showTweets"
