@@ -17,6 +17,7 @@
     "moment-duration-format": "^2.3.2",
     "turbolinks": "^5.2.0",
     "vue": "^2.6.11",
+    "vue-analytics": "^5.22.1",
     "vue-loader": "^15.9.3",
     "vue-router": "^3.3.4",
     "vue-slider-component": "^3.2.5",
