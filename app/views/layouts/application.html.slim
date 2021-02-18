@@ -9,7 +9,11 @@ html
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
     = favicon_link_tag 'favicon.png'
     = stylesheet_pack_tag 'hello_vue'
-
+    meta property="og:title" content="リプアニ"
+    meta property="og:description" content="アニメ放送時のTLを再現"
+    meta property="og:url" content="https://repani.work/"
+    meta name="twitter:card" content="summary"
+    meta property="og:image" content="https://repani.work/ogp.png"
   body
     section.content
       = render 'admin/layouts/flash_messages'
