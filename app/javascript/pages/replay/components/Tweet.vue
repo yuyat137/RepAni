@@ -2,7 +2,7 @@
   <div>
     <v-card class="pa-2">
       <div class="d-flex justify-space-between">
-        <div>
+        <div class="d-flex justify-start" style="width: 80%;">
           <div class="d-inline-block">
             <img
               :src="profileImagePath"
@@ -12,25 +12,23 @@
               height="40px"
             >
           </div>
-          <div class="d-inline-block">
+          <div class="d-inline-block ml-2" style="width: 90%;">
             <div class="block">
               @{{ tweet.screen_name }}
             </div>
             <div
               class="block"
-              style="white-space: nowrap"
+              style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"
             >
               {{ tweet.name }}
             </div>
           </div>
         </div>
-        <div>
-          <img
-            src="../../../assets/Twitter_Logo_Blue.png"
-            width="35px"
-            height="35px"
-          >
-        </div>
+        <img
+          src="../../../assets/Twitter_Logo_Blue.png"
+          width="35px"
+          height="35px"
+        >
       </div>
       <p style="white-space: pre-line">
         {{ tweet.text }}
