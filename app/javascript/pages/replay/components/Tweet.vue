@@ -2,7 +2,7 @@
   <div>
     <v-card class="pa-2">
       <div class="d-flex justify-space-between">
-        <div>
+        <div class="d-flex justify-start width-80">
           <div class="d-inline-block">
             <img
               :src="profileImagePath"
@@ -12,14 +12,11 @@
               height="40px"
             >
           </div>
-          <div class="d-inline-block">
+          <div class="d-inline-block ml-2 width-90">
             <div class="block">
               @{{ tweet.screen_name }}
             </div>
-            <div
-              class="block"
-              style="white-space: nowrap"
-            >
+            <div class="block user-name">
               {{ tweet.name }}
             </div>
           </div>
@@ -116,3 +113,16 @@ export default {
   }
 }
 </script>
+<style scoped>
+.user-name {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.width-80 {
+  width: 80%;
+}
+.width-90 {
+  width: 90%;
+}
+</style>
